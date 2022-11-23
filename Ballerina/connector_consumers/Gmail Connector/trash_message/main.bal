@@ -1,10 +1,10 @@
 import ballerinax/googleapis.gmail;
 import ballerina/log;
 
-configurable string clientId = "54220665783-dl8rdb15aedc0aj0dv9lon9kckaf8ou9.apps.googleusercontent.com";
-configurable string clientSecret = "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";
-configurable string refreshUrl = "https://oauth2.googleapis.com/token";
-configurable string refreshToken = "1//04xQST4jaXT70CgYIARAAGAQSNwF-L9IrYFgV9tehP8HGUL6-TjBYSICX_PPKpfYFJX2DGZwFOIXPheW5E784LQhsXvwFYUkqO3o";
+configurable string clientId = ?;
+configurable string clientSecret = ?;
+configurable string refreshUrl = ?;
+configurable string refreshToken = ?;
 
 public function main() returns error? {
     
@@ -23,7 +23,7 @@ public function main() returns error? {
     log:printInfo("Trash a message");
 
     // ID of the message to trash.
-    string sentMessageId = "184a2e80092b8d56"; 
+    string sentMessageId = "<MESSAGE_ID>"; 
 
     gmail:Message|error trash = gmailClient->trashMessage(sentMessageId);
 
