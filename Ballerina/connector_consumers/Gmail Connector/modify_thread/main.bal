@@ -1,10 +1,10 @@
 import ballerinax/googleapis.gmail;
 import ballerina/log;
 
-configurable string clientId = "54220665783-dl8rdb15aedc0aj0dv9lon9kckaf8ou9.apps.googleusercontent.com";
-configurable string clientSecret = "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";
-configurable string refreshUrl = "https://oauth2.googleapis.com/token";
-configurable string refreshToken = "1//04xQST4jaXT70CgYIARAAGAQSNwF-L9IrYFgV9tehP8HGUL6-TjBYSICX_PPKpfYFJX2DGZwFOIXPheW5E784LQhsXvwFYUkqO3o";
+configurable string clientId = ?;
+configurable string clientSecret = ?;
+configurable string refreshUrl = ?;
+configurable string refreshToken = ?;
 
 public function main() returns error?{
     
@@ -20,7 +20,7 @@ public function main() returns error?{
 
     log:printInfo("Modify labels in a thread");
     // ID of the thread to modify.
-    string sentMessageThreadId = "184a34d2346fe80c";
+    string sentMessageThreadId = "<THREAD_ID>";
 
     // Modify labels of the thread with thread id which was sent in testSendTextMessage
     log:printInfo("Add labels to a thread");
