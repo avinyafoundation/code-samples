@@ -13,9 +13,6 @@
 #### Update Events
 #### Quick Add Events
 
-<br>
-<br>
-
 ## Config.toml
 #### clientId
 #### clientSecret
