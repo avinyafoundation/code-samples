@@ -13,4 +13,11 @@
 #### Update Events
 #### Quick Add Events
 
-Config.toml
+<br>
+<br>
+
+## Config.toml
+#### clientId
+#### clientSecret
+#### refreshURL
+#### refreshToken
