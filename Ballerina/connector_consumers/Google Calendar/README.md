@@ -1,6 +1,6 @@
-Google Calendar Connectors
+# Google Calendar Connectors
 
-##### Calendar Connectors
-# Create Calendar
-# Get Calendar
-# Delete Calendar
+## Calendar Connectors
+#### Create Calendar
+#### Get Calendar
+#### Delete Calendar
