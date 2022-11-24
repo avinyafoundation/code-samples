@@ -1,10 +1,10 @@
 import ballerinax/googleapis.gmail;
 import ballerina/log;
 
-configurable string clientId = "54220665783-dl8rdb15aedc0aj0dv9lon9kckaf8ou9.apps.googleusercontent.com";
-configurable string clientSecret = "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";
-configurable string refreshUrl = "https://oauth2.googleapis.com/token";
-configurable string refreshToken = "1//04xQST4jaXT70CgYIARAAGAQSNwF-L9IrYFgV9tehP8HGUL6-TjBYSICX_PPKpfYFJX2DGZwFOIXPheW5E784LQhsXvwFYUkqO3o";
+configurable string clientId = ?;
+configurable string clientSecret = ?;
+configurable string refreshUrl = ?;
+configurable string refreshToken = ?;
 
 
 public function main() returns error?{
@@ -22,7 +22,7 @@ public function main() returns error?{
     log:printInfo("Delete label");
     
     // The ID of an already created label that we want to delete
-    string createdLabelId = "Label_2";
+    string createdLabelId = "<LABEL_ID>";
 
     error? deleteLabelResponse = gmailClient->deleteLabel(createdLabelId);
      
