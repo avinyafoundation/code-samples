@@ -1,0 +1,8 @@
+[package]
+org = "rujha"
+name = "Create_Event"
+version = "0.1.0"
+distribution = "2201.2.3"
+
+[build-options]
+observabilityIncluded = true
