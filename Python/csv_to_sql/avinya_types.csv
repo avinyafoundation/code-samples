@@ -1,0 +1,60 @@
+Entity,Name,Global Type,Foundation Type,Focus,Level
+Organization,,,,,
+Avinya Board of Directors,foundation-bod,team,,,12000
+Avinya Foundation,foundation,team,executive,,10000
+"Technology Team, Curriculum Team, Operations Team",foundation-team,team,executive,*,9000
+Avinya Academies,avinya-academies,team,,,4000
+Avinya Academy - Bandaragama,avinya-single-academy,team,,,3000
+"AA Bandaragama - Educators, Bootcamp Program, Vocational Program(s)",academy-team,team,academic,,2000
+Person,,,,,
+Bootcamp Teacher Job Applicant,bootcamp-job-applicant,applicant,academic,empower,0
+Bootcamp Applicant,student-applicant,applicant,student,empower,0
+* Student,student,customer,student,*,500
+Parent of Bootcamp Applicant,parent-applicant,applicant,parent,empower,0
+Parent of * Student,parent-of-student,customer,parent,*,500
+Foundation-Level Employee,foundation-employee,employee,executive,,8500
+Bootcamp Teacher,bootcamp-teacher,employee,academic,empower,1500
+Campus Lead,academy-staff,employee,staff,operations,2500
+Campus Operations Associate,academy-operations-associate,employee,staff,operations,1500
+Vocational Teacher (IT/Healthcare/Hospitality),vocational-teacher,employee,academic,(IT/Healthcare/Hospitality),1500
+Lakshman,sinhala-communicator,consultant,executive,marketing,4500
+Dan,architect,consultant,executive,,4500
+Sampath,architect-prospect,volunteer,executive,,3500
+Rukmal,consultant-tech,consultant,executive,technology,8500
+Samisa,cto,employee,executive,technology,9500
+Dee,bootcamp-head,employee,executive,empower,9500
+Anju,ed,employee,executive,,10500
+Jivaka,cfo-advisor,consultant,executive,finance,9500
+Sanjiva,board-chairman,director,executive,,11500
+Mrs. Fernando,advisory-board-member,advisor,executive,,10500
+Software Engineer 1,foundation-software-engineers,employee,executive,technology,4500
+Software Engineering Intern,foundation-software-interns,employee,executive,technology,3500
+Ind. C,board-member,director,executive,,10500
+Law Office,lawyers,consultant,executive,operations,4500
+Activity,,,,,
+Parent-Teacher Meeting,parent-teacher-meeting,meeting,academic,empower,2000
+Teacher-Student One-on-One,teacher-student-one-on-one,meeting,academic,empower,2000
+Teacher-Teacher Meeting,teacher-teacher-meeting,meeting,academic,empower,2000
+Class teaching session,,,,,
+Class discussion session,,,,,
+Class presentation session,,,,,
+Group meeting,,,,,
+Group project,,,,,
+Acadamic day,,,,,
+Vacation,,,,,
+Holiday,,,,,
+Tea,,,,,
+Lunch,,,,,
+Beakfarst,,,,,
+Project based learning,,,,,
+Homeroom,,,,,
+Work,,,,,
+Prep time,,,,,
+Free time,,,,,
+Extra curricular,,,,,
+Teacher Foundation Meeting,,,,,
+Batch meeting,,,,,
+School meeting,,,,,
+Arrival,,,,,
+Departure,,,,,
+School Day,,,,,
