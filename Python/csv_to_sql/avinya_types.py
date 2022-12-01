@@ -14,32 +14,11 @@
 
 import csv
 import os
-
-# read the csv file 
-with open('avinya_types.csv', 'r') as csv_file:
-    csv_reader = csv.DictReader(csv_file)
-    with open('avinya_types.sql', 'w') as sql_file:
-        for line in csv_reader:
-            sql_file.write("INSERT INTO avinya_type (description, name, global_type, foundation_type, focus, level) VALUES ('%s', '%s', '%s', '%s', '%s', '%s');")
-
-# use Python Pandas to read the csv file and create a dataframe
 import pandas as pd
+
 df = pd.read_csv('avinya_types.csv')
 print(df)
-# process the dataframe and create a dictionar
-# create a dictionary of the dataframe
-# the dictionary will be used to create the SQL insert query
-# the dictionary will be saved as a SQL insert query file.
-# The file will be named avinya_types.sql
-# The file will be saved in the same directory as the script.
-# THe name of the database table to insert into is avinya_type
-# The csv file column to SQL tabale mapping will be as follows
-# Entity to description
-# Name to name
-# Global Type to global_type
-# Foundation Type to foundation_type
-# Focus to focus
-# Level to level
+
 with open('avinya_types.sql', 'w') as sql_file:
     for index, row in df.iterrows():
         print(row['Entity'], row['Name'], row['Global Type'], row['Foundation Type'], row['Focus'], row['Level'])
