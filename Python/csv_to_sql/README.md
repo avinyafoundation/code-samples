@@ -1,5 +1,5 @@
-# Python script to generate SQL from Avinys Types CSV file
+# Python script to generate SQL from a CSV file with Avinya Types
 
-The python script in this folder will take the avinys_types.csv as input, 
+The Python script in this folder will take the avinys_types.csv as input, 
 process the CSV using Pandas library and generate the SQL insert script for 
 avinya_type table
