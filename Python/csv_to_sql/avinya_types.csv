@@ -1,58 +1,59 @@
 Entity,Name,Global Type,Foundation Type,Focus,Level
-Organization,,,,,
 Avinya Board of Directors,foundation-bod,team,,,12000
-Avinya Foundation,foundation,team,executive,,10000
-"Technology Team, Curriculum Team, Operations Team",foundation-team,team,executive,*,9000
+Avinya Foundation,foundation,team,leadership,,10000
+Technology Team,technology-team,team,leadership,technology,9000
+Empower Curriculum Team,empower-curriculum-team,team,leadership,empower,8000
+Operations Team,operations-team,team,leadership,operations,9000
 Avinya Academies,avinya-academies,team,,,4000
 Avinya Academy - Bandaragama,avinya-single-academy,team,,,3000
 "AA Bandaragama - Educators, Bootcamp Program, Vocational Program(s)",academy-team,team,academic,,2000
-Person,,,,,
-Bootcamp Teacher Job Applicant,bootcamp-job-applicant,applicant,academic,empower,0
+Bootcamp Teacher Job Applicant,bootcamp-job-applicant,applicant,educator,empower,0
 Bootcamp Applicant,student-applicant,applicant,student,empower,0
-* Student,student,customer,student,*,500
-Parent of Bootcamp Applicant,parent-applicant,applicant,parent,empower,0
-Parent of * Student,parent-of-student,customer,parent,*,500
-Foundation-Level Employee,foundation-employee,employee,executive,,8500
-Bootcamp Teacher,bootcamp-teacher,employee,academic,empower,1500
+Empower Student,empower-student,customer,student,empower,500
+Parent of Bootcamp Applicant,empower-parent-applicant,applicant,parent,empower,0
+Parent of Empower Student,parent-of-empower-student,customer,parent,empower,500
+Foundation-Level Employee,foundation-employee,employee,leadership,,8500
+Bootcamp Teacher,bootcamp-teacher,employee,educator,empower,1500
 Campus Lead,academy-staff,employee,staff,operations,2500
 Campus Operations Associate,academy-operations-associate,employee,staff,operations,1500
-Vocational Teacher (IT/Healthcare/Hospitality),vocational-teacher,employee,academic,(IT/Healthcare/Hospitality),1500
-Lakshman,sinhala-communicator,consultant,executive,marketing,4500
-Dan,architect,consultant,executive,,4500
-Sampath,architect-prospect,volunteer,executive,,3500
-Rukmal,consultant-tech,consultant,executive,technology,8500
-Samisa,cto,employee,executive,technology,9500
-Dee,bootcamp-head,employee,executive,empower,9500
-Anju,ed,employee,executive,,10500
-Jivaka,cfo-advisor,consultant,executive,finance,9500
-Sanjiva,board-chairman,director,executive,,11500
-Mrs. Fernando,advisory-board-member,advisor,executive,,10500
-Software Engineer 1,foundation-software-engineers,employee,executive,technology,4500
-Software Engineering Intern,foundation-software-interns,employee,executive,technology,3500
-Ind. C,board-member,director,executive,,10500
-Law Office,lawyers,consultant,executive,operations,4500
-Activity,,,,,
-Parent-Teacher Meeting,parent-teacher-meeting,meeting,academic,empower,2000
-Teacher-Student One-on-One,teacher-student-one-on-one,meeting,academic,empower,2000
-Teacher-Teacher Meeting,teacher-teacher-meeting,meeting,academic,empower,2000
-Class teaching session,,,,,
-Class discussion session,,,,,
-Class presentation session,,,,,
-Group meeting,,,,,
-Group project,,,,,
-Acadamic day,,,,,
-Vacation,,,,,
-Holiday,,,,,
-Tea,,,,,
-Lunch,,,,,
-Beakfarst,,,,,
-Project based learning,,,,,
-Homeroom,,,,,
-Work,,,,,
+IT Vocational Teacher,it-vocational-teacher,employee,educator,it,1500
+Hospitality Vocational Teacher,hospitality-vocational-teacher,employee,educator,hospitality,1500
+Healthcare Vocational Teacher,healthcare-vocational-teacher,employee,educator,healthcare,1500
+Lakshman,sinhala-communicator,consultant,leadership,marketing,4500
+Dan,architect,consultant,leadership,,4500
+Sampath,architect-prospect,volunteer,leadership,,3500
+Rukmal,consultant-tech,consultant,leadership,technology,8500
+Samisa,cto,employee,leadership,technology,9500
+Dee,bootcamp-head,employee,leadership,empower,9500
+Anju,ed,employee,leadership,,10500
+Jivaka,cfo-advisor,consultant,leadership,finance,9500
+Sanjiva,board-chairman,director,leadership,,11500
+Mrs. Fernando,advisory-board-member,advisor,leadership,,10500
+Software Engineer 1,foundation-software-engineers,employee,leadership,technology,4500
+Software Engineering Intern,foundation-software-interns,employee,leadership,technology,3500
+Indrajit Coomaraswamy,board-member,director,leadership,,10500
+Law Office,lawyers,consultant,leadership,operations,4500
+Parent-Teacher Meeting,parent-teacher-meeting,meeting,parent,empower,750
+Teacher-Student One-on-One,teacher-student-one-on-one,meeting,student,empower,1750
+Teacher-Teacher Meeting,teacher-teacher-meeting,meeting,teacher,empower,2750
+Class teaching session,pcti,meeting,academic,empower,1750
+Class discussion session,class-tutorial,meeting,academic,empower,1750
+Class presentation session,class-presentation,meeting,academic,empower,1750
+Group meeting,student-group-meeting,meeting,student,empower,1750
+Group project,group-project,meeting,student,empower,1750
+Academic Day,school-day,meeting,academic,,3750
+Vacation,vacation-day,meeting,vacation,,3750
+Holiday,?,,,,
+Tea,tea-break,meeting,vacation,empower,2750
+Lunch,lunch-break,meeting,vacation,empower,2750
+Beakfarst,breakfast-break,meeting,vacation,empower,2750
+Project based learning,?,,,,
+Homeroom,homeroom,meeting,academic,homeroom,1750
+Work,?,,,,
 Prep time,,,,,
 Free time,,,,,
 Extra curricular,,,,,
-Teacher Foundation Meeting,,,,,
+Teacher Foundation Meeting,teacher-foundation-meeting,meeting,leadership,empower,2750
 Batch meeting,,,,,
 School meeting,,,,,
 Arrival,,,,,
