@@ -18,6 +18,18 @@ def generate_random_phone_number():
     # Generate a random 10-digit phone number
     return "".join(str(random.randint(0, 9)) for i in range(10))
 
+add_vacancy_template = """
+mutation {
+    add_vacancy(
+        vacancy: {
+            name: "Student Application"
+            head_count: 120
+        }
+    ){
+        id
+    }
+}
+"""
 
 add_student_applicant_template = """
 mutation{{
@@ -25,7 +37,6 @@ mutation{{
         person: {{
             preferred_name: "{preferred_name}"
             phone: {phone}
-            avinya_type_id: 26
         }}
     ){{
         id
@@ -86,6 +97,10 @@ mutation {
 """
 
 url = "http://localhost:4000/graphql"
+
+# adding a student vacancy
+vacancyResponse = requests.post(url, json={'query': add_vacancy_template})
+print(vacancyResponse.json())
 
 # Adding 50 student applicants
 for i in range(1,51):
