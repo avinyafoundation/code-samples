@@ -1,3 +1,9 @@
+# Educator application mutation flow: 
+# add_educator_applicant -> add_application 
+# (accept the applicant) -> update_person_avinya_type -> update_application_status
+
+# The following code adds 50 educator applications, then accepts 25 of the applications
+
 import requests
 import random
 import string
@@ -83,7 +89,7 @@ vacancyResponse = requests.post(url, json={'query': add_vacancy_template})
 print(vacancyResponse.json())
 
 # Adding 50 educator applicants
-for i in range(76,126):
+for i in range(441,491):
 
     preferred_name = generate_random_string(10)
     phone = generate_random_phone_number()
@@ -98,11 +104,11 @@ for i in range(76,126):
     addApplicationResponse = requests.post(url, json={"query": addApplicationMutation})
     print(addApplicationResponse.json())
 
-# Accepting 25 educator applicants, updating their application status and adding their parents
+# Accepting 8 educator applicants and updating their application status
 current_date = datetime.strptime("2022-12-14", "%Y-%m-%d")
 
 # Loop through ids 76 to 101
-for id in range(76, 101):
+for id in range(441, 449): # 201, 209
     preferred_name = generate_random_string(10)
     phone = generate_random_phone_number()
     transition_date = current_date - timedelta(days=random.randint(1, 365))
@@ -113,6 +119,6 @@ for id in range(76, 101):
     print(updatePersonAvinyaTypeResponse.json())
 
     # update_application_status
-    updateApplicationStatusMutation = update_application_status_template % (id-50)
+    updateApplicationStatusMutation = update_application_status_template % (id-240) # -50 ?
     updateApplicationStatusMutationResponse = requests.post(url, json={"query": updateApplicationStatusMutation})
     print(updateApplicationStatusMutationResponse.json())

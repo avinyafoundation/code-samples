@@ -2,7 +2,7 @@
 # add_student_applicant -> add_application 
 # (accept the applicant) -> update_person_avinya_type -> update_application_status -> add_empower_parent
 
-# The following code adds 50 student applications, then accepts 25 of the student applications and adds their parent
+# The following code adds 200 student applications, then accepts 120 of the student applications and adds two parents to each student
 
 import requests
 import random
@@ -102,8 +102,8 @@ url = "http://localhost:4000/graphql"
 vacancyResponse = requests.post(url, json={'query': add_vacancy_template})
 print(vacancyResponse.json())
 
-# Adding 50 student applicants
-for i in range(1,51):
+# Adding 200 student applicants
+for i in range(1,201):
 
     preferred_name = generate_random_string(10)
     phone = generate_random_phone_number()
@@ -118,11 +118,11 @@ for i in range(1,51):
     addApplicationResponse = requests.post(url, json={"query": addApplicationMutation})
     print(addApplicationResponse.json())
 
-# Accepting 25 student applicants, updating their application status and adding their parents
+# Accepting 120 student applicants, updating their application status and adding their parents
 current_date = datetime.strptime("2022-12-14", "%Y-%m-%d")
 
-# Loop through ids 1 to 25
-for id in range(1, 26):
+# Loop through ids 1 to 120
+for id in range(1, 121):
     preferred_name = generate_random_string(10)
     phone = generate_random_phone_number()
     transition_date = current_date - timedelta(days=random.randint(1, 365))
@@ -137,7 +137,15 @@ for id in range(1, 26):
     updateApplicationStatusMutationResponse = requests.post(url, json={"query": updateApplicationStatusMutation})
     print(updateApplicationStatusMutationResponse.json())
 
-    # add_empower_parent
-    addEmpowerParentMutation = add_empower_parent_template % (preferred_name, phone, [id])
-    addEmpowerParentResponse = requests.post(url, json={"query": addEmpowerParentMutation})
-    print(addEmpowerParentResponse.json())
+    # add_empower_parent 1
+    addEmpowerParent1Mutation = add_empower_parent_template % (preferred_name, phone, [id])
+    addEmpowerParent1Response = requests.post(url, json={"query": addEmpowerParent1Mutation})
+    print(addEmpowerParent1Response.json())
+
+    preferred_name = generate_random_string(10)
+    phone = generate_random_phone_number()
+
+    # # add_empower_parent 2
+    addEmpowerParent2Mutation = add_empower_parent_template % (preferred_name, phone, [id])
+    addEmpowerParent2Response = requests.post(url, json={"query": addEmpowerParent2Mutation})
+    print(addEmpowerParent2Response.json())
