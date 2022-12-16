@@ -41,7 +41,7 @@ update_person_avinya_type_template = """
 mutation {
     update_person_avinya_type(
         personId: %s
-        newAvinyaId: 41
+        newAvinyaId: 42
         transitionDate: "%s"
     ) {
         id
@@ -89,7 +89,7 @@ vacancyResponse = requests.post(url, json={'query': add_vacancy_template})
 print(vacancyResponse.json())
 
 # Adding 50 educator applicants
-for i in range(441,491):
+for i in range(421,471):
 
     preferred_name = generate_random_string(10)
     phone = generate_random_phone_number()
@@ -107,8 +107,8 @@ for i in range(441,491):
 # Accepting 8 educator applicants and updating their application status
 current_date = datetime.strptime("2022-12-14", "%Y-%m-%d")
 
-# Loop through ids 76 to 101
-for id in range(441, 449): # 201, 209
+# Loop through ids 420 to 428
+for id in range(421, 429):
     preferred_name = generate_random_string(10)
     phone = generate_random_phone_number()
     transition_date = current_date - timedelta(days=random.randint(1, 365))
@@ -119,6 +119,6 @@ for id in range(441, 449): # 201, 209
     print(updatePersonAvinyaTypeResponse.json())
 
     # update_application_status
-    updateApplicationStatusMutation = update_application_status_template % (id-240) # -50 ?
+    updateApplicationStatusMutation = update_application_status_template % (id-220) # - # of parents
     updateApplicationStatusMutationResponse = requests.post(url, json={"query": updateApplicationStatusMutation})
     print(updateApplicationStatusMutationResponse.json())
