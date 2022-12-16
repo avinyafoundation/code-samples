@@ -2,7 +2,8 @@
 # add_student_applicant -> add_application 
 # (accept the applicant) -> update_person_avinya_type -> update_application_status -> add_empower_parent
 
-# The following code adds 200 student applications, then accepts 120 of the student applications and adds two parents to each student
+# The following code adds 200 student applications, then accepts 120 of the student applications 
+# and adds two parents, 1 parent or a guardian to each student
 
 import requests
 import random

@@ -2,7 +2,7 @@
 # add_educator_applicant -> add_application 
 # (accept the applicant) -> update_person_avinya_type -> update_application_status
 
-# The following code adds 50 educator applications, then accepts 25 of the applications
+# The following code adds 50 educator applications, then accepts 8 of the applications
 
 import requests
 import random
@@ -65,7 +65,7 @@ mutation {
     add_vacancy(
         vacancy: {
             name: "Educator Application"
-            head_count: 25
+            head_count: 8
         }
     ){
         id
