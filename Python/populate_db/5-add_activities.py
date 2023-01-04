@@ -112,6 +112,14 @@ academicDayResponse = requests.post(url, json={"query": academicDayMutation})
 print(academicDayResponse.json())
 academicDayId = academicDayResponse.json()["data"]["add_activity"]["id"]
 
+# adding 6 projects and 6 classes
+project_class_names = ["Digital Passport", "Face Off", "Fun with Food", "Let's Vlog it", "My City, My Town", "Nature Trail", "Class A", "Class B", "Class C", "Class D", "Class E", "Class F"]
+for name in project_class_names:
+    add_activity_mutation = add_activity_template.format(activity_name=name)
+    addActivityresponse = requests.post(url, json={"query": add_activity_mutation})
+    print(addActivityresponse.json())
+
+
 # add academic day activities
 
 activity_names = ["arrival", "breakfast-break", "homeroom", "pcti", "class-tutorial", "class-presentation","tea-break", "free-time", "lunch-break", "work", "departure"]
