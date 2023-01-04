@@ -1,0 +1,13 @@
+query getEvaluations($id: Int!) {
+  evaluations(id: $id) {
+    evaluatee_id
+    evaluator_id
+    evaluation_criteria_id
+    grade
+    notes
+  }
+}
+
+mutation getEvaluationRecordCount($evaluations: [Evaluation!]!) {
+  add_evaluations(evaluations: $evaluations)
+}

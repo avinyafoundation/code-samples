@@ -1,0 +1,1 @@
+curl -X POST -H "Content-Type: application.json" -d @evaluation.json http://localhost:9090/evalutaion

@@ -1,0 +1,28 @@
+{
+    "evaluations": [
+        {
+            "evaluatee_id": 1,
+            "evaluator_id": 1,
+            "evaluation_criteria_id": 1,
+            "activity_instance_id": 321,
+            "updated": "2022-01-01T00:00:00Z",
+            "response": "Great job!",
+            "notes": "The evaluatee did an excellent job on this task.",
+            "grade": 4,
+            "child_evaluations": [],
+            "parent_evaluations": []
+        },
+        {
+            "evaluatee_id": 1,
+            "evaluator_id": 1,
+            "evaluation_criteria_id": 1,
+            "activity_instance_id": 321,
+            "updated": "2022-01-02T00:00:00Z",
+            "response": "Good work!",
+            "notes": "The evaluatee did a good job on this task.",
+            "grade": 3,
+            "child_evaluations": [],
+            "parent_evaluations": []
+        }
+    ]
+}
