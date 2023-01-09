@@ -1,0 +1,43 @@
+query getEvaluations($id: Int!) {
+  evaluations(id: $id) {
+    evaluatee_id
+    evaluator_id
+    evaluation_criteria_id
+    grade
+    notes
+  }
+}
+
+# mutation addEvaluations(
+#   $evaluatee_id: Int
+#   $evaluator_id: Int
+#   $evaluation_criteria_id: Int
+#   $activity_instance_id: Int
+#   $updated: String
+#   $grade: Int
+#   $response: String
+#   $notes: String
+#   $child_evaluations: [Int!]
+#   $parent_evaluations: [Int!]
+# ) {
+#   add_evaluations(
+#     evaluations: [
+#       {
+#         evaluatee_id: $evaluatee_id
+#         evaluator_id: $evaluator_id
+#         evaluation_criteria_id: $evaluation_criteria_id
+#         activity_instance_id: $activity_instance_id
+#         updated: $updated
+#         grade: $grade
+#         response: $response
+#         notes: $notes
+#         child_evaluations: $child_evaluations
+#         parent_evaluations: $parent_evaluations
+#       }
+#     ]
+#   )
+# }
+
+mutation AddEvaluation($evaluations: [Evaluation!]!) {
+  add_evaluations(evaluations: $evaluations)
+}
