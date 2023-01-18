@@ -151,6 +151,6 @@ Future<http.Response> deleteEvaluation(String id) async {
   if (response.statusCode == 200) {
     return response;
   } else {
-    throw Exception('Failed to delete Evaluation.');
+    throw Exception("Failed to delete Evaluation.");
   }
 }
