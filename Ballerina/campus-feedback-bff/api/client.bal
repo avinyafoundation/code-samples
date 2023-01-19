@@ -48,4 +48,18 @@ public isolated client class GraphqlClient {
         log:printInfo("Response: " + graphqlResponse.toString());
         return graphqlResponse;
     }
+
+    remote isolated function getEvaluationsAll() returns GetEvaluationsAllResponse|graphql:ClientError {
+        string query = string `query getEvaluationsAll {all_evaluations {id evaluatee_id evaluator_id evaluation_criteria_id grade notes}}`;
+        map<anydata> variables = {};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <GetEvaluationsAllResponse> check performDataBinding(graphqlResponse, GetEvaluationsAllResponse);
+    }
+
+    remote isolated function getAvinyaTypes() returns GetAvinyaTypesResponse|graphql:ClientError {
+        string query = string `query getAvinyaTypes {avinya_types {id active name global_type foundation_type focus level description}}`;
+        map<anydata> variables = {};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <GetAvinyaTypesResponse>check performDataBinding(graphqlResponse, GetAvinyaTypesResponse);
+    }
 }

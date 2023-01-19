@@ -63,6 +63,34 @@ service / on new http:Listener(9090) {
 
     }
 
+    resource function get all_evaluations() returns Evaluation[]|error? {
+
+        GetEvaluationsAllResponse|graphql:ClientError getEvaluationsAllResponse = globalDataClient->getEvaluationsAll();
+        if (getEvaluationsAllResponse is GetEvaluationsAllResponse) {
+            
+            Evaluation[] evaluationsAlls = [];
+            foreach var evaluations_All in getEvaluationsAllResponse.evaluationsAll {
+                Evaluation|error evaluationAll = evaluations_All.cloneWithType(Evaluation);
+                if (evaluationAll is Evaluation) {
+                    evaluationsAlls.push(evaluationAll);
+                }
+                else {
+                    log:printError("Error while processing Application record received", evaluationAll);
+                    return error("Error while processing Application record received: " + evaluationAll.message() +
+                    ":: Detail: " + evaluationAll.detail().toString());
+                }
+
+            }
+            return evaluationsAlls;
+        }
+        else {
+            log:printError("Error while getting application", getEvaluationsAllResponse);
+            return error("Error while getting application: " + getEvaluationsAllResponse.message() +
+                ":: Detail: " + getEvaluationsAllResponse.detail().toString());
+        }
+
+    }
+
     resource function post evaluations(@http:Payload Evaluation[] evaluations) returns json|error {
         json|graphql:ClientError createEvaluationResponse = globalDataClient->createEvaluations(evaluations);
         if (createEvaluationResponse is json) {
@@ -84,25 +112,27 @@ service / on new http:Listener(9090) {
 
     }
 
-    // resource function post addEvaluation(@http:Payload Evaluation evaluation) returns Evaluation|error? {
+    resource function get avinya_types() returns AvinyaType[]|error {
+        GetAvinyaTypesResponse|graphql:ClientError getAvinyaTypesResponse = globalDataClient->getAvinyaTypes();
+        if (getAvinyaTypesResponse is GetAvinyaTypesResponse) {
+            AvinyaType[] avinyaTypes = [];
+            foreach var avinya_type in getAvinyaTypesResponse.avinya_types {
+                AvinyaType|error avinyaType = avinya_type.cloneWithType(AvinyaType);
+                if (avinyaType is AvinyaType) {
+                    avinyaTypes.push(avinyaType);
+                } else {
+                    log:printError("Error while processing Application record received", avinyaType);
+                    return error("Error while processing Application record received: " + avinyaType.message() +
+                        ":: Detail: " + avinyaType.detail().toString());
+                }
+            }
 
-    //     AddEvaluationResponse|graphql:ClientError createEvaluationResponse = evaluationClient->addEvaluation(evaluation);
-    //     if (createEvaluationResponse is AddEvaluationResponse) {
-    //         Evaluation|error evaluation_record = createEvaluationResponse.add_evaluation.cloneWithType(Evaluation);
-    //         if (evaluation_record is Evaluation) {
-    //             return evaluation_record;
+            return avinyaTypes;
 
-    //         } else {
-    //             log:printError("Error while processing Application record received", evaluation_record);
-    //             return error("Error while processing Application record received: " + evaluation_record.message() +
-    //                 ":: Detail: " + evaluation_record.detail().toString());
-    //         }
-
-    //     } else {
-    //         log:printError("Error while creating application", createEvaluationResponse);
-    //         return error("Error while creating application: " + createEvaluationResponse.message() +
-    //             ":: Detail: " + createEvaluationResponse.detail().toString());
-    //     }
-
-    // }
+        } else {
+            log:printError("Error while getting application", getAvinyaTypesResponse);
+            return error("Error while getting application: " + getAvinyaTypesResponse.message() +
+                ":: Detail: " + getAvinyaTypesResponse.detail().toString());
+        }
+    }
 }

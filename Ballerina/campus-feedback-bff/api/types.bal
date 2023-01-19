@@ -244,3 +244,27 @@ public type GetEvaluationsResponse record {|
     |} evaluations;
 |};
 
+public type GetEvaluationsAllResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? id;
+        int? evaluatee_id;
+        int? evaluator_id;
+        int? evaluation_criteria_id;
+        int? grade;
+        string? notes;
+    |}[] evaluationsAll;
+|};
+public type GetAvinyaTypesResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? id;
+        boolean active;
+        string? name;
+        string global_type;
+        string? foundation_type;
+        string? focus;
+        int? level;
+        string? description;
+    |}[] avinya_types;
+|};
