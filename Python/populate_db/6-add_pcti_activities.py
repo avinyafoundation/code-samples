@@ -43,6 +43,7 @@ mutation{{
     add_activity(
         activity:{{
             name: "{activity_name}"
+            description: "{activity_description}"
             parent_activities: {parent_activities}
         }}
     )
@@ -57,6 +58,7 @@ mutation {{
     add_organization(
         org:{{
             name_en: "{name_en}"
+            description: "{description}"
             phone: {phone}
             avinya_type: 78
         }}
@@ -72,6 +74,7 @@ mutation{{
         activityInstance: {{
             activity_id: {activity_id}
             name: "{name}"
+            description:"{description}"
             organization_id: {organization_id}
         }}
     ){{
@@ -96,12 +99,13 @@ mutation{
 # project_class_names = ["Digital Passport", "Face Off", "Fun with Food", "Let's Vlog it", "My City, My Town", "Nature Trail", "Class A", "Class B", "Class C", "Class D", "Class E", "Class F"]
 
 # adding 3 classes
-class_names = ["Leopards", "Eagles", "Dolphins"]
+class_description_names = ["Leopards", "Eagles", "Dolphins", "Bears", "Bees", "Elephants"]
+class_names = ["2026 - Empower - Group 1", "2026 - Empower - Group 2", "2026 - Empower - Group 3", "2026 - Empower - Group 4", "2026 - Empower - Group 5", "2026 - Empower - Group 6"]
 org_ids = []
 
-for class_name in class_names:
+for i in range(len(class_names)):
     phone = random.randint(1000000000, 9999999999)
-    addOrganizationMutation = add_organization_template.format(name_en=class_name, phone=phone)
+    addOrganizationMutation = add_organization_template.format(name_en=class_names[i], description=class_description_names[i], phone=phone)
     addOrganizationResponse = requests.post('http://localhost:4000/graphql', json={'query': addOrganizationMutation})
     print(addOrganizationResponse.json())
     class_activity_id = addOrganizationResponse.json()["data"]["add_organization"]["id"]
@@ -115,24 +119,24 @@ for name in project_names:
     # creating project activities
     add_activity_mutation = add_activity_template.format(activity_name=name)
     addActivityresponse = requests.post(url, json={"query": add_activity_mutation})
-    project_activity_id = addActivityresponse.json()["data"]["add_activity"]["id"]
     print(addActivityresponse.json())
+    project_activity_id = addActivityresponse.json()["data"]["add_activity"]["id"]
 
     # creating children pcti activities
     for i in range(len(org_ids)):
-        add_pcti_mutation = add_children_activity_template.format(activity_name=name +" - "+ class_names[i], parent_activities=[project_activity_id])
+        add_pcti_mutation = add_children_activity_template.format(activity_name=name +" - "+ class_names[i], activity_description=name +" - "+ class_description_names[i], parent_activities=[project_activity_id])
         addPctiActivityresponse = requests.post(url, json={"query": add_pcti_mutation})
         pcti_activity_id = addPctiActivityresponse.json()["data"]["add_activity"]["id"]
         print(addPctiActivityresponse.json())
 
         # make an activity instance
-        addActivityInstanceMutation = add_activity_instance_template.format(activity_id=pcti_activity_id, name=name +" - "+ class_names[i], organization_id=org_ids[i])
+        addActivityInstanceMutation = add_activity_instance_template.format(activity_id=pcti_activity_id, name=name +" - "+ class_names[i], description=name +" - "+ class_description_names[i], organization_id=org_ids[i])
         addActivityInstanceResponse = requests.post(url, json={'query': addActivityInstanceMutation})
         activityInstanceId = addActivityInstanceResponse.json()["data"]["add_activity_instance"]["id"]
         print(addActivityInstanceResponse.json())
 
         # add the activity participant
-        addActivityParticipantMutation = add_activity_participant_template % (activityInstanceId, 421) # hardcoding person_id 2 and assuming this is a teacher
+        addActivityParticipantMutation = add_activity_participant_template % (activityInstanceId, 421) # hardcoding person_id 421 and assuming this is a teacher
         addActivityParticipantResponse = requests.post(url, json={'query': addActivityParticipantMutation})
         print(addActivityParticipantResponse.json())
 
