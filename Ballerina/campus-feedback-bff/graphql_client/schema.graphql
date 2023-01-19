@@ -271,7 +271,6 @@ type DistrictData {
 }
 
 input Evaluation {
-  
   record_type: String = ""
   id: Int
   evaluatee_id: Int
@@ -338,6 +337,7 @@ type Mutation {
   ): ApplicantConsentData
   add_application(application: Application!): ApplicationData
   add_evaluations(evaluations: [Evaluation!]!): Int
+  update_evaluation(evaluation: Evaluation!): EvaluationData
   add_address(address: Address!): AddressData
   add_prospect(prospect: Prospect!): ProspectData
   add_organization(org: Organization!): OrganizationData
@@ -524,6 +524,7 @@ type Query {
   application(person_id: Int!): ApplicationData
   student_applicant(jwt_sub_id: String): PersonData
   evaluations(id: Int!): EvaluationData!
+  evaluationsAll: [EvaluationData!]!
   activity(name: String, id: Int): ActivityData
   asset(id: Int!): AssetData
 }

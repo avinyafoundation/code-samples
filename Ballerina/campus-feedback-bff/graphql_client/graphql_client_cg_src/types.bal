@@ -131,20 +131,6 @@ public type AvinyaType record {
     string global_type?;
 };
 
-# Description
-#
-# + parent_evaluations - Field Description  
-# + activity_instance_id - Field Description  
-# + notes - Field Description  
-# + evaluatee_id - Field Description  
-# + evaluation_criteria_id - Field Description  
-# + response - Field Description  
-# + child_evaluations - Field Description  
-# + evaluator_id - Field Description  
-# + grade - Field Description  
-# + id - Field Description  
-# + updated - Field Description  
-# + record_type - Field Description
 public type Evaluation record {
     int[]? parent_evaluations?;
     int? activity_instance_id?;
@@ -233,13 +219,25 @@ public type Vacancy record {
     string? record_type?;
 };
 
-public type GetEvaluationsResponse record {|
+// public type GetEvaluationsResponse record {|
+//     map<json?> __extensions?;
+//     record {|
+//         int? evaluatee_id;
+//         int? evaluator_id;
+//         int? evaluation_criteria_id;
+//         int? grade;
+//         string? notes;
+//     |} evaluations;
+// |};
+
+public type GetEvaluationsAllResponse record {|
     map<json?> __extensions?;
     record {|
+        int? id;
         int? evaluatee_id;
         int? evaluator_id;
         int? evaluation_criteria_id;
         int? grade;
         string? notes;
-    |} evaluations;
+    |}[] evaluationsAll;
 |};

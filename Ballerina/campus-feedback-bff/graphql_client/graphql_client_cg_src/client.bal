@@ -1,6 +1,4 @@
-import ballerina/http;
 import ballerina/graphql;
-import ballerina/log;
 
 public isolated client class GraphqlClient {
     final graphql:Client graphqlClient;
@@ -29,23 +27,16 @@ public isolated client class GraphqlClient {
         graphql:Client clientEp = check new (serviceUrl, graphqlClientConfig);
         self.graphqlClient = clientEp;
     }
-
     remote isolated function getEvaluations(int id) returns GetEvaluationsResponse|graphql:ClientError {
         string query = string `query getEvaluations($id:Int!) {evaluations(id:$id) {evaluatee_id evaluator_id evaluation_criteria_id grade notes}}`;
         map<anydata> variables = {"id": id};
         json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
-        return <GetEvaluationsResponse>check performDataBinding(graphqlResponse, GetEvaluationsResponse);
+        return <GetEvaluationsResponse> check performDataBinding(graphqlResponse, GetEvaluationsResponse);
     }
-    
-    remote isolated function createEvaluations(Evaluation[] evaluations) returns json|graphql:ClientError {
-        string query = string `mutation createEvaluations($evaluations: [Evaluation!]!)
-                                {
-                                    add_evaluations(evaluations:$evaluations) 
-                                        
-                                }`;
-        map<anydata> variables = {"evaluations": evaluations};
+    remote isolated function getEvaluationsAll() returns GetEvaluationsAllResponse|graphql:ClientError {
+        string query = string `query getEvaluationsAll {evaluationsAll {id evaluatee_id evaluator_id evaluation_criteria_id grade notes}}`;
+        map<anydata> variables = {};
         json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
-        log:printInfo("Response: " + graphqlResponse.toString());
-        return graphqlResponse;
+        return <GetEvaluationsAllResponse> check performDataBinding(graphqlResponse, GetEvaluationsAllResponse);
     }
 }
