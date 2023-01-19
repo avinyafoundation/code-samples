@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:ShoolManagementSystem/src/screens/avinya_type_details.dart';
+import 'package:ShoolManagementSystem/src/screens/evaluation_details.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
@@ -29,6 +30,7 @@ class _SMSNavigatorState extends State<SMSNavigator> {
   final _signInKey = const ValueKey('Sign in');
   final _scaffoldKey = const ValueKey('App scaffold');
   final _avinyaTypeDetailsKey = const ValueKey('Avinya Type details screen');
+  final _evaluationDetailsKey = const ValueKey('Evaluations details screen');
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,12 @@ class _SMSNavigatorState extends State<SMSNavigator> {
       selectedAvinyaType = campusFeedbackSystemInstance.avinyaTypes
           ?.firstWhereOrNull(
               (at) => at.id.toString() == routeState.route.parameters['id']);
+    }
+    Evaluation? selectedEvaluations;
+    if (pathTemplate == '/evaluations/:id') {
+      selectedEvaluations = campusFeedbackSystemInstance.evaluations!
+          .firstWhereOrNull(
+              (a) => a.id.toString() == routeState.route.parameters['id']);
     }
 
     if (pathTemplate == '/#access_token') {
@@ -57,6 +65,10 @@ class _SMSNavigatorState extends State<SMSNavigator> {
         if (route.settings is Page &&
             (route.settings as Page).key == _avinyaTypeDetailsKey) {
           routeState.go('/avinya_types/popular');
+        }
+        if (route.settings is Page &&
+            (route.settings as Page).key == _evaluationDetailsKey) {
+          routeState.go('/evaluations/popular');
         }
 
         return route.didPop(result);
@@ -78,7 +90,8 @@ class _SMSNavigatorState extends State<SMSNavigator> {
                 var signedIn = await authState.signIn(
                     credentials.username, credentials.password);
                 if (signedIn) {
-                  await routeState.go('/avinya_types/popular');
+                  await routeState
+                      .go('/avinya_types/popular'); //see as first page
                 }
               },
             ),
@@ -98,14 +111,13 @@ class _SMSNavigatorState extends State<SMSNavigator> {
                 avinyaType: selectedAvinyaType,
               ),
             )
-
-          // else if (selectedEmployee != null)
-          //   MaterialPage<void>(
-          //     key: _employeeDetailsKey,
-          //     child: EmployeeDetailsScreen(
-          //       employee: selectedEmployee,
-          //     ),
-          //   )
+          else if (selectedEvaluations != null)
+            MaterialPage<void>(
+              key: _evaluationDetailsKey,
+              child: EvaluationDetailsScreen(
+                evaluation: selectedEvaluations,
+              ),
+            )
         ],
       ],
     );
