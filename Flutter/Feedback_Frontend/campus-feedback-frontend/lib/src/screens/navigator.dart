@@ -44,9 +44,9 @@ class _SMSNavigatorState extends State<SMSNavigator> {
           ?.firstWhereOrNull(
               (at) => at.id.toString() == routeState.route.parameters['id']);
     }
-    Evaluation? selectedEvaluations;
-    if (pathTemplate == '/evaluations/:id') {
-      selectedEvaluations = campusFeedbackSystemInstance.evaluations!
+    Evaluation? selectedEvaluation;
+    if (pathTemplate == '/evaluation/:id') {
+      selectedEvaluation = campusFeedbackSystemInstance.evaluations!
           .firstWhereOrNull(
               (a) => a.id.toString() == routeState.route.parameters['id']);
     }
@@ -111,11 +111,11 @@ class _SMSNavigatorState extends State<SMSNavigator> {
                 avinyaType: selectedAvinyaType,
               ),
             )
-          else if (selectedEvaluations != null)
+          else if (selectedEvaluation != null)
             MaterialPage<void>(
               key: _evaluationDetailsKey,
               child: EvaluationDetailsScreen(
-                evaluation: selectedEvaluations,
+                evaluation: selectedEvaluation,
               ),
             )
         ],

@@ -46,7 +46,7 @@ class EvaluationListState extends State<EvaluationList> {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) => ListTile(
               title: Text(
-                (snapshot.data![index].grade.toString()),
+                (snapshot.data![index].id.toString()),
               ),
               subtitle: Text(' ' +
                   (snapshot.data![index].evaluatee_id!.toString()) +

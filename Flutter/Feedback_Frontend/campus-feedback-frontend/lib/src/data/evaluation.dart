@@ -8,6 +8,7 @@ class Evaluation {
   int? evaluatee_id;
   int? evaluator_id;
   int? evaluation_criteria_id;
+  int? activity_instance_id;
   String? updated;
   String? response;
   String? notes;
@@ -20,6 +21,7 @@ class Evaluation {
     this.evaluatee_id,
     this.evaluator_id,
     this.evaluation_criteria_id,
+    this.activity_instance_id,
     this.updated,
     this.response,
     this.notes,
@@ -34,6 +36,7 @@ class Evaluation {
       evaluatee_id: json['evaluatee_id'],
       evaluator_id: json['evaluator_id'],
       evaluation_criteria_id: json['evaluation_criteria_id'],
+      activity_instance_id: json['activity_instance_id'],
       updated: json['updated'],
       response: json['response'],
       notes: json['notes'],
@@ -64,7 +67,7 @@ class Evaluation {
 
 Future<List<Evaluation>> fetchEvaluations() async {
   final response = await http.get(
-    Uri.parse(AppConfig.campusConfigBffApiUrl + '/evaluations'),
+    Uri.parse(AppConfig.campusConfigBffApiUrl + '/all_evaluations'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'accept': 'application/json',

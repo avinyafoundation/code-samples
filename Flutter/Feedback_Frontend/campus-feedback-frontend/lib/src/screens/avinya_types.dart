@@ -31,7 +31,7 @@ class _AvinyaTypeScreenState extends State<AvinyaTypeScreen>
     final newPath = _routeState.route.pathTemplate;
     if (newPath.startsWith('/avinya_types/all')) {
       _tabController.index = 0;
-    } 
+    }
   }
 
   @override
@@ -64,12 +64,13 @@ class _AvinyaTypeScreenState extends State<AvinyaTypeScreen>
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            Navigator.of(context).push<void>(
-              MaterialPageRoute<void>(
-                builder: (context) => AddAvinyaTypePage(),
-              ),
-            )
-            .then((value) => setState(() {}));
+            Navigator.of(context)
+                .push<void>(
+                  MaterialPageRoute<void>(
+                    builder: (context) => AddAvinyaTypePage(),
+                  ),
+                )
+                .then((value) => setState(() {}));
           },
           child: const Icon(Icons.add),
         ),
