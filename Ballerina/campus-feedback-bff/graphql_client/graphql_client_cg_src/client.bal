@@ -28,13 +28,13 @@ public isolated client class GraphqlClient {
         self.graphqlClient = clientEp;
     }
     remote isolated function getEvaluations(int id) returns GetEvaluationsResponse|graphql:ClientError {
-        string query = string `query getEvaluations($id:Int!) {evaluations(id:$id) {evaluatee_id evaluator_id evaluation_criteria_id grade notes}}`;
+        string query = string `query getEvaluations($id:Int!) {evaluation(id:$id) {id evaluatee_id evaluator_id evaluation_criteria_id grade notes response updated}}`;
         map<anydata> variables = {"id": id};
         json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
         return <GetEvaluationsResponse> check performDataBinding(graphqlResponse, GetEvaluationsResponse);
     }
     remote isolated function getEvaluationsAll() returns GetEvaluationsAllResponse|graphql:ClientError {
-        string query = string `query getEvaluationsAll {evaluationsAll {id evaluatee_id evaluator_id evaluation_criteria_id grade notes}}`;
+        string query = string `query getEvaluationsAll {all_evaluations {id evaluatee_id evaluator_id evaluation_criteria_id grade notes response updated}}`;
         map<anydata> variables = {};
         json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
         return <GetEvaluationsAllResponse> check performDataBinding(graphqlResponse, GetEvaluationsAllResponse);

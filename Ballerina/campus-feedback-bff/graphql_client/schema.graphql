@@ -310,6 +310,7 @@ type EvaluationData {
   updated: String
   notes: String
   grade: Int
+  response: String
   child_evaluations: [EvaluationData!]
   parent_evaluations: [EvaluationData!]
 }
@@ -523,8 +524,8 @@ type Query {
   applicant_consent(email: String, phone: Int): ApplicantConsentData
   application(person_id: Int!): ApplicationData
   student_applicant(jwt_sub_id: String): PersonData
-  evaluations(id: Int!): EvaluationData!
-  evaluationsAll: [EvaluationData!]!
+  evaluation(id: Int!): EvaluationData!
+  all_evaluations: [EvaluationData!]!
   activity(name: String, id: Int): ActivityData
   asset(id: Int!): AssetData
 }

@@ -1,21 +1,26 @@
 query getEvaluations($id: Int!) {
-  evaluations(id: $id) {
-    evaluatee_id
-    evaluator_id
-    evaluation_criteria_id
-    grade
-    notes
-  }
-}
-
-query getEvaluations {
-  evaluationsAll {
+  evaluation(id: $id) {
     id
     evaluatee_id
     evaluator_id
     evaluation_criteria_id
     grade
     notes
+    response
+    updated
+  }
+}
+
+query getEvaluationsAll {
+  all_evaluations {
+    id
+    evaluatee_id
+    evaluator_id
+    evaluation_criteria_id
+    grade
+    notes
+    response
+    updated
   }
 }
 

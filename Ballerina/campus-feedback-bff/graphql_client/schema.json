@@ -633,7 +633,7 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "evaluations",
+                            "name": "evaluation",
                             "args": [
                                 {
                                     "name": "id",
@@ -662,7 +662,7 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "evaluationsAll",
+                            "name": "all_evaluations",
                             "args": [],
                             "type": {
                                 "kind": "NON_NULL",
@@ -2534,6 +2534,17 @@
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "Int",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "response",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
                                 "ofType": null
                             },
                             "isDeprecated": false,
