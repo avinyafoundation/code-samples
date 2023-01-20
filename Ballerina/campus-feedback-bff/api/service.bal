@@ -41,11 +41,11 @@ service / on new http:Listener(9090) {
         return "Hello, " + name;
     }
 
-    resource function get evaluations/[int id]() returns Evaluation|error? {
+    resource function get evaluation/[int id]() returns Evaluation|error? {
 
         GetEvaluationsResponse|graphql:ClientError getEvaluationResponse = globalDataClient->getEvaluations(id);
         if (getEvaluationResponse is GetEvaluationsResponse) {
-            Evaluation|error evaluation_record = getEvaluationResponse.evaluations.cloneWithType(Evaluation);
+            Evaluation|error evaluation_record = getEvaluationResponse.evaluation.cloneWithType(Evaluation);
             if (evaluation_record is Evaluation) {
                 return evaluation_record;
 
@@ -69,7 +69,7 @@ service / on new http:Listener(9090) {
         if (getEvaluationsAllResponse is GetEvaluationsAllResponse) {
             
             Evaluation[] evaluationsAlls = [];
-            foreach var evaluations_All in getEvaluationsAllResponse.evaluationsAll {
+            foreach var evaluations_All in getEvaluationsAllResponse.all_evaluations {
                 Evaluation|error evaluationAll = evaluations_All.cloneWithType(Evaluation);
                 if (evaluationAll is Evaluation) {
                     evaluationsAlls.push(evaluationAll);

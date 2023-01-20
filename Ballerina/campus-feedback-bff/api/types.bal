@@ -236,12 +236,15 @@ public type Vacancy record {
 public type GetEvaluationsResponse record {|
     map<json?> __extensions?;
     record {|
+        int? id;
         int? evaluatee_id;
         int? evaluator_id;
         int? evaluation_criteria_id;
         int? grade;
         string? notes;
-    |} evaluations;
+        string? response;
+        string? updated;
+    |} evaluation;
 |};
 
 public type GetEvaluationsAllResponse record {|
@@ -253,8 +256,11 @@ public type GetEvaluationsAllResponse record {|
         int? evaluation_criteria_id;
         int? grade;
         string? notes;
-    |}[] evaluationsAll;
+        string? response;
+        string? updated;
+    |}[] all_evaluations;
 |};
+
 public type GetAvinyaTypesResponse record {|
     map<json?> __extensions?;
     record {|
