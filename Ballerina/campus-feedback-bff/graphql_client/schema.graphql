@@ -307,6 +307,7 @@ type EvaluationData {
   evaluatee_id: Int
   evaluator_id: Int
   evaluation_criteria_id: Int
+  activity_instance_id: Int
   updated: String
   notes: String
   grade: Int

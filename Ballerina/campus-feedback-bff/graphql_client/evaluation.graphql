@@ -4,6 +4,7 @@ query getEvaluations($id: Int!) {
     evaluatee_id
     evaluator_id
     evaluation_criteria_id
+    activity_instance_id
     grade
     notes
     response
@@ -17,6 +18,7 @@ query getEvaluationsAll {
     evaluatee_id
     evaluator_id
     evaluation_criteria_id
+    activity_instance_id
     grade
     notes
     response
@@ -24,6 +26,18 @@ query getEvaluationsAll {
   }
 }
 
+mutation updateEvaluation($evaluation: Evaluation!) {
+  update_evaluation(evaluation: $evaluation) {
+    id
+    evaluatee_id
+    evaluator_id
+    evaluation_criteria_id
+    activity_instance_id
+    response
+    notes
+    grade
+  }
+}
 # mutation AddEvaluation($evaluations: [Evaluation!]!) {
 #   add_evaluations(evaluations: $evaluations)
 # }

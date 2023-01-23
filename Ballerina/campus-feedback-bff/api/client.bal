@@ -31,7 +31,7 @@ public isolated client class GraphqlClient {
     }
 
     remote isolated function getEvaluations(int id) returns GetEvaluationsResponse|graphql:ClientError {
-        string query = string `query getEvaluations($id:Int!) {evaluation(id:$id) {id evaluatee_id evaluator_id evaluation_criteria_id grade notes response updated}}`;
+        string query = string `query getEvaluations($id:Int!) {evaluation(eval_id:$id) {id evaluatee_id evaluator_id evaluation_criteria_id activity_instance_id grade notes response updated}}`;
         map<anydata> variables = {"id": id};
         json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
         return <GetEvaluationsResponse>check performDataBinding(graphqlResponse, GetEvaluationsResponse);
@@ -50,10 +50,10 @@ public isolated client class GraphqlClient {
     }
 
     remote isolated function getEvaluationsAll() returns GetEvaluationsAllResponse|graphql:ClientError {
-        string query = string `query getEvaluationsAll {all_evaluations {id evaluatee_id evaluator_id evaluation_criteria_id grade notes response updated}}`;
+        string query = string `query getEvaluationsAll {all_evaluations {id evaluatee_id evaluator_id evaluation_criteria_id activity_instance_id grade notes response updated}}`;
         map<anydata> variables = {};
         json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
-        return <GetEvaluationsAllResponse> check performDataBinding(graphqlResponse, GetEvaluationsAllResponse);
+        return <GetEvaluationsAllResponse>check performDataBinding(graphqlResponse, GetEvaluationsAllResponse);
     }
 
     remote isolated function getAvinyaTypes() returns GetAvinyaTypesResponse|graphql:ClientError {
@@ -61,5 +61,12 @@ public isolated client class GraphqlClient {
         map<anydata> variables = {};
         json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
         return <GetAvinyaTypesResponse>check performDataBinding(graphqlResponse, GetAvinyaTypesResponse);
+    }
+
+    remote isolated function updateEvaluation(Evaluation evaluation) returns UpdateEvaluationResponse|graphql:ClientError {
+        string query = string `mutation updateEvaluation($evaluation:Evaluation!) {update_evaluation(evaluation:$evaluation) {id evaluatee_id evaluator_id evaluation_criteria_id activity_instance_id response notes grade}}`;
+        map<anydata> variables = {"evaluation": evaluation};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <UpdateEvaluationResponse> check performDataBinding(graphqlResponse, UpdateEvaluationResponse);
     }
 }

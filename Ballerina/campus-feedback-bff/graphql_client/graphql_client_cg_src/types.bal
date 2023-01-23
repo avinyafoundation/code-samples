@@ -226,6 +226,7 @@ public type GetEvaluationsResponse record {|
         int? evaluatee_id;
         int? evaluator_id;
         int? evaluation_criteria_id;
+        int? activity_instance_id;
         int? grade;
         string? notes;
         string? response;
@@ -240,9 +241,24 @@ public type GetEvaluationsAllResponse record {|
         int? evaluatee_id;
         int? evaluator_id;
         int? evaluation_criteria_id;
+        int? activity_instance_id;
         int? grade;
         string? notes;
         string? response;
         string? updated;
     |}[] all_evaluations;
+|};
+
+public type UpdateEvaluationResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? id;
+        int? evaluatee_id;
+        int? evaluator_id;
+        int? evaluation_criteria_id;
+        int? activity_instance_id;
+        string? response;
+        string? notes;
+        int? grade;
+    |}? update_evaluation;
 |};
