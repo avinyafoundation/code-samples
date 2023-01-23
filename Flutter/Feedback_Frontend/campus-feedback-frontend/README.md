@@ -1,1 +1,1 @@
-# campus-config-frontend
+# campus-feedback-frontend
