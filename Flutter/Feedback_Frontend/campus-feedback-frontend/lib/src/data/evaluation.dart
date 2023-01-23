@@ -56,6 +56,8 @@ class Evaluation {
         if (evaluator_id != null) 'evaluator_id': evaluator_id,
         if (evaluation_criteria_id != null)
           'evaluation_criteria_id': evaluation_criteria_id,
+        if (activity_instance_id != null)
+          'activity_instance_id': activity_instance_id,
         if (updated != null) 'updated': updated,
         if (response != null) 'response': response,
         if (notes != null) 'notes': notes,
