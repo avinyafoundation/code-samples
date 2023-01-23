@@ -38,10 +38,10 @@ class EvaluationDetailsScreen extends StatelessWidget {
               evaluation!.evaluation_criteria_id!.toString(),
               style: Theme.of(context).textTheme.headline4,
             ),
-            // Text(
-            //   evaluation!.activity_instance_id!.toString(),
-            //   style: Theme.of(context).textTheme.headline4,
-            // ),
+            Text(
+              evaluation!.activity_instance_id!.toString(),
+              style: Theme.of(context).textTheme.headline4,
+            ),
             Text(
               evaluation!.grade!.toString(),
               style: Theme.of(context).textTheme.headline4,
