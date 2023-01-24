@@ -1,8 +1,10 @@
 # Activities mutation flow
-# add_activity -> add_activity_sequence_plan -> add_activity_instance -> add_activity_participant -> add_attendance
+# add_activity -> add_activity_instance -> add_activity_participant -> add_pcti_notes
 
-# The following code adds 11 activities for an academic day, then adds the activities to a sequence plan.
-# An activity instance is created for each activity. 20 participants are added to each instance and their attendance is then recorded.
+# The following code adds all the classes as Prganizations. It then adds all Projects as activities.
+# PCTI children activities are then created for each project and organization.
+# An activity instance is then created for each PCTI activity. An activity participant with id 421 is added for each activity instance.
+# Finally, 3 PCTI notes are added for each activity instance by an evaluato rwith id 421.
 
 import requests;
 import random;
@@ -96,6 +98,25 @@ mutation{
 }
 """
 
+add_pcti_notes = """
+mutation{{
+    add_pcti_notes(
+        evaluation:{{
+            activity_instance_id: {activity_instance_id}
+            notes: "{notes}"
+            evaluator_id: {evaluator_id}
+        }}
+    ){{
+        id
+    }}
+}}
+"""
+
+def generate_random_string(length):
+    # Generate a random string of the given length
+    letters = string.ascii_lowercase
+    return "".join(random.choice(letters) for i in range(length))
+
 # project_class_names = ["Digital Passport", "Face Off", "Fun with Food", "Let's Vlog it", "My City, My Town", "Nature Trail", "Class A", "Class B", "Class C", "Class D", "Class E", "Class F"]
 
 # adding 3 classes
@@ -139,6 +160,12 @@ for name in project_names:
         addActivityParticipantMutation = add_activity_participant_template % (activityInstanceId, 421) # hardcoding person_id 421 and assuming this is a teacher
         addActivityParticipantResponse = requests.post(url, json={'query': addActivityParticipantMutation})
         print(addActivityParticipantResponse.json())
+
+        # add the pcti notes
+        for i in range(5):
+            addPctiNotesMutation = add_pcti_notes.format(activity_instance_id=activityInstanceId, notes=generate_random_string(10)+ " " + generate_random_string(10)+ " " + generate_random_string(10), evaluator_id=421)
+            addPctiNotesResponse = requests.post(url, json={'query': addPctiNotesMutation})
+            print(addPctiNotesResponse.json())
 
         
 
