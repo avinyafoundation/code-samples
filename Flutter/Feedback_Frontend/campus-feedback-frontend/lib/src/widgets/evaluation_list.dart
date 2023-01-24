@@ -48,20 +48,23 @@ class EvaluationListState extends State<EvaluationList> {
               title: Text(
                 (snapshot.data![index].id.toString()),
               ),
-              subtitle: Text(' ' +
-                  (snapshot.data![index].evaluatee_id!.toString()) +
-                  ' ' +
-                  (snapshot.data![index].evaluator_id!.toString()) +
-                  ' ' +
-                  (snapshot.data![index].evaluation_criteria_id!.toString()) +
-                  ' ' +
-                  (snapshot.data![index].activity_instance_id!.toString()) +
-                  ' ' +
-                  (snapshot.data![index].notes ?? '') +
-                  ' ' +
-                  (snapshot.data![index].grade!.toString()) +
-                  ' ' +
-                  (snapshot.data![index].response ?? '')),
+              subtitle: Text(
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  ' Evaluatee Id: ' +
+                      (snapshot.data![index].evaluatee_id!.toString()) +
+                      '/ Evaluator Id: ' +
+                      (snapshot.data![index].evaluator_id!.toString()) +
+                      ' Evaluation Criteria Id: ' +
+                      (snapshot.data![index].evaluation_criteria_id!
+                          .toString()) +
+                      ' Activity Instance Id: ' +
+                      (snapshot.data![index].activity_instance_id!.toString()) +
+                      ' Notes: ' +
+                      (snapshot.data![index].notes ?? '') +
+                      ' Grade: ' +
+                      (snapshot.data![index].grade!.toString()) +
+                      ' Response: ' +
+                      (snapshot.data![index].response ?? '')),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -317,7 +320,7 @@ class _AddEvaluationPageState extends State<AddEvaluationPage> {
         onPressed: () async {
           await _addEvaluation(context);
         },
-        child: const Icon(Icons.save),
+        child: const Icon(Icons.save_sharp),
       ),
     );
   }
