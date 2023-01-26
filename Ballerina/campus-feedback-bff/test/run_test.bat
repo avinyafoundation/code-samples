@@ -4,8 +4,12 @@ curl -X POST http://localhost:9090/evaluations -H "Content-Type: application/jso
 
 curl http://localhost:9090/evaluation/72
 curl http://localhost:9090/all_evaluations
+curl http://localhost:9090/evaluation_meta_data/72
 
 curl -X POST http://localhost:9090/evaluations -H "Content-Type: application.json" -d @test/evaluation.json 
+
+curl -X POST http://localhost:9090/add_evaluation_meta_data -H "Content-Type: application.json" -d @test/metadata.json 
+
 
 curl -X POST -H "Content-Type: application/json" -d @evaluation.json http://localhost:9090/avinya_types
 

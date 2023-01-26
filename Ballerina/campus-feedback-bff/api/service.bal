@@ -41,9 +41,9 @@ service / on new http:Listener(9090) {
         return "Hello, " + name;
     }
 
-    resource function get evaluation/[int id]() returns Evaluation|error? {
+    resource function get evaluation/[int eval_id]() returns Evaluation|error? {
 
-        GetEvaluationsResponse|graphql:ClientError getEvaluationResponse = globalDataClient->getEvaluations(id);
+        GetEvaluationsResponse|graphql:ClientError getEvaluationResponse = globalDataClient->getEvaluations(eval_id);
         if (getEvaluationResponse is GetEvaluationsResponse) {
             Evaluation|error evaluation_record = getEvaluationResponse.evaluation.cloneWithType(Evaluation);
             if (evaluation_record is Evaluation) {
@@ -67,7 +67,7 @@ service / on new http:Listener(9090) {
 
         GetEvaluationsAllResponse|graphql:ClientError getEvaluationsAllResponse = globalDataClient->getEvaluationsAll();
         if (getEvaluationsAllResponse is GetEvaluationsAllResponse) {
-            
+
             Evaluation[] evaluationsAlls = [];
             foreach var evaluations_All in getEvaluationsAllResponse.all_evaluations {
                 Evaluation|error evaluationAll = evaluations_All.cloneWithType(Evaluation);
@@ -112,27 +112,63 @@ service / on new http:Listener(9090) {
 
     }
 
-    resource function get avinya_types() returns AvinyaType[]|error {
-        GetAvinyaTypesResponse|graphql:ClientError getAvinyaTypesResponse = globalDataClient->getAvinyaTypes();
-        if (getAvinyaTypesResponse is GetAvinyaTypesResponse) {
-            AvinyaType[] avinyaTypes = [];
-            foreach var avinya_type in getAvinyaTypesResponse.avinya_types {
-                AvinyaType|error avinyaType = avinya_type.cloneWithType(AvinyaType);
-                if (avinyaType is AvinyaType) {
-                    avinyaTypes.push(avinyaType);
-                } else {
-                    log:printError("Error while processing Application record received", avinyaType);
-                    return error("Error while processing Application record received: " + avinyaType.message() +
-                        ":: Detail: " + avinyaType.detail().toString());
-                }
+    resource function get evaluation_meta_data/[int metadata_id]() returns EvaluationMetadata|error {
+        GetMetadataResponse|graphql:ClientError getMetadataResponse = globalDataClient->getMetadata(metadata_id);
+        if (getMetadataResponse is GetMetadataResponse) {
+            EvaluationMetadata|error metadata_record = getMetadataResponse.evaluation_meta_data.cloneWithType(EvaluationMetadata);
+            if (metadata_record is EvaluationMetadata) {
+                return metadata_record;
+            } else {
+                log:printError("Error while processing Application record received", metadata_record);
+                return error("Error while processing Application record received: " + metadata_record.message() +
+                    ":: Detail: " + metadata_record.detail().toString());
             }
-
-            return avinyaTypes;
-
         } else {
-            log:printError("Error while getting application", getAvinyaTypesResponse);
-            return error("Error while getting application: " + getAvinyaTypesResponse.message() +
-                ":: Detail: " + getAvinyaTypesResponse.detail().toString());
+            log:printError("Error while creating application", getMetadataResponse);
+            return error("Error while creating application: " + getMetadataResponse.message() +
+                ":: Detail: " + getMetadataResponse.detail().toString());
         }
     }
+
+    resource function post add_evaluation_meta_data(@http:Payload EvaluationMetadata metadata) returns EvaluationMetadata|error {
+        AddEvaluationMetaDataResponse|graphql:ClientError addEvaluationMetaDataResponse = globalDataClient->AddEvaluationMetaData(metadata);
+        if (addEvaluationMetaDataResponse is AddEvaluationMetaDataResponse) {
+            EvaluationMetadata|error metadata_record = addEvaluationMetaDataResponse.metadata.cloneWithType(EvaluationMetadata);
+            if (metadata_record is EvaluationMetadata) {
+                return metadata_record;
+            } else {
+                log:printError("Error while processing Application record received", metadata_record);
+                return error("Error while processing Application record received: " + metadata_record.message() +
+                    ":: Detail: " + metadata_record.detail().toString());
+            }
+        } else {
+            log:printError("Error while creating application", addEvaluationMetaDataResponse);
+            return error("Error while creating application: " + addEvaluationMetaDataResponse.message() +
+                ":: Detail: " + addEvaluationMetaDataResponse.detail().toString());
+        }
+    }
+
+    // resource function get avinya_types() returns AvinyaType[]|error {
+    //     GetAvinyaTypesResponse|graphql:ClientError getAvinyaTypesResponse = globalDataClient->getAvinyaTypes();
+    //     if (getAvinyaTypesResponse is GetAvinyaTypesResponse) {
+    //         AvinyaType[] avinyaTypes = [];
+    //         foreach var avinya_type in getAvinyaTypesResponse.avinya_types {
+    //             AvinyaType|error avinyaType = avinya_type.cloneWithType(AvinyaType);
+    //             if (avinyaType is AvinyaType) {
+    //                 avinyaTypes.push(avinyaType);
+    //             } else {
+    //                 log:printError("Error while processing Application record received", avinyaType);
+    //                 return error("Error while processing Application record received: " + avinyaType.message() +
+    //                     ":: Detail: " + avinyaType.detail().toString());
+    //             }
+    //         }
+
+    //         return avinyaTypes;
+
+    //     } else {
+    //         log:printError("Error while getting application", getAvinyaTypesResponse);
+    //         return error("Error while getting application: " + getAvinyaTypesResponse.message() +
+    //             ":: Detail: " + getAvinyaTypesResponse.detail().toString());
+    //     }
+    // }
 }

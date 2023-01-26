@@ -1,5 +1,5 @@
-query getEvaluations($id: Int!) {
-  evaluation(id: $id) {
+query getEvaluations($eval_id: Int!) {
+  evaluation(eval_id: $eval_id) {
     id
     evaluatee_id
     evaluator_id
@@ -41,3 +41,29 @@ mutation updateEvaluation($evaluation: Evaluation!) {
 # mutation AddEvaluation($evaluations: [Evaluation!]!) {
 #   add_evaluations(evaluations: $evaluations)
 # }
+
+query getMetadata($meta_evaluation_id: Int!) {
+  evaluation_meta_data(meta_evaluation_id: $meta_evaluation_id) {
+    evaluation_id
+    location
+    on_date_time
+    level
+    meta_type
+    status
+    focus
+    metadata
+  }
+}
+
+mutation AddEvaluationMetaData($metadata: EvaluationMetadata!) {
+  add_evaluation_meta_data(metadata: $metadata) {
+    evaluation_id
+    location
+    on_date_time
+    level
+    meta_type
+    status
+    focus
+    metadata
+  }
+}
