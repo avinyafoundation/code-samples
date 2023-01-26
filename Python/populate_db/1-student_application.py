@@ -38,6 +38,7 @@ mutation{{
         person: {{
             preferred_name: "{preferred_name}"
             phone: {phone}
+            organization_id: {organization_id}
         }}
     ){{
         id
@@ -125,7 +126,7 @@ for i in range(1,201):
     phone = generate_random_phone_number()
 
     # add_student_applicant
-    studentApplicantMutation = add_student_applicant_template.format(preferred_name=preferred_name, phone=phone)
+    studentApplicantMutation = add_student_applicant_template.format(preferred_name=preferred_name, phone=phone, organization_id=2)
     studentApplicantResponse = requests.post(url, json={"query": studentApplicantMutation})
     print(studentApplicantResponse.json())
 
