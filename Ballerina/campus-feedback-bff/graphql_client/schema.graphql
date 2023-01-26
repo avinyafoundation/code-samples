@@ -29,6 +29,7 @@ input ActivityInstance {
   activity_id: Int
   name: String
   place_id: Int
+  organization_id: Int
   daily_sequence: Int
   weekly_sequence: Int
   monthly_sequence: Int
@@ -54,6 +55,7 @@ type ActivityInstanceData {
   created: String
   updated: String
   place: PlaceData
+  organization: OrganizationData
   activity_participants: [ActivityParticipantData!]
   activity_participant_attendances: [ActivityParticipantAttendanceData!]
   evaluations: [EvaluationData!]
@@ -263,6 +265,31 @@ type CityData {
   district: DistrictData!
 }
 
+input Consumable {
+  record_type: String = ""
+  id: Int
+  avinya_type_id: Int
+  name: String
+  description: String
+  manufacturer: String
+  model: String
+  serial_number: String
+  created: String
+  updated: String
+}
+
+type ConsumableData {
+  id: Int
+  avinya_type: AvinyaTypeData
+  name: String
+  description: String
+  manufacturer: String
+  model: String
+  serial_number: String
+  created: String
+  updated: String
+}
+
 type DistrictData {
   name: LocalizedName!
   id: Int
@@ -271,7 +298,6 @@ type DistrictData {
 }
 
 input Evaluation {
-  
   record_type: String = ""
   id: Int
   evaluatee_id: Int
@@ -307,12 +333,38 @@ type EvaluationData {
   id: Int
   evaluatee_id: Int
   evaluator_id: Int
+  activity_instance_id: Int
   evaluation_criteria_id: Int
   updated: String
   notes: String
   grade: Int
+  response: String
   child_evaluations: [EvaluationData!]
   parent_evaluations: [EvaluationData!]
+}
+
+input EvaluationMetadata {
+  record_type: String = ""
+  id: Int
+  evaluation_id: Int
+  location: String
+  on_date_time: String
+  level: Int
+  meta_type: String
+  focus: String
+  status: String
+  metadata: String
+}
+
+type EvaluationMetadataData {
+  evaluation_id: Int
+  location: String
+  on_date_time: String
+  level: Int
+  meta_type: String
+  status: String
+  focus: String
+  metadata: String
 }
 
 type GeoData {
@@ -320,6 +372,33 @@ type GeoData {
   district(name: String!): DistrictData!
   city(name: String!): CityData!
   address(id: Int!): AddressData!
+}
+
+input Inventory {
+  record_type: String = ""
+  id: Int
+  asset_id: Int
+  consumable_id: Int
+  organization_id: Int
+  person_id: Int
+  quantity: Int
+  quantity_in: Int
+  quantity_out: Int
+  created: String
+  updated: String
+}
+
+type InventoryData {
+  id: Int
+  asset: AssetData
+  consumable: ConsumableData
+  organization: OrganizationData
+  person: PersonData
+  quantity: Int
+  quantity_in: Int
+  quantity_out: Int
+  created: String
+  updated: String
 }
 
 type LocalizedName {
@@ -338,6 +417,10 @@ type Mutation {
   ): ApplicantConsentData
   add_application(application: Application!): ApplicationData
   add_evaluations(evaluations: [Evaluation!]!): Int
+  update_evaluation(evaluation: Evaluation!): EvaluationData
+  add_evaluation_meta_data(
+    metadata: EvaluationMetadata!
+  ): EvaluationMetadataData
   add_address(address: Address!): AddressData
   add_prospect(prospect: Prospect!): ProspectData
   add_organization(org: Organization!): OrganizationData
@@ -371,6 +454,28 @@ type Mutation {
   add_vacancy(vacancy: Vacancy!): VacancyData
   add_person(person: Person!, avinya_type_id: Int): PersonData
   add_asset(asset: Asset!): AssetData
+  update_asset(asset: Asset!): AssetData
+  add_supplier(supplier: Supplier!): SupplierData
+  update_supplier(supplier: Supplier!): SupplierData
+  add_consumable(consumable: Consumable!): ConsumableData
+  add_pcti_notes(evaluation: Evaluation!): EvaluationData
+  update_consumable(consumable: Consumable!): ConsumableData
+  add_resource_property(
+    resourceProperty: ResourceProperty!
+  ): ResourcePropertyData
+  update_resource_property(
+    resourceProperty: ResourceProperty!
+  ): ResourcePropertyData
+  add_supply(supply: Supply!): SupplyData
+  update_supply(supply: Supply!): SupplyData
+  add_resource_allocation(
+    resourceAllocation: ResourceAllocation!
+  ): ResourceAllocationData
+  update_resource_allocation(
+    resourceAllocation: ResourceAllocation!
+  ): ResourceAllocationData
+  add_inventory(inventory: Inventory!): InventoryData
+  update_inventory(inventory: Inventory!): InventoryData
 }
 
 input Organization {
@@ -381,6 +486,8 @@ input Organization {
   address_id: Int
   avinya_type: Int
   phone: Int
+  description: String
+  notes: String
   name_en: String!
   name_ta: String
   name_si: String
@@ -388,6 +495,8 @@ input Organization {
 
 type OrganizationData {
   id: Int
+  description: String
+  notes: String
   address: AddressData
   avinya_type: AvinyaTypeData
   phone: Int
@@ -519,13 +628,134 @@ type Query {
   organization_structure(name: String, id: Int): OrganizationStructureData
   organizations(level: Int!): OrganizationStructureData
   organization(name: String, id: Int): OrganizationData
+  person(name: String, id: Int): PersonData
   prospect(email: String, phone: Int): ProspectData
   applicant_consent(email: String, phone: Int): ApplicantConsentData
   application(person_id: Int!): ApplicationData
+  evaluation(eval_id: Int!): EvaluationData
+  pcti_instance_notes(pcti_instance_id: Int!): [EvaluationData!]
+  pcti_activity_notes(pcti_activity_id: Int!): [EvaluationData!]
+  pcti_activity(
+    project_activity_name: String!
+    class_activity_name: String!
+  ): ActivityData
+  pcti_project_activities(teacher_id: String!): [ActivityData!]
+  pcti_participant_activities(participant_id: Int!): [ActivityData!]
+  pcti_activity_instances_today(activity_id: Int!): [ActivityInstanceData!]
   student_applicant(jwt_sub_id: String): PersonData
-  evaluations(id: Int!): EvaluationData!
+  all_evaluations: [EvaluationData!]!
+  evaluation_meta_data(meta_evaluation_id: Int!): EvaluationMetadataData
   activity(name: String, id: Int): ActivityData
   asset(id: Int!): AssetData
+  assets: [AssetData!]!
+  supplier(id: Int!): SupplierData
+  suppliers: [SupplierData!]!
+  consumable(id: Int!): ConsumableData
+  consumables: [ConsumableData!]!
+  resource_property(id: Int!): ResourcePropertyData
+  resource_properties: [ResourcePropertyData!]!
+  supply(id: Int!): SupplyData
+  supplies: [SupplyData!]!
+  resource_allocation(id: Int!): ResourceAllocationData
+  resource_allocations: [ResourceAllocationData!]!
+  inventory(id: Int!): InventoryData
+  inventories: [InventoryData!]!
+}
+
+input ResourceAllocation {
+  record_type: String = ""
+  id: Int
+  asset_id: Int
+  consumable_id: Int
+  organization_id: Int
+  person_id: Int
+  quantity: Int
+  start_date: String
+  end_date: String
+  created: String
+  updated: String
+}
+
+type ResourceAllocationData {
+  id: Int
+  asset: AssetData
+  consumable: ConsumableData
+  organization: OrganizationData
+  person: PersonData
+  quantity: Int
+  start_date: String
+  end_date: String
+  created: String
+  updated: String
+}
+
+input ResourceProperty {
+  record_type: String = ""
+  id: Int
+  asset_id: Int
+  consumable_id: Int
+  property: String
+  value: String
+}
+
+type ResourcePropertyData {
+  id: Int
+  asset: AssetData
+  consumable: ConsumableData
+  property: String
+  value: String
+}
+
+input Supplier {
+  record_type: String = ""
+  id: Int
+  name: String
+  description: String
+  phone: Int
+  email: String
+  address_id: Int
+  created: String
+  updated: String
+}
+
+type SupplierData {
+  id: Int
+  name: String
+  description: String
+  phone: Int
+  email: String
+  address: AddressData
+  created: String
+  updated: String
+}
+
+input Supply {
+  record_type: String = ""
+  id: Int
+  asset_id: Int
+  consumable_id: Int
+  supplier_id: Int
+  person_id: Int
+  order_date: String
+  delivery_date: String
+  order_id: String
+  order_amount: Int
+  created: String
+  updated: String
+}
+
+type SupplyData {
+  id: Int
+  asset: AssetData
+  consumable: ConsumableData
+  supplier: SupplierData
+  person: PersonData
+  order_date: String
+  delivery_date: String
+  order_id: String
+  order_amount: Int
+  created: String
+  updated: String
 }
 
 input Vacancy {

@@ -46,20 +46,25 @@ class EvaluationListState extends State<EvaluationList> {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) => ListTile(
               title: Text(
-                (snapshot.data![index].grade.toString()),
+                (snapshot.data![index].id.toString()),
               ),
-              subtitle: Text(' ' +
-                  (snapshot.data![index].evaluatee_id!.toString()) +
-                  ' ' +
-                  (snapshot.data![index].evaluator_id!.toString()) +
-                  ' ' +
-                  (snapshot.data![index].evaluation_criteria_id!.toString()) +
-                  ' ' +
-                  (snapshot.data![index].notes ?? '') +
-                  ' ' +
-                  (snapshot.data![index].grade!.toString()) +
-                  ' ' +
-                  (snapshot.data![index].response ?? '')),
+              subtitle: Text(
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  ' Evaluatee Id: ' +
+                      (snapshot.data![index].evaluatee_id!.toString()) +
+                      '/ Evaluator Id: ' +
+                      (snapshot.data![index].evaluator_id!.toString()) +
+                      ' Evaluation Criteria Id: ' +
+                      (snapshot.data![index].evaluation_criteria_id!
+                          .toString()) +
+                      ' Activity Instance Id: ' +
+                      (snapshot.data![index].activity_instance_id!.toString()) +
+                      ' Notes: ' +
+                      (snapshot.data![index].notes ?? '') +
+                      ' Grade: ' +
+                      (snapshot.data![index].grade!.toString()) +
+                      ' Response: ' +
+                      (snapshot.data![index].response ?? '')),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -133,6 +138,8 @@ class _AddEvaluationPageState extends State<AddEvaluationPage> {
   late FocusNode _evaluator_id_FocusNode;
   late TextEditingController _evaluation_criteria_id_Controller;
   late FocusNode _evaluation_criteria_id_FocusNode;
+  late TextEditingController _activity_instance_id_Controller;
+  late FocusNode _activity_instance_id_FocusNode;
   late TextEditingController _response_Controller;
   late FocusNode _response_FocusNode;
   late TextEditingController _notes_Controller;
@@ -149,6 +156,8 @@ class _AddEvaluationPageState extends State<AddEvaluationPage> {
     _evaluator_id_FocusNode = FocusNode();
     _evaluation_criteria_id_Controller = TextEditingController();
     _evaluation_criteria_id_FocusNode = FocusNode();
+    _activity_instance_id_Controller = TextEditingController();
+    _activity_instance_id_FocusNode = FocusNode();
     _response_Controller = TextEditingController();
     _response_FocusNode = FocusNode();
     _notes_Controller = TextEditingController();
@@ -165,6 +174,8 @@ class _AddEvaluationPageState extends State<AddEvaluationPage> {
     _evaluator_id_FocusNode.dispose();
     _evaluation_criteria_id_Controller.dispose();
     _evaluation_criteria_id_FocusNode.dispose();
+    _activity_instance_id_Controller.dispose();
+    _activity_instance_id_FocusNode.dispose();
     _response_Controller.dispose();
     _response_FocusNode.dispose();
     _notes_Controller.dispose();
@@ -191,7 +202,15 @@ class _AddEvaluationPageState extends State<AddEvaluationPage> {
                   'Fill in the details of the Evaluation you want to add'),
               TextFormField(
                 controller: _evaluatee_id_Controller,
-                decoration: const InputDecoration(labelText: 'Evaluatee_Id'),
+                decoration: const InputDecoration(
+                  labelText: 'Evaluatee_Id',
+                  hintText: "Enter evaluatee_id",
+                  prefixIcon: Icon(Icons.numbers_outlined),
+                  hintStyle:
+                      TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  labelStyle: TextStyle(
+                      fontSize: 15, color: Colors.blueAccent), //label style
+                ),
                 onFieldSubmitted: (_) {
                   _evaluatee_id_FocusNode.requestFocus();
                 },
@@ -199,7 +218,15 @@ class _AddEvaluationPageState extends State<AddEvaluationPage> {
               ),
               TextFormField(
                 controller: _evaluator_id_Controller,
-                decoration: const InputDecoration(labelText: 'Evaluator_Id'),
+                decoration: const InputDecoration(
+                  labelText: 'Evaluator_Id',
+                  hintText: "Enter evaluator_Id",
+                  prefixIcon: Icon(Icons.numbers_outlined),
+                  hintStyle:
+                      TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  labelStyle: TextStyle(
+                      fontSize: 15, color: Colors.blueAccent), //label style
+                ),
                 onFieldSubmitted: (_) {
                   _evaluator_id_FocusNode.requestFocus();
                 },
@@ -207,8 +234,31 @@ class _AddEvaluationPageState extends State<AddEvaluationPage> {
               ),
               TextFormField(
                 controller: _evaluation_criteria_id_Controller,
-                decoration:
-                    const InputDecoration(labelText: 'Evaluation_Criteria_Id'),
+                decoration: const InputDecoration(
+                  labelText: 'Evaluation_Criteria_Id',
+                  hintText: "Enter evaluation_Criteria_Id",
+                  prefixIcon: Icon(Icons.numbers_outlined),
+                  hintStyle:
+                      TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  labelStyle: TextStyle(
+                      fontSize: 15, color: Colors.blueAccent), //label style
+                ),
+                onFieldSubmitted: (_) {
+                  _evaluation_criteria_id_FocusNode.requestFocus();
+                },
+                validator: _mandatoryValidator,
+              ),
+              TextFormField(
+                controller: _activity_instance_id_Controller,
+                decoration: const InputDecoration(
+                  labelText: 'Activity_Instance_id',
+                  hintText: "Enter activity_instance_id",
+                  prefixIcon: Icon(Icons.numbers_outlined),
+                  hintStyle:
+                      TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  labelStyle: TextStyle(
+                      fontSize: 15, color: Colors.blueAccent), //label style
+                ),
                 onFieldSubmitted: (_) {
                   _evaluation_criteria_id_FocusNode.requestFocus();
                 },
@@ -216,7 +266,15 @@ class _AddEvaluationPageState extends State<AddEvaluationPage> {
               ),
               TextFormField(
                 controller: _grade_Controller,
-                decoration: const InputDecoration(labelText: 'Grade'),
+                decoration: const InputDecoration(
+                  labelText: 'Grade',
+                  hintText: "Enter grade",
+                  prefixIcon: Icon(Icons.numbers_outlined),
+                  hintStyle:
+                      TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  labelStyle: TextStyle(
+                      fontSize: 15, color: Colors.blueAccent), //label style
+                ),
                 onFieldSubmitted: (_) {
                   _grade_FocusNode.requestFocus();
                 },
@@ -224,7 +282,15 @@ class _AddEvaluationPageState extends State<AddEvaluationPage> {
               ),
               TextFormField(
                 controller: _response_Controller,
-                decoration: const InputDecoration(labelText: 'Response'),
+                decoration: const InputDecoration(
+                  labelText: 'Response',
+                  hintText: "Enter response",
+                  prefixIcon: Icon(Icons.feed_outlined),
+                  hintStyle:
+                      TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  labelStyle: TextStyle(
+                      fontSize: 15, color: Colors.blueAccent), //label style
+                ),
                 onFieldSubmitted: (_) {
                   _response_FocusNode.requestFocus();
                 },
@@ -232,7 +298,15 @@ class _AddEvaluationPageState extends State<AddEvaluationPage> {
               ),
               TextFormField(
                 controller: _notes_Controller,
-                decoration: const InputDecoration(labelText: 'Notes'),
+                decoration: const InputDecoration(
+                  labelText: 'Notes',
+                  hintText: "Enter notes",
+                  prefixIcon: Icon(Icons.note_add_outlined),
+                  hintStyle:
+                      TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  labelStyle: TextStyle(
+                      fontSize: 15, color: Colors.blueAccent), //label style
+                ),
                 onFieldSubmitted: (_) {
                   _notes_FocusNode.requestFocus();
                 },
@@ -246,7 +320,7 @@ class _AddEvaluationPageState extends State<AddEvaluationPage> {
         onPressed: () async {
           await _addEvaluation(context);
         },
-        child: const Icon(Icons.save),
+        child: const Icon(Icons.save_sharp),
       ),
     );
   }
@@ -263,6 +337,8 @@ class _AddEvaluationPageState extends State<AddEvaluationPage> {
             evaluator_id: int.parse(_evaluator_id_Controller.text),
             evaluation_criteria_id:
                 int.parse(_evaluation_criteria_id_Controller.text),
+            activity_instance_id:
+                int.parse(_activity_instance_id_Controller.text),
             grade: int.parse(_grade_Controller.text),
             notes: _notes_Controller.text,
             response: _response_Controller.text);
@@ -304,6 +380,8 @@ class _EditEvaluationPageState extends State<EditEvaluationPage> {
   late FocusNode _evaluator_id_FocusNode;
   late TextEditingController _evaluation_criteria_id_Controller;
   late FocusNode _evaluation_criteria_id_FocusNode;
+  late TextEditingController _activity_instance_id_Controller;
+  late FocusNode _activity_instance_id_FocusNode;
   late TextEditingController _response_Controller;
   late FocusNode _response_FocusNode;
   late TextEditingController _notes_Controller;
@@ -324,6 +402,9 @@ class _EditEvaluationPageState extends State<EditEvaluationPage> {
     _evaluation_criteria_id_Controller = TextEditingController(
         text: evaluation.evaluation_criteria_id.toString());
     _evaluation_criteria_id_FocusNode = FocusNode();
+    _activity_instance_id_Controller =
+        TextEditingController(text: evaluation.activity_instance_id.toString());
+    _activity_instance_id_FocusNode = FocusNode();
     _response_Controller = TextEditingController(text: evaluation.response);
     _response_FocusNode = FocusNode();
     _notes_Controller = TextEditingController(text: evaluation.response);
@@ -341,6 +422,8 @@ class _EditEvaluationPageState extends State<EditEvaluationPage> {
     _evaluator_id_FocusNode.dispose();
     _evaluation_criteria_id_Controller.dispose();
     _evaluation_criteria_id_FocusNode.dispose();
+    _activity_instance_id_Controller.dispose();
+    _activity_instance_id_FocusNode.dispose();
     _response_Controller.dispose();
     _response_FocusNode.dispose();
     _notes_Controller.dispose();
@@ -387,6 +470,15 @@ class _EditEvaluationPageState extends State<EditEvaluationPage> {
                     const InputDecoration(labelText: 'Evaluation_Criteria_Id'),
                 onFieldSubmitted: (_) {
                   _evaluation_criteria_id_FocusNode.requestFocus();
+                },
+                validator: _mandatoryValidator,
+              ),
+              TextFormField(
+                controller: _activity_instance_id_Controller,
+                decoration:
+                    const InputDecoration(labelText: 'Activity Instance ID'),
+                onFieldSubmitted: (_) {
+                  _activity_instance_id_FocusNode.requestFocus();
                 },
                 validator: _mandatoryValidator,
               ),
@@ -440,6 +532,8 @@ class _EditEvaluationPageState extends State<EditEvaluationPage> {
             evaluator_id: int.parse(_evaluator_id_Controller.text),
             evaluation_criteria_id:
                 int.parse(_evaluation_criteria_id_Controller.text),
+            activity_instance_id:
+                int.parse(_activity_instance_id_Controller.text),
             grade: int.parse(_grade_Controller.text),
             response: _response_Controller.text,
             notes: _notes_Controller.text);

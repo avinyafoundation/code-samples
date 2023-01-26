@@ -3,24 +3,22 @@
         "evaluatee_id": 1,
         "evaluator_id": 1,
         "evaluation_criteria_id": 1,
-        "activity_instance_id": 321,
+        "activity_instance_id": 1,
         "updated": "2022-01-01T00:00:00Z",
         "response": "Test 1",
         "notes": "Test 1",
-        "grade": 43,
-        "child_evaluations": [1],
-        "parent_evaluations": []
+        "grade": 43
     },
     {
         "evaluatee_id": 1,
         "evaluator_id": 1,
         "evaluation_criteria_id": 1,
-        "activity_instance_id": 321,
+        "activity_instance_id": 1,
         "updated": "2022-01-01T00:00:00Z",
         "response": "Test 2",
         "notes": "Test 2",
-        "grade": 54,
-        "child_evaluations": [],
-        "parent_evaluations": [1]
+        "grade": 54
+       
     }
 ]
+

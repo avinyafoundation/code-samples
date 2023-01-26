@@ -21,6 +21,7 @@ public type ActivityInstance record {
     string? record_type?;
     int? monthly_sequence?;
     string? start_time?;
+    int? organization_id?;
     int? activity_id?;
     string? name?;
     int? id?;
@@ -131,20 +132,19 @@ public type AvinyaType record {
     string global_type?;
 };
 
-# Description
-#
-# + parent_evaluations - Field Description  
-# + activity_instance_id - Field Description  
-# + notes - Field Description  
-# + evaluatee_id - Field Description  
-# + evaluation_criteria_id - Field Description  
-# + response - Field Description  
-# + child_evaluations - Field Description  
-# + evaluator_id - Field Description  
-# + grade - Field Description  
-# + id - Field Description  
-# + updated - Field Description  
-# + record_type - Field Description
+public type Consumable record {
+    string? created?;
+    int? avinya_type_id?;
+    string? name?;
+    string? description?;
+    string? model?;
+    string? serial_number?;
+    int? id?;
+    string? updated?;
+    string? record_type?;
+    string? manufacturer?;
+};
+
 public type Evaluation record {
     int[]? parent_evaluations?;
     int? activity_instance_id?;
@@ -160,14 +160,43 @@ public type Evaluation record {
     string? record_type?;
 };
 
+public type EvaluationMetadata record {
+    string? meta_type?;
+    int? evaluation_id?;
+    string? metadata?;
+    int? level?;
+    string? on_date_time?;
+    string? focus?;
+    string? location?;
+    int? id?;
+    string? record_type?;
+    string? status?;
+};
+
+public type Inventory record {
+    int? quantity_out?;
+    int? consumable_id?;
+    int? quantity?;
+    int? quantity_in?;
+    string? created?;
+    int? organization_id?;
+    int? id?;
+    int? asset_id?;
+    string? updated?;
+    string? record_type?;
+    int? person_id?;
+};
+
 public type Organization record {
     int[]? parent_organizations?;
+    string? notes?;
     string? name_ta?;
     int[]? child_organizations?;
     int? phone?;
     int? address_id?;
     string? name_si?;
     int? avinya_type?;
+    string? description?;
     int? id?;
     string? record_type?;
     string name_en?;
@@ -222,6 +251,56 @@ public type Prospect record {
     string? email?;
 };
 
+public type ResourceAllocation record {
+    string? end_date?;
+    int? consumable_id?;
+    int? quantity?;
+    string? created?;
+    int? organization_id?;
+    int? id?;
+    int? asset_id?;
+    string? updated?;
+    string? record_type?;
+    int? person_id?;
+    string? start_date?;
+};
+
+public type ResourceProperty record {
+    int? consumable_id?;
+    string? property?;
+    int? id?;
+    int? asset_id?;
+    string? value?;
+    string? record_type?;
+};
+
+public type Supplier record {
+    int? phone?;
+    string? created?;
+    string? name?;
+    int? address_id?;
+    string? description?;
+    int? id?;
+    string? updated?;
+    string? record_type?;
+    string? email?;
+};
+
+public type Supply record {
+    string? order_date?;
+    string? delivery_date?;
+    int? consumable_id?;
+    string? created?;
+    int? order_amount?;
+    int? id?;
+    int? asset_id?;
+    int? supplier_id?;
+    string? order_id?;
+    string? updated?;
+    string? record_type?;
+    int? person_id?;
+};
+
 public type Vacancy record {
     int? organization_id?;
     string? name?;
@@ -236,10 +315,71 @@ public type Vacancy record {
 public type GetEvaluationsResponse record {|
     map<json?> __extensions?;
     record {|
+        int? id;
         int? evaluatee_id;
         int? evaluator_id;
         int? evaluation_criteria_id;
+        int? activity_instance_id;
         int? grade;
         string? notes;
-    |} evaluations;
+        string? response;
+        string? updated;
+    |}? evaluation;
+|};
+
+public type GetEvaluationsAllResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? id;
+        int? evaluatee_id;
+        int? evaluator_id;
+        int? evaluation_criteria_id;
+        int? activity_instance_id;
+        int? grade;
+        string? notes;
+        string? response;
+        string? updated;
+    |}[] all_evaluations;
+|};
+
+public type UpdateEvaluationResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? id;
+        int? evaluatee_id;
+        int? evaluator_id;
+        int? evaluation_criteria_id;
+        int? activity_instance_id;
+        string? response;
+        string? notes;
+        int? grade;
+    |}? update_evaluation;
+|};
+
+public type GetMetadataResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? evaluation_id;
+        string? location;
+        string? on_date_time;
+        int? level;
+        string? meta_type;
+        string? status;
+        string? focus;
+        string? metadata;
+    |}? evaluation_meta_data;
+|};
+
+public type AddEvaluationMetaDataResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? evaluation_id;
+        string? location;
+        string? on_date_time;
+        int? level;
+        string? meta_type;
+        string? status;
+        string? focus;
+        string? metadata;
+    |}? add_evaluation_meta_data;
 |};

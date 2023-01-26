@@ -1,5 +1,5 @@
 import 'package:ShoolManagementSystem/src/data/evaluation.dart';
-import 'package:ShoolManagementSystem/src/widgets/avinya_type_list.dart';
+
 import 'package:ShoolManagementSystem/src/widgets/evaluation_list.dart';
 import 'package:flutter/material.dart';
 
@@ -69,7 +69,7 @@ class _EvaluationScreenState extends State<EvaluationScreen>
                 ))
                 .then((value) => setState(() {}));
           },
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.send_sharp),
         ),
       );
 

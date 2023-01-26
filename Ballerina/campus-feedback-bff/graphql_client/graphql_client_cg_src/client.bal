@@ -1,6 +1,4 @@
-import ballerina/http;
 import ballerina/graphql;
-import ballerina/log;
 
 public isolated client class GraphqlClient {
     final graphql:Client graphqlClient;
@@ -29,23 +27,34 @@ public isolated client class GraphqlClient {
         graphql:Client clientEp = check new (serviceUrl, graphqlClientConfig);
         self.graphqlClient = clientEp;
     }
-
-    remote isolated function getEvaluations(int id) returns GetEvaluationsResponse|graphql:ClientError {
-        string query = string `query getEvaluations($id:Int!) {evaluations(id:$id) {evaluatee_id evaluator_id evaluation_criteria_id grade notes}}`;
-        map<anydata> variables = {"id": id};
+    remote isolated function getEvaluations(int eval_id) returns GetEvaluationsResponse|graphql:ClientError {
+        string query = string `query getEvaluations($eval_id:Int!) {evaluation(eval_id:$eval_id) {id evaluatee_id evaluator_id evaluation_criteria_id activity_instance_id grade notes response updated}}`;
+        map<anydata> variables = {"eval_id": eval_id};
         json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
-        return <GetEvaluationsResponse>check performDataBinding(graphqlResponse, GetEvaluationsResponse);
+        return <GetEvaluationsResponse> check performDataBinding(graphqlResponse, GetEvaluationsResponse);
     }
-    
-    remote isolated function createEvaluations(Evaluation[] evaluations) returns json|graphql:ClientError {
-        string query = string `mutation createEvaluations($evaluations: [Evaluation!]!)
-                                {
-                                    add_evaluations(evaluations:$evaluations) 
-                                        
-                                }`;
-        map<anydata> variables = {"evaluations": evaluations};
+    remote isolated function getEvaluationsAll() returns GetEvaluationsAllResponse|graphql:ClientError {
+        string query = string `query getEvaluationsAll {all_evaluations {id evaluatee_id evaluator_id evaluation_criteria_id activity_instance_id grade notes response updated}}`;
+        map<anydata> variables = {};
         json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
-        log:printInfo("Response: " + graphqlResponse.toString());
-        return graphqlResponse;
+        return <GetEvaluationsAllResponse> check performDataBinding(graphqlResponse, GetEvaluationsAllResponse);
+    }
+    remote isolated function updateEvaluation(Evaluation evaluation) returns UpdateEvaluationResponse|graphql:ClientError {
+        string query = string `mutation updateEvaluation($evaluation:Evaluation!) {update_evaluation(evaluation:$evaluation) {id evaluatee_id evaluator_id evaluation_criteria_id activity_instance_id response notes grade}}`;
+        map<anydata> variables = {"evaluation": evaluation};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <UpdateEvaluationResponse> check performDataBinding(graphqlResponse, UpdateEvaluationResponse);
+    }
+    remote isolated function getMetadata(int meta_evaluation_id) returns GetMetadataResponse|graphql:ClientError {
+        string query = string `query getMetadata($meta_evaluation_id:Int!) {evaluation_meta_data(meta_evaluation_id:$meta_evaluation_id) {evaluation_id location on_date_time level meta_type status focus metadata}}`;
+        map<anydata> variables = {"meta_evaluation_id": meta_evaluation_id};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <GetMetadataResponse> check performDataBinding(graphqlResponse, GetMetadataResponse);
+    }
+    remote isolated function AddEvaluationMetaData(EvaluationMetadata metadata) returns AddEvaluationMetaDataResponse|graphql:ClientError {
+        string query = string `mutation AddEvaluationMetaData($metadata:EvaluationMetadata!) {add_evaluation_meta_data(metadata:$metadata) {evaluation_id location on_date_time level meta_type status focus metadata}}`;
+        map<anydata> variables = {"metadata": metadata};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <AddEvaluationMetaDataResponse> check performDataBinding(graphqlResponse, AddEvaluationMetaDataResponse);
     }
 }
