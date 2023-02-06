@@ -70,4 +70,35 @@ public isolated client class GraphqlClient {
         json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
         return <AddEvaluationMetaDataResponse>check performDataBinding(graphqlResponse, AddEvaluationMetaDataResponse);
     }
+
+    remote isolated function GetEvaluationCycle(int id) returns GetEvaluationCycleResponse|graphql:ClientError {
+        string query = string `query GetEvaluationCycle($id:Int!) {evaluation_cycle(id:$id) {name description start_date end_date}}`;
+        map<anydata> variables = {"id": id};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <GetEvaluationCycleResponse>check performDataBinding(graphqlResponse, GetEvaluationCycleResponse);
+    }
+    remote isolated function AddEducationExperience(Evaluation evaluation, EducationExperience education_experience) returns AddEducationExperienceResponse|graphql:ClientError {
+        string query = string `mutation AddEducationExperience($education_experience:EducationExperience!,$evaluation:Evaluation!) {add_education_experience(education_experience:$education_experience,evaluation:$evaluation) {person_id school start_date end_date}}`;
+        map<anydata> variables = {"evaluation": evaluation, "education_experience": education_experience};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <AddEducationExperienceResponse>check performDataBinding(graphqlResponse, AddEducationExperienceResponse);
+    }
+    remote isolated function GetEducationExperience(int person_id) returns GetEducationExperienceResponse|graphql:ClientError {
+        string query = string `query GetEducationExperience($person_id:Int!) {education_experience(person_id:$person_id) {person_id school start_date end_date}}`;
+        map<anydata> variables = {"person_id": person_id};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <GetEducationExperienceResponse>check performDataBinding(graphqlResponse, GetEducationExperienceResponse);
+    }
+    remote isolated function GetWorkExperience(int person_id) returns GetWorkExperienceResponse|graphql:ClientError {
+        string query = string `query GetWorkExperience($person_id:Int!) {work_experience(person_id:$person_id) {person_id organization start_date end_date}}`;
+        map<anydata> variables = {"person_id": person_id};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <GetWorkExperienceResponse>check performDataBinding(graphqlResponse, GetWorkExperienceResponse);
+    }
+    remote isolated function AddWorkExperience(Evaluation evaluation, WorkExperience work_experience) returns AddWorkExperienceResponse|graphql:ClientError {
+        string query = string `mutation AddWorkExperience($work_experience:WorkExperience!,$evaluation:Evaluation!) {add_work_experience(work_experience:$work_experience,evaluation:$evaluation) {person_id school start_date end_date}}`;
+        map<anydata> variables = {"evaluation": evaluation, "work_experience": work_experience};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <AddWorkExperienceResponse>check performDataBinding(graphqlResponse, AddWorkExperienceResponse);
+    }
 }

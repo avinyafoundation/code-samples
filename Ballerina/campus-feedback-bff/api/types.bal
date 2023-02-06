@@ -312,6 +312,24 @@ public type Vacancy record {
     string? record_type?;
 };
 
+public type WorkExperience record {
+    string? end_date?;
+    string? organization?;
+    int? id?;
+    string? record_type?;
+    int? person_id?;
+    string? start_date?;
+};
+
+public type EducationExperience record {
+    string? end_date?;
+    string? school?;
+    int? id?;
+    string? record_type?;
+    int? person_id?;
+    string? start_date?;
+};
+
 public type GetEvaluationsResponse record {|
     map<json?> __extensions?;
     record {|
@@ -382,4 +400,63 @@ public type AddEvaluationMetaDataResponse record {|
         string? focus;
         string? metadata;
     |}? metadata;
+|};
+
+public type AddEvaluationanswerOptionResponse record {|
+    map<json?> __extensions?;
+    record {|
+        string? answer;
+        boolean? expected_answer;
+        int? evaluation_criteria_id;
+    |}? add_evaluation_answer_option;
+|};
+
+public type GetEvaluationCycleResponse record {|
+    map<json?> __extensions?;
+    record {|
+        string? name;
+        string? description;
+        string? start_date;
+        string? end_date;
+    |} evaluation_cycle;
+|};
+
+public type AddEducationExperienceResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? person_id;
+        string? school;
+        string? start_date;
+        string? end_date;
+    |}? add_education_experience;
+|};
+
+public type GetEducationExperienceResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? person_id;
+        string? school;
+        string? start_date;
+        string? end_date;
+    |}[]? education_experience;
+|};
+
+public type GetWorkExperienceResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? person_id;
+        string? organization;
+        string? start_date;
+        string? end_date;
+    |}[]? work_experience;
+|};
+
+public type AddWorkExperienceResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? person_id;
+        string? school;
+        string? start_date;
+        string? end_date;
+    |}? add_work_experience;
 |};
