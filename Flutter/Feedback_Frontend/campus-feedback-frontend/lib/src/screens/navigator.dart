@@ -90,8 +90,7 @@ class _SMSNavigatorState extends State<SMSNavigator> {
                 var signedIn = await authState.signIn(
                     credentials.username, credentials.password);
                 if (signedIn) {
-                  await routeState
-                      .go('/avinya_types/popular'); //see as first page
+                  await routeState.go('/evaluations/popular'); //see as first page
                 }
               },
             ),
