@@ -304,6 +304,7 @@ input EducationExperience {
   school: String
   start_date: String
   end_date: String
+  evaluation_id: [Int!]
 }
 
 type EducationExperienceData {
@@ -311,6 +312,7 @@ type EducationExperienceData {
   school: String
   start_date: String
   end_date: String
+  education_evaluations: [EducationExperienceData!]
 }
 
 input Evaluation {
@@ -334,7 +336,7 @@ input EvaluationCriteria {
   prompt: String
   description: String
   expected_answer: String
-  evalualtion_type: String
+  evaluation_type: String
   difficulty: String
   rating_out_of: Int
 }
@@ -357,7 +359,7 @@ type EvaluationCriteriaData {
   prompt: String
   description: String
   expected_answer: String
-  evalualtion_type: String
+  evaluation_type: String
   difficulty: String
   rating_out_of: Int
   id: Int
@@ -408,6 +410,7 @@ input EvaluationMetadata {
 }
 
 type EvaluationMetadataData {
+  id: Int
   evaluation_id: Int
   location: String
   on_date_time: String
@@ -479,16 +482,12 @@ type Mutation {
   add_evaluation_answer_option(
     evaluationAnswer: EvaluationCriteriaAnswerOption!
   ): EvaluationCriteriaAnswerOptionData
-  add_evaluation_cycle(evaluationCycle: EvaluationCycle!): Int!
+  add_evaluation_cycle(evaluationCycle: EvaluationCycle!): Int
   update_evaluation_cycles(evaluation_cycle: EvaluationCycle!): Int!
   add_education_experience(
     education_experience: EducationExperience!
-    evaluation: Evaluation!
   ): EducationExperienceData
-  add_work_experience(
-    work_experience: WorkExperience!
-    evaluation: Evaluation!
-  ): EducationExperienceData
+  add_work_experience(work_experience: WorkExperience!): WorkExperienceData
   add_address(address: Address!): AddressData
   add_prospect(prospect: Prospect!): ProspectData
   add_organization(org: Organization!): OrganizationData
@@ -720,8 +719,10 @@ type Query {
   evaluation_meta_data(meta_evaluation_id: Int!): EvaluationMetadataData
   evaluationCriteria(prompt: String, id: Int): EvaluationCriteriaData!
   evaluation_cycle(name: String, id: Int): EvaluationCycleData!
-  education_experience(person_id: Int): [EducationExperienceData!]
-  work_experience(person_id: Int): [WorkExperienceData!]
+  education_experience(id: Int): EducationExperienceData
+  education_experience_byPerson(person_id: Int): [EducationExperienceData!]!
+  work_experience(id: Int): WorkExperienceData
+  work_experience_ByPerson(person_id: Int): [WorkExperienceData!]
   activity(name: String, id: Int): ActivityData
   asset(id: Int, avinya_type_id: Int): [AssetData!]
   assets: [AssetData!]!
@@ -870,6 +871,7 @@ input WorkExperience {
   organization: String
   start_date: String
   end_date: String
+  evaluation_id: [Int!]
 }
 
 type WorkExperienceData {

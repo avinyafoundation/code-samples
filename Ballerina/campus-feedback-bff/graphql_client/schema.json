@@ -1010,6 +1010,27 @@
                             "name": "education_experience",
                             "args": [
                                 {
+                                    "name": "id",
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "Int",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                }
+                            ],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "EducationExperienceData",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "education_experience_byPerson",
+                            "args": [
+                                {
                                     "name": "person_id",
                                     "type": {
                                         "kind": "SCALAR",
@@ -1020,15 +1041,19 @@
                                 }
                             ],
                             "type": {
-                                "kind": "LIST",
+                                "kind": "NON_NULL",
                                 "name": null,
                                 "ofType": {
-                                    "kind": "NON_NULL",
+                                    "kind": "LIST",
                                     "name": null,
                                     "ofType": {
-                                        "kind": "OBJECT",
-                                        "name": "EducationExperienceData",
-                                        "ofType": null
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "OBJECT",
+                                            "name": "EducationExperienceData",
+                                            "ofType": null
+                                        }
                                     }
                                 }
                             },
@@ -1037,6 +1062,27 @@
                         },
                         {
                             "name": "work_experience",
+                            "args": [
+                                {
+                                    "name": "id",
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "Int",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                }
+                            ],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "WorkExperienceData",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "work_experience_ByPerson",
                             "args": [
                                 {
                                     "name": "person_id",
@@ -3010,6 +3056,25 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "education_evaluations",
+                            "args": [],
+                            "type": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "OBJECT",
+                                        "name": "EducationExperienceData",
+                                        "ofType": null
+                                    }
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -3828,6 +3893,17 @@
                     "kind": "OBJECT",
                     "name": "EvaluationMetadataData",
                     "fields": [
+                        {
+                            "name": "id",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
                         {
                             "name": "evaluation_id",
                             "args": [],
@@ -4916,13 +4992,9 @@
                                 }
                             ],
                             "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "Int",
-                                    "ofType": null
-                                }
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -4971,19 +5043,6 @@
                                         }
                                     },
                                     "defaultValue": null
-                                },
-                                {
-                                    "name": "evaluation",
-                                    "type": {
-                                        "kind": "NON_NULL",
-                                        "name": null,
-                                        "ofType": {
-                                            "kind": "INPUT_OBJECT",
-                                            "name": "Evaluation",
-                                            "ofType": null
-                                        }
-                                    },
-                                    "defaultValue": null
                                 }
                             ],
                             "type": {
@@ -5009,24 +5068,11 @@
                                         }
                                     },
                                     "defaultValue": null
-                                },
-                                {
-                                    "name": "evaluation",
-                                    "type": {
-                                        "kind": "NON_NULL",
-                                        "name": null,
-                                        "ofType": {
-                                            "kind": "INPUT_OBJECT",
-                                            "name": "Evaluation",
-                                            "ofType": null
-                                        }
-                                    },
-                                    "defaultValue": null
                                 }
                             ],
                             "type": {
                                 "kind": "OBJECT",
-                                "name": "EducationExperienceData",
+                                "name": "WorkExperienceData",
                                 "ofType": null
                             },
                             "isDeprecated": false,
@@ -6892,6 +6938,23 @@
                                 "ofType": null
                             },
                             "defaultValue": null
+                        },
+                        {
+                            "name": "evaluation_id",
+                            "type": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "Int",
+                                        "ofType": null
+                                    }
+                                }
+                            },
+                            "defaultValue": null
                         }
                     ],
                     "interfaces": null,
@@ -8420,6 +8483,23 @@
                                 "ofType": null
                             },
                             "defaultValue": null
+                        },
+                        {
+                            "name": "evaluation_id",
+                            "type": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "Int",
+                                        "ofType": null
+                                    }
+                                }
+                            },
+                            "defaultValue": null
                         }
                     ],
                     "interfaces": null,
@@ -8879,7 +8959,7 @@
                             "defaultValue": null
                         },
                         {
-                            "name": "evalualtion_type",
+                            "name": "evaluation_type",
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "String",
@@ -9229,7 +9309,7 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "evalualtion_type",
+                            "name": "evaluation_type",
                             "args": [],
                             "type": {
                                 "kind": "SCALAR",
