@@ -1,8 +1,10 @@
 # Activities mutation flow
-# add_activity -> add_activity_sequence_plan -> add_activity_instance -> add_activity_participant -> add_attendance
+# add_activity -> add_activity_instance -> add_activity_participant -> add_pcti_notes
 
-# The following code adds 11 activities for an academic day, then adds the activities to a sequence plan.
-# An activity instance is created for each activity. 20 participants are added to each instance and their attendance is then recorded.
+# The following code adds all the classes as Organizations. It then adds all Projects as activities.
+# PCTI children activities are then created for each project and organization.
+# An activity instance is then created for each PCTI activity. An activity participant with id 421 is added for each activity instance.
+# Finally, 3 PCTI notes are added for each activity instance by an evaluator with id 421.
 
 import requests;
 import random;
@@ -45,6 +47,8 @@ mutation{{
             name: "{activity_name}"
             description: "{activity_description}"
             parent_activities: {parent_activities}
+            avinya_type_id: {avinya_type_id}
+
         }}
     )
     {{
@@ -62,6 +66,18 @@ mutation {{
             phone: {phone}
             avinya_type: 78
         }}
+    ){{
+        id
+    }}
+}}
+"""
+
+update_person_organization_template = """
+mutation{{
+    update_person_organization(
+        newOrgId: {newOrgId}
+        personId: {personId}
+        transitionDate: "2023-01-26"
     ){{
         id
     }}
@@ -96,24 +112,52 @@ mutation{
 }
 """
 
-# project_class_names = ["Digital Passport", "Face Off", "Fun with Food", "Let's Vlog it", "My City, My Town", "Nature Trail", "Class A", "Class B", "Class C", "Class D", "Class E", "Class F"]
+add_pcti_notes = """
+mutation{{
+    add_pcti_notes(
+        evaluation:{{
+            activity_instance_id: {activity_instance_id}
+            notes: "{notes}"
+            evaluator_id: {evaluator_id}
+        }}
+    ){{
+        id
+    }}
+}}
+"""
 
-# adding 3 classes
+def generate_random_string(length):
+    # Generate a random string of the given length
+    letters = string.ascii_lowercase
+    return "".join(random.choice(letters) for i in range(length))
+
+
+# adding 6 classes
 class_description_names = ["Leopards", "Eagles", "Dolphins", "Bears", "Bees", "Elephants"]
 class_names = ["2026 - Empower - Group 1", "2026 - Empower - Group 2", "2026 - Empower - Group 3", "2026 - Empower - Group 4", "2026 - Empower - Group 5", "2026 - Empower - Group 6"]
+skills = ["CREATIVITY AND INNOVATION", "INFORMATION LITERACY", "FLEXIBILITY AND ADAPTABILITY"] 
 org_ids = []
+
+count = 0
 
 for i in range(len(class_names)):
     phone = random.randint(1000000000, 9999999999)
     addOrganizationMutation = add_organization_template.format(name_en=class_names[i], description=class_description_names[i], phone=phone)
     addOrganizationResponse = requests.post('http://localhost:4000/graphql', json={'query': addOrganizationMutation})
     print(addOrganizationResponse.json())
-    class_activity_id = addOrganizationResponse.json()["data"]["add_organization"]["id"]
-    org_ids.append(class_activity_id)
+    class_org_id = addOrganizationResponse.json()["data"]["add_organization"]["id"]
+    org_ids.append(class_org_id)
 
+    # adding 20 students to each class
+    for i in range(20):
+        count+=1
+        updatePersonOrganizationMutation = update_person_organization_template.format(newOrgId=class_org_id, personId=count)
+        updatePersonOrganizationResponse = requests.post('http://localhost:4000/graphql', json={'query': updatePersonOrganizationMutation})
+        print(updatePersonOrganizationResponse.json())
 
 # adding 6 projects
 project_names = ["Digital Passport", "Face Off", "Fun with Food", "Let's Vlog it", "My City, My Town", "Nature Trail"]
+project_activity_ids = []
 
 for name in project_names:
     # creating project activities
@@ -121,10 +165,11 @@ for name in project_names:
     addActivityresponse = requests.post(url, json={"query": add_activity_mutation})
     print(addActivityresponse.json())
     project_activity_id = addActivityresponse.json()["data"]["add_activity"]["id"]
+    project_activity_ids.append(project_activity_id)
 
     # creating children pcti activities
     for i in range(len(org_ids)):
-        add_pcti_mutation = add_children_activity_template.format(activity_name=name +" - "+ class_names[i], activity_description=name +" - "+ class_description_names[i], parent_activities=[project_activity_id])
+        add_pcti_mutation = add_children_activity_template.format(activity_name=name +" - "+ class_names[i], activity_description=name +" - "+ class_description_names[i], parent_activities=[project_activity_id], avinya_type_id=68)
         addPctiActivityresponse = requests.post(url, json={"query": add_pcti_mutation})
         pcti_activity_id = addPctiActivityresponse.json()["data"]["add_activity"]["id"]
         print(addPctiActivityresponse.json())
@@ -139,6 +184,18 @@ for name in project_names:
         addActivityParticipantMutation = add_activity_participant_template % (activityInstanceId, 421) # hardcoding person_id 421 and assuming this is a teacher
         addActivityParticipantResponse = requests.post(url, json={'query': addActivityParticipantMutation})
         print(addActivityParticipantResponse.json())
+
+        # add the pcti notes
+        for i in range(5):
+            addPctiNotesMutation = add_pcti_notes.format(activity_instance_id=activityInstanceId, notes=generate_random_string(10)+ " " + generate_random_string(10)+ " " + generate_random_string(10), evaluator_id=421)
+            addPctiNotesResponse = requests.post(url, json={'query': addPctiNotesMutation})
+            print(addPctiNotesResponse.json())
+
+# adding skills child activities
+for skill in skills:
+    add_skill_mutation = add_children_activity_template.format(activity_name=skill, activity_description=skill, parent_activities=project_activity_ids, avinya_type_id=80)
+    addSkillActivityresponse = requests.post(url, json={"query": add_skill_mutation})
+    print(addSkillActivityresponse.json())
 
         
 
