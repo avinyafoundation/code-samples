@@ -113,7 +113,7 @@ Future<http.Response> createEvaluation(List<Evaluation> evaluations) async {
   print(evaluations.map((evaluation) => evaluation.toJson()).toList());
   // log(evaluations.map((evaluation) => evaluation.toJson()).toString());
   final response = await http.post(
-    Uri.parse(AppConfig.campusConfigBffApiUrl + '/evaluations'),
+    Uri.parse(AppConfig.campusConfigBffApiUrl + '/evaluation/new'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + AppConfig.campusConfigBffApiKey,

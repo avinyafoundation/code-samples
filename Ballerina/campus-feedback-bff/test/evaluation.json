@@ -1,7 +1,7 @@
 [
     {
         "evaluatee_id": 1,
-        "evaluator_id": 1,
+        "evaluator_id": 2,
         "evaluation_criteria_id": 1,
         "activity_instance_id": 1,
         "updated": "2022-01-01T00:00:00Z",

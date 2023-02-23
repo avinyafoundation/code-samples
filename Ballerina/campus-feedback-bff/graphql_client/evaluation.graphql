@@ -59,11 +59,101 @@ mutation AddEvaluationMetaData($metadata: EvaluationMetadata!) {
   add_evaluation_meta_data(metadata: $metadata) {
     evaluation_id
     location
-    on_date_time
     level
     meta_type
     status
     focus
     metadata
+  }
+}
+
+# mutation AddEvaluationCycle($evaluationCycle: EvaluationCycle!) {
+#   add_evaluation_cycle(evaluationCycle: $evaluationCycle)
+# }
+
+query GetEvaluationCycle($id: Int!) {
+  evaluation_cycle(id: $id) {
+    name
+    description
+    start_date
+    end_date
+  }
+}
+
+# mutation updateEvaluationCycle($evaluation_cycle: EvaluationCycle!) {
+#   update_evaluation_cycles(evaluation_cycle: $evaluation_cycle)
+# }
+
+mutation AddEducationExperience($education_experience: EducationExperience!) {
+  add_education_experience(education_experience: $education_experience) {
+    person_id
+    school
+    start_date
+    end_date
+  }
+}
+
+query GetEducationExperience($person_id: Int!) {
+  education_experience_byPerson(person_id: $person_id) {
+    person_id
+    school
+    start_date
+    end_date
+  }
+}
+
+query GetWorkExperience($person_id: Int!) {
+  work_experience_ByPerson(person_id: $person_id) {
+    person_id
+    organization
+    start_date
+    end_date
+  }
+}
+
+mutation AddWorkExperience($work_experience: WorkExperience!) {
+  add_work_experience(work_experience: $work_experience) {
+    person_id
+    organization
+    start_date
+    end_date
+  }
+}
+
+mutation AddEvaluationCriteria($evaluationCriteria: EvaluationCriteria!) {
+  add_evaluation_criteria(evaluationCriteria: $evaluationCriteria) {
+    prompt
+    description
+    expected_answer
+    evaluation_type
+    difficulty
+    rating_out_of
+  }
+}
+
+query GetEvaluationCriteria($prompt: String!, $id: Int!) {
+  evaluationCriteria(prompt: $prompt, id: $id) {
+    prompt
+    description
+    expected_answer
+    evaluation_type
+    difficulty
+    rating_out_of
+    id
+    answer_options {
+      answer
+      expected_answer
+      evaluation_criteria_id
+    }
+  }
+}
+
+mutation AddEvaluationanswerOption(
+  $evaluationAnswer: EvaluationCriteriaAnswerOption!
+) {
+  add_evaluation_answer_option(evaluationAnswer: $evaluationAnswer) {
+    answer
+    expected_answer
+    evaluation_criteria_id
   }
 }

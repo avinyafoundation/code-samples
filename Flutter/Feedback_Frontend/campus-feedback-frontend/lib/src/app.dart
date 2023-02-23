@@ -29,12 +29,12 @@ class _CampusConfigManagementSystemState
     _routeParser = TemplateRouteParser(
       allowedPaths: [
         '/signin',
-        '/avinya_types/new',
-        '/avinya_types/all',
-        '/avinya_types/popular',
-        '/avinya_type/:id',
-        '/avinya_type/new',
-        '/avinya_type/edit',
+        // '/avinya_types/new',
+        // '/avinya_types/all',
+        // '/avinya_types/popular',
+        // '/avinya_type/:id',
+        // '/avinya_type/new',
+        // '/avinya_type/edit',
         '/evaluations/new',
         '/evaluations/all',
         '/evaluations/popular',
@@ -94,8 +94,8 @@ class _CampusConfigManagementSystemState
 
     final signInRoute = ParsedRoute('/signin', '/signin', {}, {});
 
-    final avinyaTypesRoute =
-        ParsedRoute('/avinya_types', '/avinya_types', {}, {});
+    // final avinyaTypesRoute =
+    //     ParsedRoute('/avinya_types', '/avinya_types', {}, {});
 
     final evaluationsRoute =
         ParsedRoute('/evaluations', '/evaluations', {}, {});
@@ -105,14 +105,15 @@ class _CampusConfigManagementSystemState
     // log("_guard JWT sub ${jwt_sub}");
     log("_guard from ${from.toString()}\n");
 
-    if (signedIn && from == avinyaTypesRoute) {
-      return avinyaTypesRoute;
-    } else if (signedIn && from == evaluationsRoute) {
+    // if (signedIn && from == avinyaTypesRoute) {
+    //   return avinyaTypesRoute;
+    // } else 
+    if (signedIn && from == evaluationsRoute) {
       return evaluationsRoute;
     }
     // Go to /application if the user is signed in and tries to go to /signin.
     else if (signedIn && from == signInRoute) {
-      return ParsedRoute('/avinya_types', '/avinya_types', {}, {});
+      return ParsedRoute('/evaluations', '/evaluations', {}, {});
     }
     // else if (signedIn && jwt_sub != null) {
     //   return avinyaTypesRoute;

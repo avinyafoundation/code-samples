@@ -145,6 +145,16 @@ public type Consumable record {
     string? manufacturer?;
 };
 
+public type EducationExperience record {
+    string? end_date?;
+    int[]? evaluation_id?;
+    string? school?;
+    int? id?;
+    string? record_type?;
+    int? person_id?;
+    string? start_date?;
+};
+
 public type Evaluation record {
     int[]? parent_evaluations?;
     int? activity_instance_id?;
@@ -158,6 +168,34 @@ public type Evaluation record {
     int? id?;
     string? updated?;
     string? record_type?;
+};
+
+public type EvaluationCriteria record {
+    string? difficulty?;
+    int? rating_out_of?;
+    string? description?;
+    string? evaluation_type?;
+    int? id?;
+    string? prompt?;
+    string? expected_answer?;
+    string? record_type?;
+};
+
+public type EvaluationCriteriaAnswerOption record {
+    string? answer?;
+    int? evaluation_criteria_id?;
+    int? id?;
+    boolean? expected_answer?;
+    string? record_type?;
+};
+
+public type EvaluationCycle record {
+    string? end_date?;
+    string? name?;
+    string? description?;
+    int? id?;
+    string? record_type?;
+    string? start_date?;
 };
 
 public type EvaluationMetadata record {
@@ -180,6 +218,7 @@ public type Inventory record {
     int? quantity_in?;
     string? created?;
     int? organization_id?;
+    int? avinya_type_id?;
     int? id?;
     int? asset_id?;
     string? updated?;
@@ -256,11 +295,14 @@ public type ResourceAllocation record {
     int? consumable_id?;
     int? quantity?;
     string? created?;
+    int? asset_id?;
+    string? record_type?;
+    boolean? requested?;
+    boolean? approved?;
     int? organization_id?;
     int? id?;
-    int? asset_id?;
     string? updated?;
-    string? record_type?;
+    boolean? allocated?;
     int? person_id?;
     string? start_date?;
 };
@@ -310,6 +352,16 @@ public type Vacancy record {
     int? head_count?;
     int? id?;
     string? record_type?;
+};
+
+public type WorkExperience record {
+    string? end_date?;
+    int[]? evaluation_id?;
+    string? organization?;
+    int? id?;
+    string? record_type?;
+    int? person_id?;
+    string? start_date?;
 };
 
 public type GetEvaluationsResponse record {|
@@ -375,11 +427,99 @@ public type AddEvaluationMetaDataResponse record {|
     record {|
         int? evaluation_id;
         string? location;
-        string? on_date_time;
         int? level;
         string? meta_type;
         string? status;
         string? focus;
         string? metadata;
     |}? add_evaluation_meta_data;
+|};
+
+public type GetEvaluationCycleResponse record {|
+    map<json?> __extensions?;
+    record {|
+        string? name;
+        string? description;
+        string? start_date;
+        string? end_date;
+    |} evaluation_cycle;
+|};
+
+public type AddEducationExperienceResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? person_id;
+        string? school;
+        string? start_date;
+        string? end_date;
+    |}? add_education_experience;
+|};
+
+public type GetEducationExperienceResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? person_id;
+        string? school;
+        string? start_date;
+        string? end_date;
+    |}[] education_experience_byPerson;
+|};
+
+public type GetWorkExperienceResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? person_id;
+        string? organization;
+        string? start_date;
+        string? end_date;
+    |}[]? work_experience_ByPerson;
+|};
+
+public type AddWorkExperienceResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? person_id;
+        string? organization;
+        string? start_date;
+        string? end_date;
+    |}? add_work_experience;
+|};
+
+public type AddEvaluationCriteriaResponse record {|
+    map<json?> __extensions?;
+    record {|
+        string? prompt;
+        string? description;
+        string? expected_answer;
+        string? evaluation_type;
+        string? difficulty;
+        int? rating_out_of;
+    |}? add_evaluation_criteria;
+|};
+
+public type GetEvaluationCriteriaResponse record {|
+    map<json?> __extensions?;
+    record {|
+        string? prompt;
+        string? description;
+        string? expected_answer;
+        string? evaluation_type;
+        string? difficulty;
+        int? rating_out_of;
+        int? id;
+        record {|
+            string? answer;
+            boolean? expected_answer;
+            int? evaluation_criteria_id;
+        |}[]? answer_options;
+    |} evaluationCriteria;
+|};
+
+public type AddEvaluationanswerOptionResponse record {|
+    map<json?> __extensions?;
+    record {|
+        string? answer;
+        boolean? expected_answer;
+        int? evaluation_criteria_id;
+    |}? add_evaluation_answer_option;
 |};

@@ -3,6 +3,7 @@ import 'dart:html';
 
 import 'package:ShoolManagementSystem/src/data/campus_feedback_system.dart';
 import 'package:ShoolManagementSystem/src/data/evaluation.dart';
+import 'package:ShoolManagementSystem/src/routing/route_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -123,7 +124,7 @@ class EvaluationListState extends State<EvaluationList> {
 }
 
 class AddEvaluationPage extends StatefulWidget {
-  static const String route = '/evaluation/add';
+  static const String route = '/evaluation/new';
   const AddEvaluationPage({super.key});
   @override
   _AddEvaluationPageState createState() => _AddEvaluationPageState();
