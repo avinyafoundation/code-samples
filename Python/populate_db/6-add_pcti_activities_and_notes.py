@@ -135,7 +135,7 @@ def generate_random_string(length):
 # adding 6 classes
 class_description_names = ["Leopards", "Eagles", "Dolphins", "Bears", "Bees", "Elephants"]
 class_names = ["2026 - Empower - Group 1", "2026 - Empower - Group 2", "2026 - Empower - Group 3", "2026 - Empower - Group 4", "2026 - Empower - Group 5", "2026 - Empower - Group 6"]
-skills = ["CREATIVITY AND INNOVATION", "INFORMATION LITERACY", "FLEXIBILITY AND ADAPTABILITY"] 
+tasks = ["Introduce email account", "Introduce basic security features", "Setting up email", "General"] 
 org_ids = []
 
 count = 0
@@ -192,8 +192,8 @@ for name in project_names:
             print(addPctiNotesResponse.json())
 
 # adding skills child activities
-for skill in skills:
-    add_skill_mutation = add_children_activity_template.format(activity_name=skill, activity_description=skill, parent_activities=project_activity_ids, avinya_type_id=80)
+for task in tasks:
+    add_skill_mutation = add_children_activity_template.format(activity_name=task, activity_description=task, parent_activities=project_activity_ids, avinya_type_id=80)
     addSkillActivityresponse = requests.post(url, json={"query": add_skill_mutation})
     print(addSkillActivityresponse.json())
 
