@@ -63,14 +63,13 @@ class _EvaluationScreenState extends State<EvaluationScreen>
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            
             Navigator.of(context)
                 .push<void>(MaterialPageRoute<void>(
                   builder: (context) => AddEvaluationPage(), //change this
                 ))
                 .then((value) => setState(() {}));
           },
-          child: const Icon(Icons.send_sharp),
+          child: const Icon(Icons.plus_one_sharp),
         ),
       );
 

@@ -9,7 +9,7 @@ class EvaluationCriteria {
   String? prompt;
   String? description;
   String? expected_answer;
-  String? evalualtion_type;
+  String? evaluation_type;
   String? difficulty;
   int? rating_out_of;
   var answer_options = <EvaluationCriteriaAnswerOption>[];
@@ -19,7 +19,7 @@ class EvaluationCriteria {
     this.prompt,
     this.description,
     this.expected_answer,
-    this.evalualtion_type,
+    this.evaluation_type,
     this.difficulty,
     this.rating_out_of,
     this.answer_options = const [],
@@ -31,13 +31,13 @@ class EvaluationCriteria {
       prompt: json['prompt'],
       description: json['description'],
       expected_answer: json['expected_answer'],
-      evalualtion_type: json['evalualtion_type'],
+      evaluation_type: json['evaluation_type'],
       difficulty: json['difficulty'],
       rating_out_of: json['rating_out_of'],
-      answer_options: json['answer_options']
-          .map<EvaluationCriteriaAnswerOption>(
-              (ao_json) => EvaluationCriteriaAnswerOption.fromJson(ao_json))
-          .toList(),
+      // answer_options: json['answer_options']
+      //     .map<EvaluationCriteriaAnswerOption>(
+      //         (ao_json) => EvaluationCriteriaAnswerOption.fromJson(ao_json))
+      //     .toList(),
     );
   }
 
@@ -46,18 +46,17 @@ class EvaluationCriteria {
         if (prompt != null) 'prompt': prompt,
         if (description != null) 'description': description,
         if (expected_answer != null) 'expected_answer': expected_answer,
-        if (evalualtion_type != null) 'evalualtion_type': evalualtion_type,
+        if (evaluation_type != null) 'evaluation_type': evaluation_type,
         if (difficulty != null) 'difficulty': difficulty,
         if (rating_out_of != null) 'rating_out_of': rating_out_of,
-        'answer_options': [answer_options],
+        // 'answer_options': [answer_options],
         //if (answer_options != null) 'answer_options': answer_options,
       };
 }
 
 Future<List<EvaluationCriteria>> fetchEvaluationCriterias() async {
   final response = await http.get(
-    Uri.parse(AppConfig.campusConfigBffApiUrl +
-        '/student_vacancies/evaluation_criterias'),
+    Uri.parse(AppConfig.campusConfigBffApiUrl + '/evaluation_criterias'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'accept': 'application/json',
@@ -76,10 +75,11 @@ Future<List<EvaluationCriteria>> fetchEvaluationCriterias() async {
   }
 }
 
-Future<EvaluationCriteria> fetchEvaluationCriteria(String id) async {
+Future<EvaluationCriteria> fetchEvaluationCriteria(
+    String id, String prompt) async {
   final response = await http.get(
-    Uri.parse(AppConfig.campusConfigBffApiUrl +
-        '/evaluation_criteria/evaluation_criterias/$id'),
+    Uri.parse(
+        AppConfig.campusConfigBffApiUrl + '/evaluation_criteria/$id/$prompt'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'accept': 'application/json',

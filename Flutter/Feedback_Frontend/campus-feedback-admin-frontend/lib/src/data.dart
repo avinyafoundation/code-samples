@@ -8,3 +8,4 @@ export 'data/vacancy.dart';
 export 'data/application.dart';
 export 'data/avinya_type.dart';
 export 'data/evaluation.dart';
+export 'data/evaluation_criteria.dart';

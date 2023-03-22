@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:ShoolManagementSystem/src/data/address.dart';
 import 'package:http/http.dart' as http;
+
+
 import 'dart:convert';
 
 import '../config/app_config.dart';
@@ -110,7 +112,7 @@ class Person {
       };
 }
 
-Future<List<Person>> fetchPersons() async {
+Future<List<Person>> fetchStudentApplicants() async {
   final response = await http.get(
     Uri.parse(AppConfig.campusConfigBffApiUrl + '/student_applicant'),
     headers: <String, String>{
@@ -130,7 +132,33 @@ Future<List<Person>> fetchPersons() async {
   }
 }
 
-Future<Person> fetchPerson(String jwt_sub_id) async {
+Future<Person> fetchPerson(int person_id) async {
+  final response = await http.get(
+    Uri.parse(AppConfig.campusConfigBffApiUrl + '/person?id=$person_id'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'accept': 'application/json',
+      'Authorization': 'Bearer ' + AppConfig.campusConfigBffApiKey,
+    },
+  );
+
+  // if (response.statusCode == 200) {
+  //   var resultsJson = json.decode(response.body).cast<Map<String, dynamic>>();
+  //   List<Person> persons =
+  //       await resultsJson.map<Person>((json) => Person.fromJson(json)).toList();
+  //   return persons;
+  // } else {
+  //   throw Exception('Failed to load Person');
+  // }
+  if (response.statusCode == 200) {
+    Person person = Person.fromJson(json.decode(response.body));
+    return person;
+  } else {
+    throw Exception('Failed to load Person');
+  }
+}
+
+Future<Person> fetchStudentApplicant(String jwt_sub_id) async {
   final response = await http.get(
     Uri.parse(
         AppConfig.campusConfigBffApiUrl + '/student_applicant/$jwt_sub_id'),
@@ -149,7 +177,7 @@ Future<Person> fetchPerson(String jwt_sub_id) async {
   }
 }
 
-Future<Person> createPerson(Person person) async {
+Future<Person> createStudentApplicant(Person person) async {
   final response = await http.post(
     Uri.parse(AppConfig.campusConfigBffApiUrl + '/student_applicant'),
     headers: <String, String>{
@@ -168,7 +196,7 @@ Future<Person> createPerson(Person person) async {
   }
 }
 
-Future<http.Response> updatePerson(Person person) async {
+Future<http.Response> updateStudentApplicant(Person person) async {
   final response = await http.put(
     Uri.parse(AppConfig.campusConfigBffApiUrl + '/student_applicant'),
     headers: <String, String>{
@@ -184,7 +212,7 @@ Future<http.Response> updatePerson(Person person) async {
   }
 }
 
-Future<http.Response> deletePerson(String id) async {
+Future<http.Response> deleteStudentApplicant(String id) async {
   final http.Response response = await http.delete(
     Uri.parse(AppConfig.campusConfigBffApiUrl + '/student_applicant/$id'),
     headers: <String, String>{

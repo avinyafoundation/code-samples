@@ -6,6 +6,14 @@ curl -X POST http://localhost:9090/evaluations -H "Content-Type: application/jso
 
 curl http://localhost:9090/evaluation/72
 curl http://localhost:9090/all_evaluations
+
+curl http://localhost:9090/evaluation_criterias
+
+curl http://localhost:9090/pcti_evaluation/1
+
+curl -X POST http://localhost:9090/pcti_evaluation -H "Content-Type: application.json" -d @test/pctievaluation.json 
+
+
 curl http://localhost:9090/evaluation_meta_data/72
 
 curl -X POST http://localhost:9090/evaluations -H "Content-Type: application.json" -d @test/evaluation.json 

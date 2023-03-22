@@ -111,6 +111,25 @@ service / on new http:Listener(9090) {
 
     }
 
+    //resourse function for update evaluations
+    resource function put evaluations(@http:Payload Evaluation evaluation) returns Evaluation|error {
+        UpdateEvaluationResponse|graphql:ClientError updateEvaluationResponse = globalDataClient->updateEvaluation(evaluation);
+        if (updateEvaluationResponse is UpdateEvaluationResponse) {
+            Evaluation|error evaluation_record = updateEvaluationResponse.update_evaluation.cloneWithType(Evaluation);
+            if (evaluation_record is EvaluationMetadata) {
+                return evaluation_record;
+            } else {
+                log:printError("Error while processing Application record received", evaluation_record);
+                return error("Error while processing Application record received: " + evaluation_record.message() +
+                    ":: Detail: " + evaluation_record.detail().toString());
+            }
+        } else {
+            log:printError("Error while creating application", updateEvaluationResponse);
+            return error("Error while creating application: " + updateEvaluationResponse.message() +
+                ":: Detail: " + updateEvaluationResponse.detail().toString());
+        }
+    }
+
     resource function get evaluation_meta_data/[int metadata_id]() returns EvaluationMetadata|error {
         GetMetadataResponse|graphql:ClientError getMetadataResponse = globalDataClient->getMetadata(metadata_id);
         if (getMetadataResponse is GetMetadataResponse) {
@@ -289,6 +308,30 @@ service / on new http:Listener(9090) {
         }
     }
 
+    resource function get evaluation_criterias() returns EvaluationCriteria[]|error? {
+        GetEvaluationallCriteriasResponse|graphql:ClientError getEvaluationallCriteriasResponse = globalDataClient->getEvaluationallCriterias();
+        if (getEvaluationallCriteriasResponse is GetEvaluationallCriteriasResponse) {
+            EvaluationCriteria[] evaluationcriterias = [];
+            foreach var evaluation_criterias in getEvaluationallCriteriasResponse.all_evaluation_criterias {
+                EvaluationCriteria|error evaluation_criteria = evaluation_criterias.cloneWithType(EvaluationCriteria);
+                if (evaluation_criteria is EvaluationCriteria) {
+                    evaluationcriterias.push(evaluation_criteria);
+                }
+                else {
+                    log:printError("Error while processing Application record received", evaluation_criteria);
+                    return error("Error while processing Application record received: " + evaluation_criteria.message() +
+                    ":: Detail: " + evaluation_criteria.detail().toString());
+                }
+            }
+            return evaluationcriterias;
+        }
+        else {
+            log:printError("Error while creating application", getEvaluationallCriteriasResponse);
+            return error("Error while creating application: " + getEvaluationallCriteriasResponse.message() +
+                ":: Detail: " + getEvaluationallCriteriasResponse.detail().toString());
+        }
+    }
+
     resource function post evaluation_criteria(@http:Payload EvaluationCriteria evaluationCriteria) returns EvaluationCriteria|error {
         AddEvaluationCriteriaResponse|graphql:ClientError addEvaluationCriteriaResponse = globalDataClient->AddEvaluationCriteria(evaluationCriteria);
         if (addEvaluationCriteriaResponse is AddEvaluationCriteriaResponse) {
@@ -342,4 +385,147 @@ service / on new http:Listener(9090) {
                 ":: Detail: " + createAvinyaTypeResponse.detail().toString());
         }
     }
+
+    resource function get pcti_activity_notes(int pcti_activity_id) returns Evaluation[]|error {
+        log:printInfo("Retrieving Pcti Activity Notes for Pcti Activity " + pcti_activity_id.toString());
+        GetPctiActivityNotesResponse|graphql:ClientError getPctiActivityNotesResponse = globalDataClient->getPctiActivityNotes(pcti_activity_id);
+        if (getPctiActivityNotesResponse is GetPctiActivityNotesResponse) {
+            Evaluation[] evaluations = [];
+            foreach var pctiActivityNote in getPctiActivityNotesResponse.pcti_activity_notes {
+                Evaluation|error evaluation = pctiActivityNote.cloneWithType(Evaluation);
+                if (evaluation is Evaluation) {
+                    evaluations.push(evaluation);
+                } else {
+                    log:printError("Error while processing Pcti Activity Note record received", evaluation);
+                    return error("Error while processing Pcti Activity Note record received: " + evaluation.message() +
+                        ":: Detail: " + evaluation.detail().toString());
+                }
+            }
+            return evaluations;
+        } else {
+            log:printError("Error while getting Pcti Activity Notes", getPctiActivityNotesResponse);
+            return error("Error while getting Pcti Activity Notes: " + getPctiActivityNotesResponse.message() +
+                ":: Detail: " + getPctiActivityNotesResponse.detail().toString());
+        }
+    }
+
+    //write the logic to post the evaluation addpctinotesEvaluation
+    resource function post pcti_activity_evaluation(@http:Payload Evaluation evaluation) returns Evaluation|error {
+        AddPctiActivityNotesEvaluationResponse|graphql:ClientError addpctinotesEvaluationResponse = globalDataClient->AddPctiActivityNotesEvaluation(evaluation);
+        if (addpctinotesEvaluationResponse is AddPctiActivityNotesEvaluationResponse) {
+            Evaluation|error add_evaluation_record = addpctinotesEvaluationResponse.add_pcti_notes.cloneWithType(Evaluation);
+            if (add_evaluation_record is Evaluation) {
+                return add_evaluation_record;
+            } else {
+                log:printError("Error while processing Application record received", add_evaluation_record);
+                return error("Error while processing Application record received: " + add_evaluation_record.message() +
+                    ":: Detail: " + add_evaluation_record.detail().toString());
+            }
+        } else {
+            log:printError("Error while creating application", addpctinotesEvaluationResponse);
+            return error("Error while creating application: " + addpctinotesEvaluationResponse.message() +
+                ":: Detail: " + addpctinotesEvaluationResponse.detail().toString());
+        }
+    }
+
+    resource function get pcti_activity(string project_activity_name, string class_activity_name) returns Activity|error? {
+        GetPctiActivityResponse|graphql:ClientError getPctiActivityResponse = globalDataClient->getPctiActivity(project_activity_name, class_activity_name);
+        if (getPctiActivityResponse is GetPctiActivityResponse) {
+            Activity|error activity = getPctiActivityResponse.pcti_activity.cloneWithType(Activity);
+            if (activity is Activity) {
+                return activity;
+            } else {
+                log:printError("Error while processing Pcti Activity record received", activity);
+                return error("Error while processing Pcti Activity record received: " + activity.message() +
+                    ":: Detail: " + activity.detail().toString());
+            }
+        } else {
+            log:printError("Error while getting Pcti Activity", getPctiActivityResponse);
+            return error("Error while getting Pcti Activity: " + getPctiActivityResponse.message() +
+                ":: Detail: " + getPctiActivityResponse.detail().toString());
+        }
+    }
+
+    resource function get person(string? name = (), int? id = ()) returns Person|error {
+        GetPersonResponse|graphql:ClientError getPersonResponse = globalDataClient->getPerson(name, id);
+        if (getPersonResponse is GetPersonResponse) {
+            Person|error person = getPersonResponse.person.cloneWithType(Person);
+            if (person is Person) {
+                return person;
+            } else {
+                log:printError("Error while processing Person record received", person);
+                return error("Error while processing Person record received: " + person.message() + 
+                    ":: Detail: " + person.detail().toString());
+            }
+        } else {
+            log:printError("Error while getting Person", getPersonResponse);
+            return error("Error while getting Person: " + getPersonResponse.message() + 
+                ":: Detail: " + getPersonResponse.detail().toString());
+        }
+    }
+
+    resource function get activity(string? name = (), int? id = ()) returns Activity|error {
+        GetActivityResponse|graphql:ClientError getActivityResponse = globalDataClient->getActivity(name, id);
+        if (getActivityResponse is GetActivityResponse) {
+            Activity|error activity = getActivityResponse.activity.cloneWithType(Activity);
+            if (activity is Activity) {
+                return activity;
+            } else {
+                log:printError("Error while processing Activity record received", activity);
+                return error("Error while processing Activity record received: " + activity.message() + 
+                    ":: Detail: " + activity.detail().toString());
+            }
+        } else {
+            log:printError("Error while getting Activity", getActivityResponse);
+            return error("Error while getting Activity: " + getActivityResponse.message() + 
+                ":: Detail: " + getActivityResponse.detail().toString());
+        }
+    }
+
+    resource function get pcti_activities() returns Activity[]|error {
+        GetPctiActivitiesResponse|graphql:ClientError getPctiActivitiesResponse = globalDataClient->getPctiActivities();
+        if (getPctiActivitiesResponse is GetPctiActivitiesResponse) {
+            Activity[] activities = [];
+            foreach var pctiActivity in getPctiActivitiesResponse.pcti_activities {
+                Activity|error activity = pctiActivity.cloneWithType(Activity);
+                if (activity is Activity) {
+                    activities.push(activity);
+                } else {
+                    log:printError("Error while processing Pcti Activity record received", activity);
+                    return error("Error while processing Pcti Activity record received: " + activity.message() + 
+                        ":: Detail: " + activity.detail().toString());
+                }
+            }
+            return activities;
+        } else {
+            log:printError("Error while getting Pcti Activities", getPctiActivitiesResponse);
+            return error("Error while getting Pcti Activities: " + getPctiActivitiesResponse.message() + 
+                ":: Detail: " + getPctiActivitiesResponse.detail().toString());
+        }
+    }
+
+    resource function get pcti_participant_activities(int person_id) returns Activity[]|error {
+        GetPctiParticipantActivitiesResponse|graphql:ClientError getPctiParticipantActivitiesResponse = globalDataClient->getPctiParticipantActivities(person_id);
+        if (getPctiParticipantActivitiesResponse is GetPctiParticipantActivitiesResponse) {
+            Activity[] activities = [];
+            foreach var pctiParticipantActivity in getPctiParticipantActivitiesResponse.pcti_participant_activities {
+                Activity|error activity = pctiParticipantActivity.cloneWithType(Activity);
+                if (activity is Activity) {
+                    activities.push(activity);
+                } else {
+                    log:printError("Error while processing Pcti Participant Activity record received", activity);
+                    return error("Error while processing Pcti Participant Activity record received: " + activity.message() + 
+                        ":: Detail: " + activity.detail().toString());
+                }
+            }
+            return activities;
+        } else {
+            log:printError("Error while getting Pcti Participant Activities", getPctiParticipantActivitiesResponse);
+            return error("Error while getting Pcti Participant Activities: " + getPctiParticipantActivitiesResponse.message() + 
+                ":: Detail: " + getPctiParticipantActivitiesResponse.detail().toString());
+        }
+    }
+
+
+
 }

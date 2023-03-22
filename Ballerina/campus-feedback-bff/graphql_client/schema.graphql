@@ -326,6 +326,7 @@ input Evaluation {
   response: String
   notes: String
   grade: Int
+  created: String
   child_evaluations: [Int!]
   parent_evaluations: [Int!]
 }
@@ -392,6 +393,7 @@ type EvaluationData {
   notes: String
   grade: Int
   response: String
+  created: String
   child_evaluations: [EvaluationData!]
   parent_evaluations: [EvaluationData!]
 }
@@ -609,6 +611,12 @@ input Person {
   updated: String
   child_student: [Int!]
   parent_student: [Int!]
+  street_address: String
+  digital_id: String
+  avinya_phone: Int
+  bank_name: String
+  bank_account_number: String
+  bank_account_name: String
 }
 
 type PersonData {
@@ -625,6 +633,7 @@ type PersonData {
   phone: Int
   organization: OrganizationData
   avinya_type: AvinyaTypeData
+  avinya_type_id: Int
   notes: String
   nic_no: String
   passport_no: String
@@ -632,6 +641,12 @@ type PersonData {
   email: String
   child_students: [PersonData!]
   parent_students: [PersonData!]
+  street_address: String
+  digital_id: String
+  avinya_phone: Int
+  bank_name: String
+  bank_account_number: String
+  bank_account_name: String
 }
 
 type PlaceData {
@@ -701,10 +716,12 @@ type Query {
   organizations(level: Int!): OrganizationStructureData
   organization(name: String, id: Int): OrganizationData
   person(name: String, id: Int): PersonData
+  person_by_digital_id(id: String): PersonData
   prospect(email: String, phone: Int): ProspectData
   applicant_consent(email: String, phone: Int): ApplicantConsentData
   application(person_id: Int!): ApplicationData
   evaluation(eval_id: Int!): EvaluationData
+  pcti_activities: [ActivityData!]
   pcti_instance_notes(pcti_instance_id: Int!): [EvaluationData!]
   pcti_activity_notes(pcti_activity_id: Int!): [EvaluationData!]
   pcti_activity(
@@ -713,7 +730,10 @@ type Query {
   ): ActivityData
   pcti_project_activities(teacher_id: String!): [ActivityData!]
   pcti_participant_activities(participant_id: Int!): [ActivityData!]
-  pcti_activity_instances_today(activity_id: Int!): [ActivityInstanceData!]
+  activity_instances_today(activity_id: Int!): [ActivityInstanceData!]
+  activity_instances_future(activity_id: Int!): [ActivityInstanceData!]
+  available_teachers(activity_instance_id: Int!): [PersonData!]
+  project_tasks(activity_id: Int!): [ActivityData!]
   student_applicant(jwt_sub_id: String): PersonData
   all_evaluations: [EvaluationData!]!
   evaluation_meta_data(meta_evaluation_id: Int!): EvaluationMetadataData

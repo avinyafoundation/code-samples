@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:ShoolManagementSystem/src/data/evaluation_criteria.dart';
 import 'package:ShoolManagementSystem/src/screens/avinya_type_details.dart';
+import 'package:ShoolManagementSystem/src/screens/evaluation_criteria.dart';
 import 'package:ShoolManagementSystem/src/screens/evaluation_details.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ import '../data.dart';
 import '../routing.dart';
 import '../screens/sign_in.dart';
 import '../widgets/fade_transition_page.dart';
+import 'evaluation_criteria_details.dart';
 import 'scaffold.dart';
 
 /// Builds the top-level navigator for the app. The pages to display are based
@@ -31,6 +34,8 @@ class _SMSNavigatorState extends State<SMSNavigator> {
   final _scaffoldKey = const ValueKey('App scaffold');
   final _avinyaTypeDetailsKey = const ValueKey('Avinya Type details screen');
   final _evaluationDetailsKey = const ValueKey('Evaluations details screen');
+  final _evaluationCriteriaDetailsKey =
+      const ValueKey('Evaluation Criteria details screen');
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +53,12 @@ class _SMSNavigatorState extends State<SMSNavigator> {
     if (pathTemplate == '/evaluation/:id') {
       selectedEvaluation = campusFeedbackSystemInstance.evaluations!
           .firstWhereOrNull(
+              (a) => a.id.toString() == routeState.route.parameters['id']);
+    }
+    EvaluationCriteria? selectedEvaluationCriteria;
+    if (pathTemplate == '/evaluation_criteria/id') {
+      selectedEvaluationCriteria =
+          campusFeedbackSystemInstance.evaluation_criteria!.firstWhereOrNull(
               (a) => a.id.toString() == routeState.route.parameters['id']);
     }
 
@@ -70,6 +81,10 @@ class _SMSNavigatorState extends State<SMSNavigator> {
             (route.settings as Page).key == _evaluationDetailsKey) {
           routeState.go('/evaluations/popular');
         }
+        if (route.settings is Page &&
+            (route.settings as Page).key == _evaluationCriteriaDetailsKey) {
+          routeState.go('/evaluation_criterias/popular');
+        }
 
         return route.didPop(result);
       },
@@ -91,7 +106,7 @@ class _SMSNavigatorState extends State<SMSNavigator> {
                     credentials.username, credentials.password);
                 if (signedIn) {
                   await routeState
-                      .go('/avinya_types/popular'); //see as first page
+                      .go('/evaluations/popular'); //see as first page
                 }
               },
             ),
@@ -116,6 +131,13 @@ class _SMSNavigatorState extends State<SMSNavigator> {
               key: _evaluationDetailsKey,
               child: EvaluationDetailsScreen(
                 evaluation: selectedEvaluation,
+              ),
+            )
+          else if (selectedEvaluationCriteria != null)
+            MaterialPage<void>(
+              key: _evaluationCriteriaDetailsKey,
+              child: EvaluationCriteriaDetailsScreen(
+                evaluationCriteria: selectedEvaluationCriteria,
               ),
             )
         ],

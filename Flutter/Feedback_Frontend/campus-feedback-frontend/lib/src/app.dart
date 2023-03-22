@@ -1,22 +1,21 @@
 import 'dart:developer';
-
-import 'package:ShoolManagementSystem/src/data/campus_feedback_system.dart';
 import 'package:flutter/material.dart';
 
 import 'auth.dart';
+import 'data.dart';
 import 'routing.dart';
 import 'screens/navigator.dart';
 
-class CampusConfigManagementSystem extends StatefulWidget {
-  const CampusConfigManagementSystem({super.key});
+class CampusFeedbackSystem extends StatefulWidget {
+  const CampusFeedbackSystem({super.key});
 
   @override
-  State<CampusConfigManagementSystem> createState() =>
-      _CampusConfigManagementSystemState();
+  State<CampusFeedbackSystem> createState() =>
+      _CampusFeedbackSystem();
 }
 
-class _CampusConfigManagementSystemState
-    extends State<CampusConfigManagementSystem> {
+class _CampusFeedbackSystem
+    extends State<CampusFeedbackSystem> {
   final _auth = SMSAuth();
   final _navigatorKey = GlobalKey<NavigatorState>();
   late final RouteState _routeState;
@@ -29,19 +28,13 @@ class _CampusConfigManagementSystemState
     _routeParser = TemplateRouteParser(
       allowedPaths: [
         '/signin',
-        // '/avinya_types/new',
-        // '/avinya_types/all',
-        // '/avinya_types/popular',
-        // '/avinya_type/:id',
-        // '/avinya_type/new',
-        // '/avinya_type/edit',
-        '/evaluations/new',
-        '/evaluations/all',
-        '/evaluations/popular',
-        '/evaluation/:id',
-        '/evaluation/new',
-        '/evaluation/edit',
         '/#access_token',
+        '/pcti_activities',
+        '/pcti_activities/:id',
+        '/evaluations',
+        '/evaluation/:id',
+      
+
       ],
       guard: _guard,
       initialRoute: '/signin',
@@ -94,30 +87,27 @@ class _CampusConfigManagementSystemState
 
     final signInRoute = ParsedRoute('/signin', '/signin', {}, {});
 
-    // final avinyaTypesRoute =
-    //     ParsedRoute('/avinya_types', '/avinya_types', {}, {});
+    final pctiActivitiesRoute =
+      ParsedRoute('/pcti_activities', '/pcti_activities', {}, {});
 
-    final evaluationsRoute =
-        ParsedRoute('/evaluations', '/evaluations', {}, {});
-
+    
     // // Go to /apply if the user is not signed in
     log("_guard signed in $signedIn");
     // log("_guard JWT sub ${jwt_sub}");
     log("_guard from ${from.toString()}\n");
 
-    // if (signedIn && from == avinyaTypesRoute) {
-    //   return avinyaTypesRoute;
-    // } else 
-    if (signedIn && from == evaluationsRoute) {
-      return evaluationsRoute;
+    if (signedIn && from == pctiActivitiesRoute) {
+      return pctiActivitiesRoute;
     }
+    // else if (signedIn && from == pctiNotesRoute) {
+    //   return pctiNotesRoute;
+    // } else if (signedIn && from == pctiActivityInstancesRoute) {
+    //   return pctiActivityInstancesRoute;
+    // }
     // Go to /application if the user is signed in and tries to go to /signin.
     else if (signedIn && from == signInRoute) {
-      return ParsedRoute('/evaluations', '/evaluations', {}, {});
+      return ParsedRoute('/pcti_activities', '/pcti_activities', {}, {});
     }
-    // else if (signedIn && jwt_sub != null) {
-    //   return avinyaTypesRoute;
-    // }
     return from;
   }
 

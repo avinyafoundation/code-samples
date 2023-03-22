@@ -121,7 +121,7 @@ class VacancyListState extends State<VacancyList> {
                                                         ),
                                                       ]),
                                                     ),
-                                                  if (ec.evalualtion_type ==
+                                                  if (ec.evaluation_type ==
                                                       'Essay')
                                                     if (vacancy.evaluation_criteria
                                                                 .indexOf(ec) %
@@ -146,7 +146,7 @@ class VacancyListState extends State<VacancyList> {
                                                             maxLength: 640,
                                                             maxLines: 10,
                                                           )),
-                                                  if (ec.evalualtion_type ==
+                                                  if (ec.evaluation_type ==
                                                       'Essay')
                                                     if (vacancy.evaluation_criteria
                                                                 .indexOf(ec) %
@@ -171,7 +171,7 @@ class VacancyListState extends State<VacancyList> {
                                                             maxLength: 640,
                                                             maxLines: 10,
                                                           )),
-                                                  if (ec.evalualtion_type ==
+                                                  if (ec.evaluation_type ==
                                                       'Multiple Choice')
                                                     Column(
                                                         crossAxisAlignment:

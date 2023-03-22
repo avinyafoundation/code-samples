@@ -20,11 +20,11 @@ class PersonListState extends State<PersonList> {
   @override
   void initState() {
     super.initState();
-    futurePersons = fetchPersons();
+    futurePersons = fetchStudentApplicants();
   }
 
   Future<List<Person>> refreshPersonState() async {
-    futurePersons = fetchPersons();
+    futurePersons = fetchStudentApplicants();
     return futurePersons;
   }
 
@@ -114,7 +114,7 @@ class PersonListState extends State<PersonList> {
 
   Future<void> _deletePerson(Person person) async {
     try {
-      await deletePerson(person.id!.toString());
+      await deleteStudentApplicant(person.id!.toString());
     } on Exception {
       await showDialog(
         context: context,
@@ -434,7 +434,7 @@ class _AddPersonPageState extends State<AddPersonPage> {
           asgardeo_id: _asgardeo_id_Controller.text,
           email: _email_Controller.text,
         );
-        await createPerson(person);
+        await createStudentApplicant(person);
         Navigator.of(context).pop(true);
       }
     } on Exception {
@@ -763,7 +763,7 @@ class _EditPersonPageState extends State<EditPersonPage> {
           asgardeo_id: _asgardeo_id_Controller.text,
           email: _email_Controller.text,
         );
-        await updatePerson(person);
+        await updateStudentApplicant(person);
         Navigator.of(context).pop(true);
       }
     } on Exception {

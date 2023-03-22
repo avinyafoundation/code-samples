@@ -37,7 +37,7 @@ Future<void> main() async {
   log(AppConfig.choreoSTSClientID);
   log(AppConfig.asgardeoClientId);
 
-  runApp(const CampusConfigManagementSystem());
+  runApp(const CampusFeedbackSystem());
 }
 
 const double windowWidth = 480;
@@ -46,7 +46,7 @@ const double windowHeight = 854;
 void setupWindow() {
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
     WidgetsFlutterBinding.ensureInitialized();
-    setWindowTitle('Campus Config Management System');
+    setWindowTitle('Campus Feedback Management System');
     setWindowMinSize(const Size(windowWidth, windowHeight));
     setWindowMaxSize(const Size(windowWidth, windowHeight));
     getCurrentScreen().then((screen) {

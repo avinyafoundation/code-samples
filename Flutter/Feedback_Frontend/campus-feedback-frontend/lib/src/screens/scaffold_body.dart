@@ -1,6 +1,7 @@
-import 'package:ShoolManagementSystem/src/screens/avinya_types.dart';
 import 'package:ShoolManagementSystem/src/screens/evaluations.dart';
+import 'package:ShoolManagementSystem/src/screens/pcti_activities.dart';
 import 'package:flutter/material.dart';
+
 
 import '../routing.dart';
 import '../widgets/fade_transition_page.dart';
@@ -24,14 +25,14 @@ class SMSScaffoldBody extends StatelessWidget {
       key: navigatorKey,
       onPopPage: (route, dynamic result) => route.didPop(result),
       pages: [
-        // if (currentRoute.pathTemplate.startsWith('/avinya_types') ||
-        //     currentRoute.pathTemplate == '/')
-        //   const FadeTransitionPage<void>(
-        //     key: ValueKey('avinya_types'),
-        //     child: AvinyaTypeScreen(),
-        //   )
-        // else
-        if (currentRoute.pathTemplate.startsWith('/evaluations'))
+        if (currentRoute.pathTemplate.startsWith('/pcti_activities') ||
+            currentRoute.pathTemplate == '/')
+          const FadeTransitionPage<void>(
+            key: ValueKey('pcti_activities'),
+            child: PctiActivitiesScreen(),
+          )
+          else if (currentRoute.pathTemplate.startsWith('/evaluations') ||
+            currentRoute.pathTemplate == '/')
           const FadeTransitionPage<void>(
             key: ValueKey('evaluations'),
             child: EvaluationScreen(),

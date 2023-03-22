@@ -29,19 +29,22 @@ class _CampusConfigManagementSystemState
     _routeParser = TemplateRouteParser(
       allowedPaths: [
         '/signin',
-        '/avinya_types/new',
-        '/avinya_types/all',
-        '/avinya_types/popular',
-        '/avinya_type/:id',
-        '/avinya_type/new',
-        '/avinya_type/edit',
+        // '/avinya_types/new',
+        // '/avinya_types/all',
+        // '/avinya_types/popular',
+        // '/avinya_type/:id',
+        // '/avinya_type/new',
+        // '/avinya_type/edit',
         '/evaluations/new',
         '/evaluations/all',
         '/evaluations/popular',
         '/evaluation/:id',
         '/evaluation/new',
         '/evaluation/edit',
-        '/#access_token',
+        '/evaluation_criterias/popular',
+        '/evaluation_criteria/:id',
+        '/evaluation_criteria/all'
+            '/#access_token',
       ],
       guard: _guard,
       initialRoute: '/signin',
@@ -94,25 +97,29 @@ class _CampusConfigManagementSystemState
 
     final signInRoute = ParsedRoute('/signin', '/signin', {}, {});
 
-    final avinyaTypesRoute =
-        ParsedRoute('/avinya_types', '/avinya_types', {}, {});
+    // final avinyaTypesRoute =
+    //     ParsedRoute('/avinya_types', '/avinya_types', {}, {});
 
     final evaluationsRoute =
         ParsedRoute('/evaluations', '/evaluations', {}, {});
+
+    final evaluation_Criteria_Route =
+        ParsedRoute('/evaluation_criterias', '/evaluation_criterias', {}, {});
 
     // // Go to /apply if the user is not signed in
     log("_guard signed in $signedIn");
     // log("_guard JWT sub ${jwt_sub}");
     log("_guard from ${from.toString()}\n");
 
-    if (signedIn && from == avinyaTypesRoute) {
-      return avinyaTypesRoute;
-    } else if (signedIn && from == evaluationsRoute) {
+    // if (signedIn && from == avinyaTypesRoute) {
+    //   return avinyaTypesRoute;
+    // } else
+    if (signedIn && from == evaluationsRoute) {
       return evaluationsRoute;
     }
     // Go to /application if the user is signed in and tries to go to /signin.
     else if (signedIn && from == signInRoute) {
-      return ParsedRoute('/avinya_types', '/avinya_types', {}, {});
+      return ParsedRoute('/evaluations', '/evaluations', {}, {});
     }
     // else if (signedIn && jwt_sub != null) {
     //   return avinyaTypesRoute;

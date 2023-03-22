@@ -1,7 +1,6 @@
 import 'dart:developer';
-
-import 'package:ShoolManagementSystem/src/screens/avinya_type_details.dart';
 import 'package:ShoolManagementSystem/src/screens/evaluation_details.dart';
+import 'package:ShoolManagementSystem/src/screens/pcti_notes.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +28,9 @@ class SMSNavigator extends StatefulWidget {
 class _SMSNavigatorState extends State<SMSNavigator> {
   final _signInKey = const ValueKey('Sign in');
   final _scaffoldKey = const ValueKey('App scaffold');
-  final _avinyaTypeDetailsKey = const ValueKey('Avinya Type details screen');
+  // final _pctiNoteDetailsKey = const ValueKey('PCTI Note details screen');
+  final _pctiActivityDetailsKey =
+      const ValueKey('PCTI Activity details screen');
   final _evaluationDetailsKey = const ValueKey('Evaluations details screen');
 
   @override
@@ -38,17 +39,18 @@ class _SMSNavigatorState extends State<SMSNavigator> {
     final authState = SMSAuthScope.of(context);
     final pathTemplate = routeState.route.pathTemplate;
 
-    AvinyaType? selectedAvinyaType;
-    if (pathTemplate == '/address_type/:id') {
-      selectedAvinyaType = campusFeedbackSystemInstance.avinyaTypes
+    Activity? selectedPctiActivity;
+    if (pathTemplate == '/pcti_activities/:id') {
+      selectedPctiActivity = campusFeedbackSystemInstance.activities
           ?.firstWhereOrNull(
               (at) => at.id.toString() == routeState.route.parameters['id']);
     }
+
     Evaluation? selectedEvaluation;
     if (pathTemplate == '/evaluation/:id') {
-      selectedEvaluation = campusFeedbackSystemInstance.evaluations!
-          .firstWhereOrNull(
-              (a) => a.id.toString() == routeState.route.parameters['id']);
+      selectedEvaluation = campusFeedbackSystemInstance.evaluations
+          ?.firstWhereOrNull(
+              (at) => at.id.toString() == routeState.route.parameters['id']);
     }
 
     if (pathTemplate == '/#access_token') {
@@ -62,14 +64,22 @@ class _SMSNavigatorState extends State<SMSNavigator> {
         // When a page that is stacked on top of the scaffold is popped, display
         // the /avinya_types tab in SMSScaffold.
 
+        // if (route.settings is Page &&
+        //     (route.settings as Page).key == _pctiNoteDetailsKey) {
+        //   routeState.go('/pcti_notes');
+        // }
+
         if (route.settings is Page &&
-            (route.settings as Page).key == _avinyaTypeDetailsKey) {
-          routeState.go('/avinya_types/popular');
+            (route.settings as Page).key == _pctiActivityDetailsKey) {
+          // routeState.go('/pcti_notes/popular');
+          routeState.go('/pcti_activities');
         }
-        if (route.settings is Page &&
-            (route.settings as Page).key == _evaluationDetailsKey) {
-          routeState.go('/evaluations/popular');
-        }
+
+        // if (route.settings is Page &&
+        //     (route.settings as Page).key == _evaluationDetailsKey) {
+        //   // routeState.go('/pcti_notes/popular');
+        //   routeState.go('/evaluations');
+        // }
 
         return route.didPop(result);
       },
@@ -90,7 +100,8 @@ class _SMSNavigatorState extends State<SMSNavigator> {
                 var signedIn = await authState.signIn(
                     credentials.username, credentials.password);
                 if (signedIn) {
-                  await routeState.go('/evaluations/popular'); //see as first page
+                  // await routeState.go('/pcti_notes/popular');
+                  await routeState.go('/pcti_activities');
                 }
               },
             ),
@@ -103,11 +114,11 @@ class _SMSNavigatorState extends State<SMSNavigator> {
           ),
           // Add an additional page to the stack if the user is viewing a book
           // or an author
-          if (selectedAvinyaType != null)
+          if (selectedPctiActivity != null)
             MaterialPage<void>(
-              key: _avinyaTypeDetailsKey,
-              child: AvinyaTypeDetailsScreen(
-                avinyaType: selectedAvinyaType,
+              key: _pctiActivityDetailsKey,
+              child: PctiNoteScreen(
+                pctiActivity: selectedPctiActivity,
               ),
             )
           else if (selectedEvaluation != null)

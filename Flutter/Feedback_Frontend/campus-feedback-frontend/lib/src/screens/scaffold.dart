@@ -9,7 +9,12 @@ import '../auth.dart';
 import 'scaffold_body.dart';
 
 class SMSScaffold extends StatelessWidget {
-  static const pageNames = ['/avinya_types/popular', '/evaluations/popular'];
+  static const pageNames = [
+    '/pcti_activities',
+    '/evaluations',
+        // '/pcti_notes/popular',
+   
+  ];
 
   const SMSScaffold({
     super.key,
@@ -24,7 +29,7 @@ class SMSScaffold extends StatelessWidget {
       body: AdaptiveNavigationScaffold(
         selectedIndex: selectedIndex,
         appBar: AppBar(
-          title: const Text('Avinya Academy - Campus Config Portal'),
+          title: const Text('Avinya Academy - Campus Feedback Portal'),
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.logout),
@@ -75,16 +80,12 @@ class SMSScaffold extends StatelessWidget {
         },
         destinations: const [
           AdaptiveScaffoldDestination(
-            title: 'Avinya Types',
-            icon: Icons.type_specimen,
+            title: 'Activities',
+            icon: Icons.local_activity,
           ),
           AdaptiveScaffoldDestination(
             title: 'Evaluations',
-            icon: Icons.feedback_outlined,
-          ),
-          AdaptiveScaffoldDestination(
-            title: 'Tests',
-            icon: Icons.text_snippet,
+            icon: Icons.feedback,
           ),
         ],
       ),

@@ -423,7 +423,7 @@ class _ApplyScreenState extends State<ApplyScreen> {
   Future<Person> fetchStudentPerson() async {
     // check if user is in Avinya database person table as a student
     try {
-      this.futurePerson = fetchPerson(campusFeedbackSystemInstance.getJWTSub()!);
+      this.futurePerson = fetchStudentApplicant(campusFeedbackSystemInstance.getJWTSub()!);
     } catch (e) {
       print(
           'AdmissionSystem fetchPersonForUser :: Error fetching person for user');
@@ -481,7 +481,7 @@ class _ApplyScreenState extends State<ApplyScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Processing Student Data')),
           );
-          studentPerson = await createPerson(person);
+         studentPerson = await createStudentApplicant(person);
 
           campusFeedbackSystemInstance.setStudentPerson(studentPerson);
 

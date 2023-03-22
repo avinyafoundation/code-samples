@@ -9,7 +9,11 @@ import '../auth.dart';
 import 'scaffold_body.dart';
 
 class SMSScaffold extends StatelessWidget {
-  static const pageNames = ['/avinya_types/popular', '/evaluations/popular'];
+  static const pageNames = [
+    '/avinya_types/popular',
+    '/evaluations/popular',
+    '/evaluation_criterias/popular'
+  ];
 
   const SMSScaffold({
     super.key,
@@ -83,7 +87,7 @@ class SMSScaffold extends StatelessWidget {
             icon: Icons.feedback_outlined,
           ),
           AdaptiveScaffoldDestination(
-            title: 'Tests',
+            title: 'Evaluation Criterias',
             icon: Icons.text_snippet,
           ),
         ],

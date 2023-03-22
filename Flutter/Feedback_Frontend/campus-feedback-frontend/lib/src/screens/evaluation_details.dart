@@ -23,22 +23,32 @@ class EvaluationDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(evaluation!.id!.toString()),
       ),
+      // body: Container(
+      //   padding: EdgeInsets.all(5),
+      //   child: Column(children: [
+      //     Text(
+      //       evaluation!.notes!.toString(),
+      //       style: Theme.of(context).textTheme.headline4,
+      //     ),
+      //     Text("oook")
+      //   ]),
+      // ),
       body: Container(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(5),
           child: Table(
             border: TableBorder.all(
-                width: 1, color: Colors.black45), //table border,
+                width: 1.5, color: Colors.black45), //table border,
             children: [
               TableRow(children: [
+                // TableCell(
+                //   child: Padding(
+                //       padding: EdgeInsets.all(2),
+                //       child: Text("Evaluatee Id",
+                //           style: TextStyle(fontWeight: FontWeight.bold))),
+                // ),
                 TableCell(
                   child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Text("Evaluatee Id",
-                          style: TextStyle(fontWeight: FontWeight.bold))),
-                ),
-                TableCell(
-                  child: Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(5),
                       child: Text("Evaluator_Id",
                           style: TextStyle(fontWeight: FontWeight.bold))),
                 ),
@@ -60,12 +70,12 @@ class EvaluationDetailsScreen extends StatelessWidget {
                       child: Text("Grade",
                           style: TextStyle(fontWeight: FontWeight.bold))),
                 ),
-                TableCell(
-                  child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Text("Response",
-                          style: TextStyle(fontWeight: FontWeight.bold))),
-                ),
+                // TableCell(
+                //   child: Padding(
+                //       padding: EdgeInsets.all(10),
+                //       child: Text("Response",
+                //           style: TextStyle(fontWeight: FontWeight.bold))),
+                // ),
                 TableCell(
                   child: Padding(
                       padding: EdgeInsets.all(10),
@@ -80,11 +90,11 @@ class EvaluationDetailsScreen extends StatelessWidget {
                 ),
               ]),
               TableRow(children: [
-                TableCell(
-                  child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Text(evaluation!.evaluatee_id!.toString())),
-                ),
+                // TableCell(
+                //   child: Padding(
+                //       padding: EdgeInsets.all(10),
+                //       child: Text(evaluation!.evaluatee_id!.toString())),
+                // ),
                 TableCell(
                   child: Padding(
                       padding: EdgeInsets.all(10),
@@ -107,11 +117,11 @@ class EvaluationDetailsScreen extends StatelessWidget {
                       padding: EdgeInsets.all(10),
                       child: Text(evaluation!.grade!.toString())),
                 ),
-                TableCell(
-                  child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Text(evaluation!.response!.toString())),
-                ),
+                // TableCell(
+                //   child: Padding(
+                //       padding: EdgeInsets.all(10),
+                //       child: Text(evaluation!.response!.toString())),
+                // ),
                 TableCell(
                   child: Padding(
                       padding: EdgeInsets.all(10),

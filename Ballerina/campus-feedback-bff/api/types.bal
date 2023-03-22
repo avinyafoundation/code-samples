@@ -1,10 +1,10 @@
 public type Activity record {
     string? notes?;
-    int[]? parent_activities?;
+    Activity[]? parent_activities?;
     string? created?;
     string? name?;
     int? avinya_type_id?;
-    int[]? child_activities?;
+    Activity[]? child_activities?;
     string? description?;
     int? id?;
     string? updated?;
@@ -123,7 +123,7 @@ public type Asset record {
 public type AvinyaType record {
     int? level?;
     string? name?;
-    boolean? active?;
+    boolean active?;
     string? description?;
     string? foundation_type?;
     string? focus?;
@@ -145,19 +145,47 @@ public type Consumable record {
     string? manufacturer?;
 };
 
+public type EducationExperience record {
+    string? end_date?;
+    int[]? evaluation_id?;
+    string? school?;
+    int? id?;
+    string? record_type?;
+    int? person_id?;
+    string? start_date?;
+};
+
 public type Evaluation record {
     int[]? parent_evaluations?;
-    int? activity_instance_id?;
     string? notes?;
     int? evaluatee_id?;
+    string? created?;
+    int[]? child_evaluations?;
+    string? record_type?;
+    int? activity_instance_id?;
     int? evaluation_criteria_id?;
     string? response?;
-    int[]? child_evaluations?;
     int? evaluator_id?;
     int? grade?;
     int? id?;
     string? updated?;
+};
+
+public type EvaluationCriteriaAnswerOption record {
+    string? answer?;
+    int? evaluation_criteria_id?;
+    int? id?;
+    boolean? expected_answer?;
     string? record_type?;
+};
+
+public type EvaluationCycle record {
+    string? end_date?;
+    string? name?;
+    string? description?;
+    int? id?;
+    string? record_type?;
+    string? start_date?;
 };
 
 public type EvaluationMetadata record {
@@ -180,6 +208,7 @@ public type Inventory record {
     int? quantity_in?;
     string? created?;
     int? organization_id?;
+    int? avinya_type_id?;
     int? id?;
     int? asset_id?;
     string? updated?;
@@ -204,6 +233,8 @@ public type Organization record {
 
 public type Person record {
     int? permanent_address_id?;
+    string? street_address?;
+    string? bank_account_number?;
     string? notes?;
     int[]? parent_student?;
     string? date_of_birth?;
@@ -212,14 +243,18 @@ public type Person record {
     int? mailing_address_id?;
     string? id_no?;
     string? jwt_email?;
+    string? bank_name?;
     int? id?;
     string? email?;
     string? created?;
+    string? digital_id?;
     string? sex?;
     string? passport_no?;
     string? record_type?;
     Address? mailing_address?;
     int[]? child_student?;
+    string? bank_account_name?;
+    int? avinya_phone?;
     string? full_name?;
     string? nic_no?;
     int? phone?;
@@ -256,11 +291,14 @@ public type ResourceAllocation record {
     int? consumable_id?;
     int? quantity?;
     string? created?;
+    int? asset_id?;
+    string? record_type?;
+    boolean? requested?;
+    boolean? approved?;
     int? organization_id?;
     int? id?;
-    int? asset_id?;
     string? updated?;
-    string? record_type?;
+    boolean? allocated?;
     int? person_id?;
     string? start_date?;
 };
@@ -301,6 +339,17 @@ public type Supply record {
     int? person_id?;
 };
 
+public type EvaluationCriteria record {
+    string? difficulty?;
+    int? rating_out_of?;
+    string? description?;
+    string? evaluation_type?;
+    int? id?;
+    string? prompt?;
+    string? expected_answer?;
+    string? record_type?;
+};
+
 public type Vacancy record {
     int? organization_id?;
     string? name?;
@@ -322,43 +371,6 @@ public type WorkExperience record {
     string? start_date?;
 };
 
-public type EducationExperience record {
-    string? end_date?;
-    int[]? evaluation_id?;
-    string? school?;
-    int? id?;
-    string? record_type?;
-    int? person_id?;
-    string? start_date?;
-};
-
-public type EvaluationCriteria record {
-    string? difficulty?;
-    int? rating_out_of?;
-    string? description?;
-    string? evaluation_type?;
-    int? id?;
-    string? prompt?;
-    string? expected_answer?;
-    string? record_type?;
-};
-
-public type EvaluationCriteriaAnswerOption record {
-    string? answer?;
-    int? evaluation_criteria_id?;
-    int? id?;
-    boolean? expected_answer?;
-    string? record_type?;
-};
-
-public type EvaluationCycle record {
-    string? end_date?;
-    string? name?;
-    string? description?;
-    int? id?;
-    string? record_type?;
-    string? start_date?;
-};
 
 public type CreateAvinyaTypeResponse record {|
     map<json?> __extensions?;
@@ -532,4 +544,671 @@ public type AddEvaluationanswerOptionResponse record {|
         boolean? expected_answer;
         int? evaluation_criteria_id;
     |}? add_evaluation_answer_option;
+|};
+
+public type GetEvaluationallCriteriasResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? id;
+        string? evaluation_type;
+        string? prompt;
+        string? description;
+        string? difficulty;
+        string? expected_answer;
+        int? rating_out_of;
+        record {|
+            string? answer;
+            boolean? expected_answer;
+            int? evaluation_criteria_id;
+        |}[]? answer_options;
+    |}[] all_evaluation_criterias;
+|};
+
+public type AddPctiActivityNotesEvaluationResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? id;
+        int? evaluatee_id;
+        int? evaluator_id;
+        int? evaluation_criteria_id;
+        int? activity_instance_id;
+        int? grade;
+        string? notes;
+        string? response;
+        string? updated;
+    |}? add_pcti_notes;
+|};
+
+public type GetPctiActivityNotesResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? id;
+        int? evaluatee_id;
+        int? evaluator_id;
+        int? evaluation_criteria_id;
+        string? updated;
+        string? notes;
+        int? grade;
+        record {|
+            int? id;
+            int? evaluatee_id;
+            int? evaluator_id;
+            int? evaluation_criteria_id;
+            string? updated;
+            string? notes;
+            int? grade;
+        |}[]? child_evaluations;
+        record {|
+            int? id;
+            int? evaluatee_id;
+            int? evaluator_id;
+            int? evaluation_criteria_id;
+            string? updated;
+            string? notes;
+            int? grade;
+        |}[]? parent_evaluations;
+    |}[] pcti_activity_notes;
+|};
+
+public type GetPctiActivityResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? id;
+        string? name;
+        string? description;
+        record {|
+            int? id;
+            boolean active;
+            string global_type;
+            string? name;
+            string? foundation_type;
+            string? focus;
+            int? level;
+            string? description;
+        |}? avinya_type;
+        string? notes;
+        record {|
+            int? id;
+            string? name;
+            string? description;
+            record {|
+                int? id;
+                boolean active;
+                string global_type;
+                string? name;
+                string? foundation_type;
+                string? focus;
+                int? level;
+                string? description;
+            |}? avinya_type;
+            string? notes;
+            record {|
+                int? id;
+                string? name;
+                string? description;
+                string? notes;
+                string? start_time;
+                string? end_time;
+                int? daily_sequence;
+                int? weekly_sequence;
+                int? monthly_sequence;
+            |}[]? activity_instances;
+            record {|
+                int? id;
+                int? sequence_number;
+                int? timeslot_number;
+                record {|
+                    int? id;
+                    record {|
+                        string name_en;
+                    |} name;
+                |}? organization;
+                record {|
+                    string? preferred_name;
+                |}? person;
+            |}[]? activity_sequence_plan;
+        |}[]? child_activities;
+        record {|
+            int? id;
+            string? name;
+            string? description;
+            record {|
+                int? id;
+                boolean active;
+                string global_type;
+                string? name;
+                string? foundation_type;
+                string? focus;
+                int? level;
+                string? description;
+            |}? avinya_type;
+            string? notes;
+            record {|
+                int? id;
+                string? name;
+                string? description;
+                string? notes;
+                string? start_time;
+                string? end_time;
+                int? daily_sequence;
+                int? weekly_sequence;
+                int? monthly_sequence;
+            |}[]? activity_instances;
+            record {|
+                int? id;
+                int? sequence_number;
+                int? timeslot_number;
+                record {|
+                    int? id;
+                    record {|
+                        string name_en;
+                    |} name;
+                |}? organization;
+                record {|
+                    string? preferred_name;
+                |}? person;
+            |}[]? activity_sequence_plan;
+        |}[]? parent_activities;
+        record {|
+            int? id;
+            int? sequence_number;
+            int? timeslot_number;
+            record {|
+                int? id;
+                record {|
+                    string name_en;
+                |} name;
+            |}? organization;
+            record {|
+                string? preferred_name;
+            |}? person;
+        |}[]? activity_sequence_plan;
+        record {|
+            int? id;
+            string? name;
+            string? description;
+            string? notes;
+            string? start_time;
+            string? end_time;
+            int? daily_sequence;
+            int? weekly_sequence;
+            int? monthly_sequence;
+        |}[]? activity_instances;
+    |}? pcti_activity;
+|};
+
+public type GetPersonResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? id;
+        string? preferred_name;
+        string? full_name;
+        string? date_of_birth;
+        string? sex;
+        string? asgardeo_id;
+        string? jwt_sub_id;
+        string? jwt_email;
+        record {|
+            int? id;
+            record {|
+                int? id;
+                record {|
+                    string name_en;
+                |} name;
+                record {|
+                    int? id;
+                    record {|
+                        string name_en;
+                    |} name;
+                    record {|
+                        int? id;
+                        record {|
+                            string name_en;
+                        |} name;
+                    |} province;
+                |} district;
+            |} city;
+        |}? permanent_address;
+        record {|
+            int? id;
+            record {|
+                int? id;
+                record {|
+                    string name_en;
+                |} name;
+                record {|
+                    int? id;
+                    record {|
+                        string name_en;
+                    |} name;
+                    record {|
+                        int? id;
+                        record {|
+                            string name_en;
+                        |} name;
+                    |} province;
+                |} district;
+            |} city;
+        |}? mailing_address;
+        int? phone;
+        record {|
+            int? id;
+            record {|
+                string name_en;
+            |} name;
+        |}? organization;
+        record {|
+            int? id;
+            boolean active;
+            string global_type;
+            string? name;
+            string? foundation_type;
+            string? focus;
+            int? level;
+            string? description;
+        |}? avinya_type;
+        string? notes;
+        string? nic_no;
+        string? passport_no;
+        string? id_no;
+        string? email;
+        record {|
+            int? id;
+            string? preferred_name;
+            string? full_name;
+            string? date_of_birth;
+        |}[]? child_students;
+        record {|
+            int? id;
+            string? preferred_name;
+            string? full_name;
+            string? date_of_birth;
+        |}[]? parent_students;
+    |}? person;
+|};
+
+# Description
+#
+# + __extensions - Field Description  
+# + activity - Field Description
+public type GetActivityResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? id;
+        string? name;
+        string? description;
+        record {|
+            int? id;
+            boolean active;
+            string global_type;
+            string? name;
+            string? foundation_type;
+            string? focus;
+            int? level;
+            string? description;
+        |}? avinya_type;
+        string? notes;
+        record {|
+            int? id;
+            string? name;
+            string? description;
+            record {|
+                int? id;
+                boolean active;
+                string global_type;
+                string? name;
+                string? foundation_type;
+                string? focus;
+                int? level;
+                string? description;
+            |}? avinya_type;
+            string? notes;
+            record {|
+                int? id;
+                string? name;
+                string? description;
+                string? notes;
+                string? start_time;
+                string? end_time;
+                int? daily_sequence;
+                int? weekly_sequence;
+                int? monthly_sequence;
+            |}[]? activity_instances;
+            record {|
+                int? id;
+                int? sequence_number;
+                int? timeslot_number;
+                record {|
+                    int? id;
+                    record {|
+                        string name_en;
+                    |} name;
+                |}? organization;
+                record {|
+                    string? preferred_name;
+                |}? person;
+            |}[]? activity_sequence_plan;
+        |}[]? child_activities;
+        record {|
+            int? id;
+            string? name;
+            string? description;
+            record {|
+                int? id;
+                boolean active;
+                string global_type;
+                string? name;
+                string? foundation_type;
+                string? focus;
+                int? level;
+                string? description;
+            |}? avinya_type;
+            string? notes;
+            record {|
+                int? id;
+                string? name;
+                string? description;
+                string? notes;
+                string? start_time;
+                string? end_time;
+                int? daily_sequence;
+                int? weekly_sequence;
+                int? monthly_sequence;
+            |}[]? activity_instances;
+            record {|
+                int? id;
+                int? sequence_number;
+                int? timeslot_number;
+                record {|
+                    int? id;
+                    record {|
+                        string name_en;
+                    |} name;
+                |}? organization;
+                record {|
+                    string? preferred_name;
+                |}? person;
+            |}[]? activity_sequence_plan;
+        |}[]? parent_activities;
+        record {|
+            int? id;
+            int? sequence_number;
+            int? timeslot_number;
+            record {|
+                int? id;
+                record {|
+                    string name_en;
+                |} name;
+            |}? organization;
+            record {|
+                string? preferred_name;
+            |}? person;
+        |}[]? activity_sequence_plan;
+        record {|
+            int? id;
+            string? name;
+            string? description;
+            string? notes;
+            string? start_time;
+            string? end_time;
+            int? daily_sequence;
+            int? weekly_sequence;
+            int? monthly_sequence;
+        |}[]? activity_instances;
+    |}? activity;
+|};
+
+public type GetPctiActivitiesResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? id;
+        string? name;
+        string? description;
+        record {|
+            int? id;
+            boolean active;
+            string global_type;
+            string? name;
+            string? foundation_type;
+            string? focus;
+            int? level;
+            string? description;
+        |}? avinya_type;
+        string? notes;
+        record {|
+            int? id;
+            string? name;
+            string? description;
+            record {|
+                int? id;
+                boolean active;
+                string global_type;
+                string? name;
+                string? foundation_type;
+                string? focus;
+                int? level;
+                string? description;
+            |}? avinya_type;
+            string? notes;
+            record {|
+                int? id;
+                string? name;
+                string? description;
+                string? notes;
+                string? start_time;
+                string? end_time;
+                int? daily_sequence;
+                int? weekly_sequence;
+                int? monthly_sequence;
+            |}[]? activity_instances;
+            record {|
+                int? id;
+                int? sequence_number;
+                int? timeslot_number;
+                record {|
+                    int? id;
+                    record {|
+                        string name_en;
+                    |} name;
+                |}? organization;
+                record {|
+                    string? preferred_name;
+                |}? person;
+            |}[]? activity_sequence_plan;
+        |}[]? child_activities;
+        record {|
+            int? id;
+            string? name;
+            string? description;
+            record {|
+                int? id;
+                boolean active;
+                string global_type;
+                string? name;
+                string? foundation_type;
+                string? focus;
+                int? level;
+                string? description;
+            |}? avinya_type;
+            string? notes;
+            record {|
+                int? id;
+                string? name;
+                string? description;
+                string? notes;
+                string? start_time;
+                string? end_time;
+                int? daily_sequence;
+                int? weekly_sequence;
+                int? monthly_sequence;
+            |}[]? activity_instances;
+            record {|
+                int? id;
+                int? sequence_number;
+                int? timeslot_number;
+                record {|
+                    int? id;
+                    record {|
+                        string name_en;
+                    |} name;
+                |}? organization;
+                record {|
+                    string? preferred_name;
+                |}? person;
+            |}[]? activity_sequence_plan;
+        |}[]? parent_activities;
+        record {|
+            int? id;
+            int? sequence_number;
+            int? timeslot_number;
+            record {|
+                int? id;
+                record {|
+                    string name_en;
+                |} name;
+            |}? organization;
+            record {|
+                string? preferred_name;
+            |}? person;
+        |}[]? activity_sequence_plan;
+        record {|
+            int? id;
+            string? name;
+            string? description;
+            string? notes;
+            string? start_time;
+            string? end_time;
+            int? daily_sequence;
+            int? weekly_sequence;
+            int? monthly_sequence;
+        |}[]? activity_instances;
+    |}[] pcti_activities;
+|};
+
+
+public type GetPctiParticipantActivitiesResponse record {|
+    map<json?> __extensions?;
+    record {|
+        int? id;
+        string? name;
+        string? description;
+        record {|
+            int? id;
+            boolean active;
+            string global_type;
+            string? name;
+            string? foundation_type;
+            string? focus;
+            int? level;
+            string? description;
+        |}? avinya_type;
+        string? notes;
+        record {|
+            int? id;
+            string? name;
+            string? description;
+            record {|
+                int? id;
+                boolean active;
+                string global_type;
+                string? name;
+                string? foundation_type;
+                string? focus;
+                int? level;
+                string? description;
+            |}? avinya_type;
+            string? notes;
+            record {|
+                int? id;
+                string? name;
+                string? description;
+                string? notes;
+                string? start_time;
+                string? end_time;
+                int? daily_sequence;
+                int? weekly_sequence;
+                int? monthly_sequence;
+            |}[]? activity_instances;
+            record {|
+                int? id;
+                int? sequence_number;
+                int? timeslot_number;
+                record {|
+                    int? id;
+                    record {|
+                        string name_en;
+                    |} name;
+                |}? organization;
+                record {|
+                    string? preferred_name;
+                |}? person;
+            |}[]? activity_sequence_plan;
+        |}[]? child_activities;
+        record {|
+            int? id;
+            string? name;
+            string? description;
+            record {|
+                int? id;
+                boolean active;
+                string global_type;
+                string? name;
+                string? foundation_type;
+                string? focus;
+                int? level;
+                string? description;
+            |}? avinya_type;
+            string? notes;
+            record {|
+                int? id;
+                string? name;
+                string? description;
+                string? notes;
+                string? start_time;
+                string? end_time;
+                int? daily_sequence;
+                int? weekly_sequence;
+                int? monthly_sequence;
+            |}[]? activity_instances;
+            record {|
+                int? id;
+                int? sequence_number;
+                int? timeslot_number;
+                record {|
+                    int? id;
+                    record {|
+                        string name_en;
+                    |} name;
+                |}? organization;
+                record {|
+                    string? preferred_name;
+                |}? person;
+            |}[]? activity_sequence_plan;
+        |}[]? parent_activities;
+        record {|
+            int? id;
+            int? sequence_number;
+            int? timeslot_number;
+            record {|
+                int? id;
+                record {|
+                    string name_en;
+                |} name;
+            |}? organization;
+            record {|
+                string? preferred_name;
+            |}? person;
+        |}[]? activity_sequence_plan;
+        record {|
+            int? id;
+            string? name;
+            string? description;
+            string? notes;
+            string? start_time;
+            string? end_time;
+            int? daily_sequence;
+            int? weekly_sequence;
+            int? monthly_sequence;
+        |}[]? activity_instances;
+    |}[] pcti_participant_activities;
 |};

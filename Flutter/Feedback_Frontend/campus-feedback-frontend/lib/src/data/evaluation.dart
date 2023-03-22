@@ -10,6 +10,7 @@ class Evaluation {
   int? evaluation_criteria_id;
   int? activity_instance_id;
   String? updated;
+  String? created;
   String? response;
   String? notes;
   int? grade;
@@ -23,6 +24,7 @@ class Evaluation {
     this.evaluation_criteria_id,
     this.activity_instance_id,
     this.updated,
+    this.created,
     this.response,
     this.notes,
     this.grade,
@@ -38,6 +40,7 @@ class Evaluation {
       evaluation_criteria_id: json['evaluation_criteria_id'],
       activity_instance_id: json['activity_instance_id'],
       updated: json['updated'],
+      created: json['created'],
       response: json['response'],
       notes: json['notes'],
       grade: json['grade'],
@@ -59,6 +62,7 @@ class Evaluation {
         if (activity_instance_id != null)
           'activity_instance_id': activity_instance_id,
         if (updated != null) 'updated': updated,
+        if (created != null) 'created': created,
         if (response != null) 'response': response,
         if (notes != null) 'notes': notes,
         if (grade != null) 'grade': grade,
@@ -90,7 +94,8 @@ Future<List<Evaluation>> fetchEvaluations() async {
 
 Future<Evaluation> fetchEvaluation(String id) async {
   final response = await http.get(
-    Uri.parse(AppConfig.campusConfigBffApiUrl + '/evaluations/$id'),
+    Uri.parse(
+        AppConfig.campusConfigBffApiUrl + '/evaluation/$id'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'accept': 'application/json',
@@ -108,18 +113,18 @@ Future<Evaluation> fetchEvaluation(String id) async {
   }
 }
 
-Future<http.Response> createEvaluation(List<Evaluation> evaluations) async {
-  print(evaluations);
-  print(evaluations.map((evaluation) => evaluation.toJson()).toList());
+Future<http.Response> createEvaluation(List<Evaluation> evaluation) async {
+  print(evaluation);
+  print(evaluation.map((evaluation) => evaluation.toJson()).toList());
   // log(evaluations.map((evaluation) => evaluation.toJson()).toString());
   final response = await http.post(
-    Uri.parse(AppConfig.campusConfigBffApiUrl + '/evaluation/new'),
+    Uri.parse(AppConfig.campusConfigBffApiUrl + '/evaluations'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + AppConfig.campusConfigBffApiKey,
     },
     body: jsonEncode(
-        evaluations.map((evaluation) => evaluation.toJson()).toList()),
+        evaluation.map((evaluation) => evaluation.toJson()).toList()),
   );
   if (response.statusCode == 200) {
     return response;

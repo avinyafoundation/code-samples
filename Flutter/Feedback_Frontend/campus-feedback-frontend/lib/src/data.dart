@@ -8,3 +8,7 @@ export 'data/vacancy.dart';
 export 'data/application.dart';
 export 'data/avinya_type.dart';
 export 'data/evaluation.dart';
+export 'data/evaluation_criteria.dart';
+export 'data/pcti_note.dart';
+export 'data/activity.dart';
+export 'data/activity_instance.dart';

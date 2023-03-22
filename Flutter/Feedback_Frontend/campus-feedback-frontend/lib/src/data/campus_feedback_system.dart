@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ShoolManagementSystem/src/data.dart';
 import 'package:ShoolManagementSystem/src/data/evaluation.dart';
+import 'package:ShoolManagementSystem/src/data/evaluation_criteria.dart';
 
 final campusFeedbackSystemInstance = CampusFeedbackSystem()
   ..addBook(
@@ -41,7 +42,11 @@ class CampusFeedbackSystem {
   Application application = Application();
   String? user_jwt_sub;
   String? user_jwt_email;
+  List<Evaluation>? pctiNotes = [];
   List<Evaluation>? evaluations = [];
+  List<EvaluationCriteria>? evaluation_criterias = [];
+  List<Activity>? activities = [];
+  List<ActivityInstance>? activityInstances = [];
 
   void setVacancyId(int id) {
     vacancyId = id;
@@ -126,8 +131,24 @@ class CampusFeedbackSystem {
     this.avinyaTypes = avinyaTypes;
   }
 
+  void setPctiNotes(List<Evaluation>? pctiNotes) {
+    this.pctiNotes = pctiNotes;
+  }
+
+  void setActivities(List<Activity>? activities) {
+    this.activities = activities;
+  }
+
+  void setActivityInstances(List<ActivityInstance>? activityInstances) {
+    this.activityInstances = activityInstances;
+  }
+
   void setEvaluations(List<Evaluation>? evaluations) {
     this.evaluations = evaluations;
+  }
+
+  void setEvaluationCriteria(List<EvaluationCriteria>? evaluation_criteria) {
+    this.evaluation_criterias = evaluation_criteria;
   }
 
   Future<List<Vacancy>>? getVacancies() {
@@ -140,7 +161,7 @@ class CampusFeedbackSystem {
       Person person = campusFeedbackSystemInstance.getStudentPerson();
       if (person.jwt_sub_id == null ||
           person.jwt_sub_id != this.user_jwt_sub!) {
-        person = await fetchPerson(this.user_jwt_sub!);
+        person = await fetchStudentApplicant(this.user_jwt_sub!.toString());
         this.studentPerson = person;
         log('AdmissionSystem fetchPersonForUser: ' +
             person.toJson().toString());

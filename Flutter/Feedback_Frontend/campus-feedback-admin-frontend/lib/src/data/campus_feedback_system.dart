@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ShoolManagementSystem/src/data.dart';
 import 'package:ShoolManagementSystem/src/data/evaluation.dart';
+import 'package:ShoolManagementSystem/src/data/evaluation_criteria.dart';
 
 final campusFeedbackSystemInstance = CampusFeedbackSystem()
   ..addBook(
@@ -42,6 +43,7 @@ class CampusFeedbackSystem {
   String? user_jwt_sub;
   String? user_jwt_email;
   List<Evaluation>? evaluations = [];
+  List<EvaluationCriteria>? evaluation_criteria = [];
 
   void setVacancyId(int id) {
     vacancyId = id;
@@ -128,6 +130,10 @@ class CampusFeedbackSystem {
 
   void setEvaluations(List<Evaluation>? evaluations) {
     this.evaluations = evaluations;
+  }
+
+  void setEvaluationCriteria(List<EvaluationCriteria>? evaluation_criteria) {
+    this.evaluation_criteria = evaluation_criteria;
   }
 
   Future<List<Vacancy>>? getVacancies() {

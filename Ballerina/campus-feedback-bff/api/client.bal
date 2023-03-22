@@ -47,6 +47,7 @@ public isolated client class GraphqlClient {
         log:printInfo("Response: " + graphqlResponse.toString());
         return graphqlResponse;
     }
+
     remote isolated function getEvaluations(int eval_id) returns GetEvaluationsResponse|graphql:ClientError {
         string query = string `query getEvaluations($eval_id:Int!) {evaluation(eval_id:$eval_id) {id evaluatee_id evaluator_id evaluation_criteria_id activity_instance_id grade notes response updated}}`;
         map<anydata> variables = {"eval_id": eval_id};
@@ -138,4 +139,59 @@ public isolated client class GraphqlClient {
         json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
         return <AddEvaluationanswerOptionResponse>check performDataBinding(graphqlResponse, AddEvaluationanswerOptionResponse);
     }
+    remote isolated function getEvaluationallCriterias() returns GetEvaluationallCriteriasResponse|graphql:ClientError {
+        string query = string `query getEvaluationallCriterias {all_evaluation_criterias {id evaluation_type prompt description difficulty expected_answer rating_out_of answer_options {answer expected_answer evaluation_criteria_id}}}`;
+        map<anydata> variables = {};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <GetEvaluationallCriteriasResponse>check performDataBinding(graphqlResponse, GetEvaluationallCriteriasResponse);
+    }
+
+    remote isolated function AddPctiActivityNotesEvaluation(Evaluation evaluation) returns AddPctiActivityNotesEvaluationResponse|graphql:ClientError {
+        string query = string `mutation AddPctiActivityNotesEvaluation($evaluation:Evaluation!) {add_pcti_notes(evaluation:$evaluation) {id evaluatee_id evaluator_id evaluation_criteria_id activity_instance_id grade notes response updated}}`;
+        map<anydata> variables = {"evaluation": evaluation};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <AddPctiActivityNotesEvaluationResponse>check performDataBinding(graphqlResponse, AddPctiActivityNotesEvaluationResponse);
+    }
+    remote isolated function getPctiActivityNotes(int pcti_activity_id) returns GetPctiActivityNotesResponse|graphql:ClientError {
+        string query = string `query getPctiActivityNotes($pcti_activity_id:Int!) {pcti_activity_notes(pcti_activity_id:$pcti_activity_id) {id evaluatee_id evaluator_id evaluation_criteria_id updated notes grade child_evaluations {id evaluatee_id evaluator_id evaluation_criteria_id updated notes grade} parent_evaluations {id evaluatee_id evaluator_id evaluation_criteria_id updated notes grade}}}`;
+        map<anydata> variables = {"pcti_activity_id": pcti_activity_id};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <GetPctiActivityNotesResponse>check performDataBinding(graphqlResponse, GetPctiActivityNotesResponse);
+    }
+
+    remote isolated function getPctiActivity(string project_activity_name, string class_activity_name) returns GetPctiActivityResponse|graphql:ClientError {
+        string query = string `query getPctiActivity($project_activity_name:String!,$class_activity_name:String!) {pcti_activity(project_activity_name:$project_activity_name,class_activity_name:$class_activity_name) {id name description avinya_type {id active global_type name foundation_type focus level description} notes child_activities {id name description avinya_type {id active global_type name foundation_type focus level description} notes activity_instances {id name description notes start_time end_time daily_sequence weekly_sequence monthly_sequence} activity_sequence_plan {id sequence_number timeslot_number organization {id name {name_en}} person {preferred_name}}} parent_activities {id name description avinya_type {id active global_type name foundation_type focus level description} notes activity_instances {id name description notes start_time end_time daily_sequence weekly_sequence monthly_sequence} activity_sequence_plan {id sequence_number timeslot_number organization {id name {name_en}} person {preferred_name}}} activity_sequence_plan {id sequence_number timeslot_number organization {id name {name_en}} person {preferred_name}} activity_instances {id name description notes start_time end_time daily_sequence weekly_sequence monthly_sequence}}}`;
+        map<anydata> variables = {"project_activity_name": project_activity_name, "class_activity_name": class_activity_name};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <GetPctiActivityResponse>check performDataBinding(graphqlResponse, GetPctiActivityResponse);
+    }
+
+    remote isolated function getPerson(string? name = (), int? id = ()) returns GetPersonResponse|graphql:ClientError {
+        string query = string `query getPerson($id:Int,$name:String) {person(id:$id,name:$name) {id preferred_name full_name date_of_birth sex asgardeo_id jwt_sub_id jwt_email permanent_address {id city {id name {name_en} district {id name {name_en} province {id name {name_en}}}}} mailing_address {id city {id name {name_en} district {id name {name_en} province {id name {name_en}}}}} phone organization {id name {name_en}} avinya_type {id active global_type name foundation_type focus level description} notes nic_no passport_no id_no email child_students {id preferred_name full_name date_of_birth} parent_students {id preferred_name full_name date_of_birth}}}`;
+        map<anydata> variables = {"name": name, "id": id};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <GetPersonResponse>check performDataBinding(graphqlResponse, GetPersonResponse);
+    }
+
+    remote isolated function getActivity(string? name = (), int? id = ()) returns GetActivityResponse|graphql:ClientError {
+        string query = string `query getActivity($name:String,$id:Int) {activity(name:$name,id:$id) {id name description avinya_type {id active global_type name foundation_type focus level description} notes child_activities {id name description avinya_type {id active global_type name foundation_type focus level description} notes activity_instances {id name description notes start_time end_time daily_sequence weekly_sequence monthly_sequence} activity_sequence_plan {id sequence_number timeslot_number organization {id name {name_en}} person {preferred_name}}} parent_activities {id name description avinya_type {id active global_type name foundation_type focus level description} notes activity_instances {id name description notes start_time end_time daily_sequence weekly_sequence monthly_sequence} activity_sequence_plan {id sequence_number timeslot_number organization {id name {name_en}} person {preferred_name}}} activity_sequence_plan {id sequence_number timeslot_number organization {id name {name_en}} person {preferred_name}} activity_instances {id name description notes start_time end_time daily_sequence weekly_sequence monthly_sequence}}}`;
+        map<anydata> variables = {"name": name, "id": id};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <GetActivityResponse>check performDataBinding(graphqlResponse, GetActivityResponse);
+    }
+
+    remote isolated function getPctiActivities() returns GetPctiActivitiesResponse|graphql:ClientError {
+        string query = string `query getPctiActivities {pcti_activities {id name description avinya_type {id active global_type name foundation_type focus level description} notes child_activities {id name description avinya_type {id active global_type name foundation_type focus level description} notes activity_instances {id name description notes start_time end_time daily_sequence weekly_sequence monthly_sequence} activity_sequence_plan {id sequence_number timeslot_number organization {id name {name_en}} person {preferred_name}}} parent_activities {id name description avinya_type {id active global_type name foundation_type focus level description} notes activity_instances {id name description notes start_time end_time daily_sequence weekly_sequence monthly_sequence} activity_sequence_plan {id sequence_number timeslot_number organization {id name {name_en}} person {preferred_name}}} activity_sequence_plan {id sequence_number timeslot_number organization {id name {name_en}} person {preferred_name}} activity_instances {id name description notes start_time end_time daily_sequence weekly_sequence monthly_sequence}}}`;
+        map<anydata> variables = {};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <GetPctiActivitiesResponse>check performDataBinding(graphqlResponse, GetPctiActivitiesResponse);
+    }
+
+    remote isolated function getPctiParticipantActivities(int pcti_participant_id) returns GetPctiParticipantActivitiesResponse|graphql:ClientError {
+        string query = string `query getPctiParticipantActivities($pcti_participant_id:Int!) {pcti_participant_activities(participant_id:$pcti_participant_id) {id name description avinya_type {id active global_type name foundation_type focus level description} notes child_activities {id name description avinya_type {id active global_type name foundation_type focus level description} notes activity_instances {id name description notes start_time end_time daily_sequence weekly_sequence monthly_sequence} activity_sequence_plan {id sequence_number timeslot_number organization {id name {name_en}} person {preferred_name}}} parent_activities {id name description avinya_type {id active global_type name foundation_type focus level description} notes activity_instances {id name description notes start_time end_time daily_sequence weekly_sequence monthly_sequence} activity_sequence_plan {id sequence_number timeslot_number organization {id name {name_en}} person {preferred_name}}} activity_sequence_plan {id sequence_number timeslot_number organization {id name {name_en}} person {preferred_name}} activity_instances {id name description notes start_time end_time daily_sequence weekly_sequence monthly_sequence}}}`;
+        map<anydata> variables = {"pcti_participant_id": pcti_participant_id};
+        json graphqlResponse = check self.graphqlClient->executeWithType(query, variables);
+        return <GetPctiParticipantActivitiesResponse>check performDataBinding(graphqlResponse, GetPctiParticipantActivitiesResponse);
+    }
+
 }
