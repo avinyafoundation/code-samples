@@ -33,6 +33,7 @@ class MailPreviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    // ignore: todo
     // TODO(x): State restoration of mail view page is blocked because OpenContainer does not support restorablePush, https://github.com/flutter/gallery/issues/570.
     return OpenContainer(
       openBuilder: (context, closedContainer) {

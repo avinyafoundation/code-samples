@@ -1206,6 +1206,7 @@ class _ReplyFabState extends State<_ReplyFab>
                   ),
           );
         } else {
+          // ignore: todo
           // TODO(x): State restoration of compose page on mobile is blocked because OpenContainer does not support restorablePush, https://github.com/flutter/gallery/issues/570.
           return OpenContainer(
             openBuilder: (context, closedContainer) {
